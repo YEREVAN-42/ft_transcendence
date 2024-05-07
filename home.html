@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Pong Game</title>
+    <link rel="icon" href="./public/new_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./home.css" />  
+</head>
+<body>
+    <div class="navbar">
+        <a href="home.html">
+            <img alt="HOME" src="./public/icons8-home-20.png" /> HOME
+        </a>
+        <a href="profile.html">
+            <img alt="PROFILE" src="./public/icons8-customer-20.png" /> PROFILE
+        </a>
+            <img class="profile-icon" alt="Profile Picture" id="profileImage" src="" />
+            <div class="menu" id="menu">
+                <a href="settings.html" class="settings">SETTINGS</a>
+                <a href="index.html" class="logout">LOG OUT</a>
+            </div>
+    </div>
+    <div class="container">
+        <div class="image-container">
+            <img src="./public/section@2x.png" alt="Pong Game Image">
+        </div>
+        <div class="content">
+            <h1 class="header">HOW TO PLAY ?</h1>
+            <p class="text">A small ball moves across the screen, bouncing off the top and
+                bottom ledges, and the two players each control a pad, sliding it
+                vertically between the ends of the screen using the controls. If
+                the ball hits the pad, it bounces back to the other player. If it
+                misses the pad, the other player scores a point. The ball bounces
+                in different ways depending on how it hits the pad.</p>
+            <div class="buttons">
+                <a href="https://www.ponggame.org/#google_vignette">
+                    <div class="button">Play</div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="./home.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Settings - Pong Game</title>
+        <link rel="icon" href="./public/new_icon.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="./settings.css"/>    
+    </head>
+    <body>
+        <div class="navbar">
+            <a href="home.html">
+                <img alt="HOME" src="./public/icons8-home-20.png" /> HOME
+            </a>
+            <a href="profile.html">
+                <img alt="PROFILE" src="./public/icons8-customer-20.png" /> PROFILE
+            </a>
+            <img class="profile-icon" alt="Profile Picture" id="profileImage" src="" />
+            <div class="menu" id="menu">
+                <a href="settings.html" class="settings">SETTINGS</a>
+                <a href="index.html" class="logout">LOG OUT</a>
+            </div>
+        </div>
+            <div class="container">
+                <h1 class="header">Settings</h1>
+                <img class="profile-icon-large" alt="Profile Picture" id="profileImageLarge" src="" />
+                <div class="profile-icon-change">
+                <img class="edit-profile-icon" src="./public/icons8-edit-image-30.png" alt="Edit" id="editProfileBtn">
+                <input type="file" id="profilePicInput" accept="image/*" style="display: none;">
+                <img class="remove-profile-icon" src="./public/icons8-no-image-30.png" alt="Edit" id="removeProfileBtn">
+                </div>
+                <div class="username" id="guest"></div>
+                    <form autocomplete="off" action="" name="settings" id="forSettings">
+                    <div class="edit-line">
+                        <img class="edit-icon" src="./public/subtract.svg" alt="Edit" id="editBtn1">
+                        <div class="edit-description" id="profileName">Edit Profile Name</div>
+                        <input type="text" id="profileName1" name="profilename" style="display: none;">
+                    </div>
+                    <div class="edit-line">
+                        <img class="edit-icon" src="./public/subtract.svg" alt="Edit" id="editBtn2">
+                        <div class="edit-description" id="userName">Edit Profile Username</div>
+                        <input type="text" id="userName1" name="username" style="display: none;">
+                    </div>
+                    <div class="edit-line">
+                        <img class="edit-icon" src="./public/subtract.svg" alt="Edit" id="editBtn3">
+                        <div class="edit-description" id="userEmail">Edit Profile Email</div>
+                        <input type="email" id="userEmail1" name="useremail" style="display: none;">
+                    </div>
+                    <div class="edit-line">
+                        <img class="edit-icon" src="./public/subtract.svg" alt="Edit" id="editBtn4">
+                        <div class="edit-description" id="userPassword">Change Password</div>
+                        <div class="password-input-container" id="passwordContainer" style="display: none;">
+                        <input type="password" id="userPassword1" name="userpassword">
+                            <span class="toggle-password" onclick="togglePasswordVisibility('userPassword1')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>                        
+                    </form>
+                    <div class="action-buttons">
+                        <button class="delete-account">Delete Account</button>
+                        <button class="save-changes" id="saveChangesBtn">Save Changes</button>
+                    </div>
+            </div>
+            <script src="./settings.js"></script>
+        </body>
+    </html> 
