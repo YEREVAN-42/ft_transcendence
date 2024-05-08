@@ -290,3 +290,40 @@ body {
     transform: translateY(-50%);
     cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+    /* Adjustments for smaller screens */
+    .container {
+        padding: 20px; /* Reduce padding */
+        height: auto; /* Allow height to adjust */
+    }
+    .navbar {
+        font-size: 0.8em; /* Decrease font size */
+    }
+    .profile-icon {
+        width: 50px;
+        height: 50px;
+    }
+    .profile-icon-large {
+        width: 80px;
+        height: 80px;
+    }
+    .username {
+        font-size: 1.2em;
+    }
+    .edit-line input {
+        width: 100%; /* Full width for inputs */
+        margin-right: 0; /* Remove right margin */
+    }
+    .password-input-container input {
+        width: 80%; /* Adjust width */
+    }
+    .action-buttons {
+        flex-direction: column; /* Stack buttons vertically */
+    }
+    .delete-account,
+    .save-changes {
+        width: 100%; /* Full width for buttons */
+        margin: 10px 0; /* Add margin between buttons */
+    }
+}
