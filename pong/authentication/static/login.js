@@ -20,7 +20,7 @@ function togglePasswordVisibility(inputId) {
     }
     else{
       event.preventDefault(); // Prevent the form from submitting
-      window.location.href = "./home.html"; // Redirect to page2.html
+      window.location.href = "../../main/templates/main/home.html"; // Redirect to page2.html
     }
     });
   
@@ -28,4 +28,8 @@ function togglePasswordVisibility(inputId) {
     var input1 = document.getElementById("email").value;
     var input2 = document.getElementById("password").value;
     return input1 !== "" && input2 !== "";
+}
+
+function redirectToHome() {
+    window.location.href = "/"; // Redirect to the home page
 }
