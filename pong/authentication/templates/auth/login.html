@@ -15,23 +15,22 @@
     <div class="container">
         <h1 class="header">Welcome back</h1>
         <p class="text">Signin to your account</p>
-        <form autocomplete="off" action="" name="Log in" id="forSubmit">
-        <div class="input-group">
-            <input type="email" id="email" name="email" placeholder="Email">
-        </div>
-        <div class="input-group password-group">
-            <input type="password" id="password" name="password" placeholder="Password">
-            <span class="toggle-password" onclick="togglePasswordVisibility('password')">
-                <i class="fas fa-eye"></i>
-            </span>
-        </div>
-        <div class="buttons">
-			<input type="submit" name="submit1" value="Sign in" class="button">
-		</div>
-            <input type="submit" name="submit2" value="Continue with 42Intra" class="button1">
-		</div>
-        </div>
-    </form>
+        <!-- <form autocomplete="off" action="" name="Log in" id="forSubmit"> -->
+			<form autocomplete="off" action="" name="Log in" id="forSubmit" >
+			<div class="input-group">
+				<input type="email" id="email" name="email" placeholder="Email">
+			</div>
+			<div class="input-group password-group">
+				<input type="password" id="password" name="password" placeholder="Password">
+				<span class="toggle-password" onclick="togglePasswordVisibility('password')">
+					<i class="fas fa-eye"></i>
+				</span>
+			</div>
+			<div class="buttons">
+				<input type="submit" name="submit1" value="Sign in" class="button">
+			</div>
+				<input type="submit" name="submit2" value="Continue with 42Intra" class="button1">
+		</form>
     </div>
     <script src="{% static 'login.js' %}"></script>
 </body>

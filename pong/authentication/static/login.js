@@ -20,7 +20,7 @@ function togglePasswordVisibility(inputId) {
     }
     else{
       event.preventDefault(); // Prevent the form from submitting
-      window.location.href = "../../main/templates/main/home.html"; // Redirect to page2.html
+      window.location.href = "/home/"; // Redirect to page2.html
     }
     });
   

@@ -9,6 +9,7 @@ def index(request):
     return render(request, 'index.html')
 
 def home(request):
+    print("❌ home")
     return render(request, 'main/home.html')
 
 def settings(request):
