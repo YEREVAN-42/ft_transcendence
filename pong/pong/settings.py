@@ -146,3 +146,11 @@ CORS_ALLOW_METHODS = (
 )
 
 CORS_ALLOW_CREDENTIALS: True
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587  # Gmail SMTP port
+EMAIL_USE_TLS = True  # TLS (Transport Layer Security) protocol is used
+EMAIL_HOST_USER = 'vahe.sargsyan000gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'tcsx grbe xzex juln'  # Your Gmail password or app-specific password

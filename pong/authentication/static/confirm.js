@@ -1,3 +1,5 @@
+var confirmation_code;
+
 function moveFocus(current, next) {
     var length = document.getElementById(current).value.length;
     var maxLength = document.getElementById(current).getAttribute("maxlength");
@@ -13,7 +15,10 @@ function confirmCode() {
         code += document.getElementById("digit" + i).value;
     }
 
-    if (code === "12345") { // Replace "12345" with the actual confirmation code
+    console.log("code =", code);
+    console.log("confirmation_code =", confirmation_code);
+
+    if (code === window.confirmation_code) { // Replace "12345" with the actual confirmation code
         document.getElementById("message").innerText = "Confirmation successful!";
         document.getElementById("message").classList.add("success");
         document.getElementById("message").style.display = "block";

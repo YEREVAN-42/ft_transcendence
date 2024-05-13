@@ -21,12 +21,13 @@ def send_confirmation_email(email):
     confirmation_code = get_random_string(length=6)
     
     # Send email
-    print("Sdfghjk", confirmation_code)
+    print("Confirmation Code = ", confirmation_code)
+    print("Email = ", email)
     subject = 'Confirmation Code'
     message = f'Your confirmation code is: {confirmation_code}'
     sender_email = settings.EMAIL_HOST_USER
+    print("Sender email = ", sender_email)
     recipient_list = [email]
-    print("maillll", recipient_list[0])
     send_mail(subject, message, sender_email, recipient_list)
 
     return confirmation_code
@@ -120,8 +121,9 @@ def confirm(request):
         email = data.get('email')
         print("email=", email)
         # Send confirmation email
-        # confirmation_code = send_confirmation_email(email)
-        # return JsonResponse({'confirmation_code': confirmation_code})
+        confirmation_code = send_confirmation_email(email)
+        print("confirmation_code = ", confirmation_code)
+        return JsonResponse({'confirmation_code': confirmation_code})
 
     return render(request, "./auth/confirm.html")
 

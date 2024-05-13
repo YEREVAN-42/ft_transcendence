@@ -23,17 +23,32 @@ document.getElementById("forSubmit").addEventListener("submit", function(event) 
         alert("Passwords do not match!"); // Show an alert message
     }
     else {
-        event.preventDefault(); // Prevent the form from submitting
-        var email = document.getElementById("email").value;
-        fetch("http://localhost:8000/confirm/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email: email,
-            })
-        })
+        event.preventDefault();
+        var randomNumber = Math.floor(Math.random() * 90000) + 10000;
+        var confirmation_code = randomNumber.toString();
+        console.log("confirmation_code =", confirmation_code);
+        emailjs.init("19x4j0o_9StkaTZq-");
+        var templateParams = {
+            to_name: "Aram",
+            code: confirmation_code,
+            email: document.getElementById("email").value
+        };
+        emailjs.send("service_en491cd", "template_jhsyjbb", templateParams)
+        .then(function(response) {
+            console.log("Email sent successfully:", response);
+        }, function(error) {
+            console.error("Failed to send email:", error);
+        });
+        // var email = document.getElementById("email").value;
+        // fetch("http://localhost:8000/confirm/", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         email: email,
+        //     })
+        // })
         // .then(response => {
         //     if (response.ok) {
         //         // If the request was successful, redirect to the confirmation page
