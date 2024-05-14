@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth.models import User
+
+
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 from django.http import JsonResponse
+
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -48,12 +51,6 @@ def signup(request):
         #    messages.error(request, "Passwords do not match.")
         #    return redirect('signup')
 
-        myuser = User.objects.create_user(username, email, pass1)
-        myuser.first_name = fname
-        myuser.last_name = lname
-
-        myuser.save()
-
         messages.success(request, "Your account has been successfully created. ")
 
         return redirect('signin')
@@ -91,15 +88,17 @@ def signup(request):
 #     return render(request, "auth/signup.html")
 
 
+@csrf_exempt
 def signin(request):
     # return render(request, 'auth/signin.html')
 
-	
-
     if request.method == 'POST':
-        username = request.POST['username']
-        pass1 = request.POST['pass1']
-        user = authenticate(username=username, password=pass1)
+        data = json.loads(request.body)
+        email = data.get('email')
+        pass1 = data.get('password')
+        print("❌ email = ", email)
+        print("❌ pass1 = ", pass1)
+        user = authenticate(email=email, password=pass1)
 		
         if user is not None:
             login(request, user)
@@ -113,27 +112,32 @@ def signin(request):
 
     return render(request, "./auth/login.html")
 
-@csrf_exempt
 def confirm(request):
     print("confirm")
     if request.method == 'POST':
-        # Get the email from the JSON data
-        data = json.loads(request.body)
-        name = data.get('name')
-        username = data.get('username')
-        email = data.get('email')
-        password = data.get('password')
-        repeat_password = data.get('repeat_password')
-        print("name=", name)
-        print("username=", username)
-        print("email=", email)
-        print("password=", password)
-        print("repeat_password=", repeat_password)
-        # Send confirmation email
-        # confirmation_code = send_confirmation_email(email)
-        # print("confirmation_code = ", confirmation_code)
-        # return JsonResponse({'confirmation_code': confirmation_code})
+        try:
+            # Get the email from the JSON data
+            data = json.loads(request.body)
 
+            # get data and send to User model
+            name = data.get('name')
+            username = data.get('username')
+            email = data.get('email')
+            password = data.get('password')
+
+            user = get_user_model().objects.create(
+                first_name=name,
+                username=username,
+                email=email,
+                password=password
+            )
+            return JsonResponse({'message': 'Data saved successfully'}, status=201)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    # Handle GET request or other methods
     return render(request, "./auth/confirm.html")
 
 # class SigninAPIView(APIView):

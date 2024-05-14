@@ -20,7 +20,25 @@ function togglePasswordVisibility(inputId) {
     }
     else{
       event.preventDefault(); // Prevent the form from submitting
-      window.location.href = "/home/"; // Redirect to page2.html
+      const requestData = {
+        email: email,
+        password: password
+    };
+    
+    fetch('http://localhost:8000/signin/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    window.location.href = "/home/"; // Redirect to page2.html
     }
     });
   

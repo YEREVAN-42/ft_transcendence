@@ -4,7 +4,6 @@ from authentication import views
 
 urlpatterns = [
     path('signup/', views.signup, name="signup"),
-    path('signin/', views.signin, name="signin"),
-	# path('confirm/', views.send_confirmation_email, name="send_confirmation_email"), 
-    path('confirm/', views.confirm, name="confirm"),
+    path('signin/', views.signin, name="signin"), 
+    path('confirm/', views.confirm, name="confirm")
 ]
