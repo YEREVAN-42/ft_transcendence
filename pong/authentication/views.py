@@ -16,21 +16,21 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-def send_confirmation_email(email):
-    # Generate confirmation code
-    confirmation_code = get_random_string(length=6)
+# def send_confirmation_email(email):
+#     # Generate confirmation code
+#     confirmation_code = get_random_string(length=6)
     
-    # Send email
-    print("Confirmation Code = ", confirmation_code)
-    print("Email = ", email)
-    subject = 'Confirmation Code'
-    message = f'Your confirmation code is: {confirmation_code}'
-    sender_email = settings.EMAIL_HOST_USER
-    print("Sender email = ", sender_email)
-    recipient_list = [email]
-    send_mail(subject, message, sender_email, recipient_list)
+#     # Send email
+#     print("Confirmation Code = ", confirmation_code)
+#     print("Email = ", email)
+#     subject = 'Confirmation Code'
+#     message = f'Your confirmation code is: {confirmation_code}'
+#     sender_email = settings.EMAIL_HOST_USER
+#     print("Sender email = ", sender_email)
+#     recipient_list = [email]
+#     send_mail(subject, message, sender_email, recipient_list)
 
-    return confirmation_code
+#     return confirmation_code
 
 def signup(request):
     # return render(request, 'auth/signup.html')
@@ -115,15 +115,24 @@ def signin(request):
 
 @csrf_exempt
 def confirm(request):
+    print("confirm")
     if request.method == 'POST':
         # Get the email from the JSON data
         data = json.loads(request.body)
+        name = data.get('name')
+        username = data.get('username')
         email = data.get('email')
+        password = data.get('password')
+        repeat_password = data.get('repeat_password')
+        print("name=", name)
+        print("username=", username)
         print("email=", email)
+        print("password=", password)
+        print("repeat_password=", repeat_password)
         # Send confirmation email
-        confirmation_code = send_confirmation_email(email)
-        print("confirmation_code = ", confirmation_code)
-        return JsonResponse({'confirmation_code': confirmation_code})
+        # confirmation_code = send_confirmation_email(email)
+        # print("confirmation_code = ", confirmation_code)
+        # return JsonResponse({'confirmation_code': confirmation_code})
 
     return render(request, "./auth/confirm.html")
 

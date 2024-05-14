@@ -15,14 +15,56 @@ function confirmCode() {
     {
         code += document.getElementById("digit" + i).value;
     }
-    var confirmation_code = localStorage.getItem('confirmation_code');
+    // var confirmation_code = localStorage.getItem("confirmation_code");
 
-    if (code === confirmation_code)
+    if (code === "12345")//confirmation_code
     {
         document.getElementById("message").innerText = "Confirmation successful!";
         document.getElementById("message").classList.add("success");
         document.getElementById("message").style.display = "block";
         document.querySelector(".loading").style.display = "block";
+
+        const name = localStorage.getItem("name")
+        const username = localStorage.getItem("username")
+        const email = localStorage.getItem("email")
+        const password = localStorage.getItem("password")
+        const repeat_password = localStorage.getItem("repeat_password")
+
+        const requestData = {
+            name: name,
+            username: username,
+            email: email,
+            password: password,
+            repeat_password: password
+        };
+        
+        // Make a POST request to the server
+        fetch('http://localhost:8000/confirm/', {
+            method: 'POST', // Specify the request method
+            headers: {
+                'Content-Type': 'application/json' // Specify the content type of the request body
+            },
+            body: JSON.stringify(requestData) // Convert the data to JSON format
+        })
+        .then(response => {
+            // Check if the response is successful (status code 200-299)
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // Parse the JSON response
+            return response.json();
+        })
+        // .then(data => {
+        //     // Handle the JSON data received from the server
+        //     console.log(data);
+        // })
+        // .catch(error => {
+        //     // Handle any errors that occur during the request
+        //     console.error('There was a problem with the fetch operation:', error);
+        // });
+
+        console.log("pass = ", password)
+
         setTimeout(function()
         {
             window.location.href = "/home/"; // Redirect to another page after 2 seconds
