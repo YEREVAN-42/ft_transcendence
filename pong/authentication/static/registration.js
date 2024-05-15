@@ -19,7 +19,8 @@ function togglePasswordVisibility(inputId)
     }
 }
 
-async function hashPassword(password) {
+async function hashPassword(password)
+{
     const encoder = new TextEncoder();
     const data = encoder.encode(password);
     const hash = await crypto.subtle.digest('SHA-256', data);
@@ -28,59 +29,19 @@ async function hashPassword(password) {
         .join('');
 }
 
-// document.getElementById("forSubmit").addEventListener("submit", function(event)
-// {
-//     console.log("enqnavor")
-//     if (!validateForm())
-//     {
-//         event.preventDefault(); // Prevent the form from submitting
-//         alert("Please, fill in all fields!"); // Show an alert message
-//     }
-//     else if (!validatePasswords() && validateForm())
-//     {
-//         event.preventDefault(); // Prevent the form from submitting
-//         alert("Passwords do not match!"); // Show an alert message
-//     }
-//     else
-//     {
-//         event.preventDefault();
-//         var randomNumber = Math.floor(Math.random() * 90000) + 10000;
-//         var confirmation_code = randomNumber.toString();
-        
-//     //    localStorage.setItem('confirmation_code', confirmation_code)
-//     //     localStorage.setItem("name", document.getElementById("name").value);
-//     //     localStorage.setItem("username", document.getElementById("username").value);
-//     //     localStorage.setItem("email", document.getElementById("email").value);
-//     //     localStorage.setItem("password", document.getElementById("password").value);
-//     //     localStorage.setItem("repeat_password", document.getElementById("repeat-password").value);
-
-//         emailjs.init("19x4j0o_9StkaTZq-");
-//         var templateParams = {
-//                 to_name: input1,
-//                 code: confirmation_code,
-//                 email: input3
-//             };
-//             emailjs.send("service_en491cd", "template_jhsyjbb", templateParams)
-//             .then(function(response)
-//             {
-//                     console.log("Email sent successfully:", response);
-//                     window.location.href = "/confirm/";
-//                 }, function(error)
-//                 {
-//                         console.error("Failed to send email:", error);
-//                     });
-//     }
-//     window.location.href = "/confirm/";
-// });
-
-document.getElementById("forSubmit").addEventListener("submit", async function(event) {
+document.getElementById("forSubmit").addEventListener("submit", async function(event)
+{
     event.preventDefault();
 
     if (!validateForm()) {
         alert("Please, fill in all fields!");
-    } else if (!validatePasswords()) {
+    }
+    else if (!validatePasswords())
+    {
         alert("Passwords do not match!");
-    } else {
+    }
+    else
+    {
         event.preventDefault();
         var randomNumber = Math.floor(Math.random() * 90000) + 10000;
         var confirmation_code = randomNumber.toString();
@@ -95,7 +56,9 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
         localStorage.setItem("username", document.getElementById("username").value);
         localStorage.setItem("email", document.getElementById("email").value);
         localStorage.setItem("password", document.getElementById("password").value);
-        localStorage.setItem("repeat_password", document.getElementById("repeat-password").value);
+
+        document.getElementById("password").value = input4;
+        document.getElementById("repeat-password").value = input5;
 
         // emailjs.init("19x4j0o_9StkaTZq-");
         // var templateParams = {
@@ -115,7 +78,7 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
 
         
     }
-    window.location.href = "/confirm/";
+    window.location.href = "/confirm/"; // this line will be deleted
 });
 
 function validateForm()
