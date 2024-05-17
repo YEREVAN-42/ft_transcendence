@@ -6,5 +6,6 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('home/', views.home, name="home"),
     # path('profile/', views.profile, name="profile"),
-    path('settings/', views.settings, name="settings"),
+    path('settings/', views.change_settings, name="settings"),
+    path('delete_account/', views.delete_account, name="delete_account"),
 ]

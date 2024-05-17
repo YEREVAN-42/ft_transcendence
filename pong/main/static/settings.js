@@ -1,5 +1,6 @@
 // For the profile menu
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function()
+{
     var profileImage = document.getElementById("profileImage");
     var menu = document.getElementById("menu");
     
@@ -60,7 +61,7 @@ document.getElementById('profilePicInput').addEventListener('change', function(e
     reader.readAsDataURL(file);
 });
 
-var defaultProfilePic = './public/guest.png'; // Define the default profile picture path
+var defaultProfilePic = './images/default_user.jpg'; // Define the default profile picture path
 
 // Remove profile picture
 document.getElementById('removeProfileBtn').addEventListener('click', function() {
@@ -106,19 +107,56 @@ document.getElementById('editBtn4').addEventListener('click', function() {
     document.getElementById('userPassword1').focus();
 });
 
+async function hashPassword(password)
+{
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+}
+
 // Save changes
-document.getElementById('saveChangesBtn').addEventListener('click', function(e) {
+document.getElementById('saveChangesBtn').addEventListener('click', async function(e) {
     e.preventDefault();
-    localStorage.setItem('profileName', document.getElementById('profileName1').value);
-    document.getElementById('profileName').innerText = document.getElementById('guest').value;
-    localStorage.setItem('userName', document.getElementById('userName1').value);
-    localStorage.setItem('userEmail', document.getElementById('userEmail1').value);
-    localStorage.setItem('userPassword', document.getElementById('userPassword1').value);
-        alert('Changes saved successfully!');
-        location.reload(); // Refresh the page
+    var profileName = document.getElementById('profileName1').value;
+    var userName = document.getElementById('userName1').value;
+    var userEmail = document.getElementById('userEmail1').value;
+    var userPassword = document.getElementById('userPassword1').value;
+    const hashedPassword = await hashPassword(userPassword);
+    document.getElementById('userPassword1').value = userPassword;
+    
+    var requestData = {
+        name: profileName,
+        username: userName,
+        email: userEmail,
+        password: hashedPassword,
+    };
+
+    fetch('http://localhost:8000/settings/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+    alert('Changes saved successfully!');
 });
 
-// Listen for Enter key press to save changes
+//Listen for Enter key press to save changes
 document.getElementById('profileName1').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
         e.preventDefault();
@@ -147,7 +185,7 @@ document.getElementById('userPassword1').addEventListener('keydown', function(e)
     }
 });
 
-document.getElementById('guest').textContent = profileName || 'Guest';
+document.getElementById('guest').textContent = profileName;
 
 function togglePasswordVisibility(inputId) {
     var passwordInput = document.getElementById(inputId);
@@ -168,4 +206,44 @@ document.getElementById('editBtn4').addEventListener('click', function() {
           
     var passwordInput = document.getElementById('userPassword1');
     passwordInput.focus();
+});
+
+// Delete account
+document.getElementById('deleteAccountBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    var requestData = {
+        id: 10,
+    };
+
+    var question = confirm('Are you sure you want to delete your account?');
+    if (!question) {
+        return;
+    }
+    fetch('http://localhost:8000/delete_account/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        if (response.status === 200)
+        {            
+            alert('Account deleted successfully!');
+            //clear routing history
+            window.history.pushState({}, "", '/');
+            localStorage.clear();
+            window.location.href = 'http://localhost:8000/';
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
 });

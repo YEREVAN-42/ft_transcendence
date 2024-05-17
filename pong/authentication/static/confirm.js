@@ -16,7 +16,7 @@ function confirmCode()
     {
         code += document.getElementById("digit" + i).value;
     }
-    // var confirmation_code = localStorage.getItem("confirmation_code");
+    //var confirmation_code = localStorage.getItem("confirmation_code");
 
     if (code === "12345")//confirmation_code
     {
@@ -53,11 +53,9 @@ function confirmCode()
             return response.json();
         })
         .then(data => {
-            // Handle the JSON data received from the server
             console.log(data);
         })
         .catch(error => {
-            // Handle any errors that occur during the request
             console.error('There was a problem with the fetch operation:', error);
         });
 

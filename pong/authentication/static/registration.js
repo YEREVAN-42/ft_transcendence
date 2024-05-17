@@ -70,7 +70,7 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
         //     .then(function(response)
         //     {
         //             console.log("Email sent successfully:", response);
-                        //window.location.href = "/confirm/";
+        //                 window.location.href = "/confirm/";
         //         }, function(error)
         //         {
         //                 console.error("Failed to send email:", error);
