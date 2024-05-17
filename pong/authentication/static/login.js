@@ -29,6 +29,7 @@ async function hashPassword(password)
 
 document.getElementById("forSubmit").addEventListener("submit", async function(event)
 {
+    debugger
     event.preventDefault();
     
     if (!validateForm())

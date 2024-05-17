@@ -15,6 +15,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 import json
 
+from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -47,8 +53,13 @@ def signin(request):
         pass1 = data.get('password')
         try:
             user = User.objects.get(email=email, password=pass1)
+            print(user)
+            access = AccessToken.for_user(user)
+            refresh = RefreshToken.for_user(user)
+            print(access)
+            print(refresh)
             if user is not None:
-                return JsonResponse({'message': 'Login successful'}, status=200)
+                return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh)}, status=200)
             else:
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
         except User.DoesNotExist:
