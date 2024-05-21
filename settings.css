@@ -131,7 +131,7 @@ body {
   
 .container {
     max-width: 530px;
-    height: 700px;
+    height: 750px;
     width: 100%;
     padding: 40px;
     background: rgba(58, 75, 70, 0.5);
@@ -211,7 +211,7 @@ body {
     cursor: pointer;
     border: 2px solid white;
     box-sizing: border-box;
-    margin-top: 10px;
+    margin-top: -10px;
 }
   
 .delete-account:hover {
@@ -234,7 +234,7 @@ body {
     cursor: pointer;
     border: 2px solid white;
     box-sizing: border-box;
-    margin-top: 10px;
+    margin-top: -10px;
 }
   
 .save-changes:hover {
@@ -251,7 +251,7 @@ body {
 }
 
 .edit-line input{
-    width: 52%;
+    /* width: auto; */
     padding: 5px;
     font-size: 1.3em;
     border-radius: 8px;
@@ -270,7 +270,7 @@ body {
 }
 
 .password-input-container input {
-    width: 100%;
+    /* width: auto; */
     padding: 5px;
     font-size: 1.3em;
     border-radius: 8px;
@@ -286,9 +286,78 @@ body {
 .password-input-container .toggle-password {
     position: absolute;
     top: 50%;
-    right: 5px;
+    right: 8px;
     transform: translateY(-50%);
     cursor: pointer;
+}
+
+/*For toggle switch*/
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 2px 7px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 195px;
+    margin-left: 10px;
+    top: 15px;
+}
+
+.toggle-description {
+    margin-right: 50px;
+    font-size: 18px;
+    color: #1e6a45;
+    font-weight: bold;
+    margin-left: 40px;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .slider {
+    background-color: #1e6a45;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
 }
 
 @media only screen and (max-width: 600px) {
@@ -312,11 +381,7 @@ body {
         font-size: 1.2em;
     }
     .edit-line input {
-        width: 100%; /* Full width for inputs */
         margin-right: 0; /* Remove right margin */
-    }
-    .password-input-container input {
-        width: 80%; /* Adjust width */
     }
     .action-buttons {
         flex-direction: column; /* Stack buttons vertically */
