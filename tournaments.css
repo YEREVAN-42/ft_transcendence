@@ -264,7 +264,7 @@ body {
     text-align: center;
 }
 
-.join-tournament-button {
+.join-tournament-button, .start-tournament-button {
     padding: 10px 20px;
     background-color: #1e6a45;
     color: white;
@@ -276,7 +276,7 @@ body {
     margin-top: 20px;
 }
 
-.join-tournament-button:hover {
+.join-tournament-button:hover, .start-tournament-button:hover {
     background-color: #164b31;
 }
 

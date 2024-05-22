@@ -41,6 +41,7 @@ function openTab(evt, tabName) {
 }
 
 // handle joining the tournament
+
 var joinedUsers = 0;
 
 function joinTournament() {
@@ -54,10 +55,26 @@ function joinTournament() {
         `;
         userList.appendChild(user);
         joinedUsers++;
-    } else {
-        alert("Tournament is full!");
+        
+        if (joinedUsers === 4) {
+            var newTournamentButton = document.getElementById("newTournamentButton");
+            newTournamentButton.style.display = "block";
+        }
     }
 }
+
+// Start new tournament
+
+function startNewTournament() {
+    // Your logic for starting a new tournament
+    alert("Starting a new tournament!");
+    // Reset the tournament for new users
+    var userList = document.getElementById("tournamentUserList");
+    userList.innerHTML = '';
+    joinedUsers = 0;
+    document.getElementById("newTournamentButton").style.display = "none";
+}
+
 
 // Set default tab to be opened
 document.addEventListener('DOMContentLoaded', function() {
