@@ -45,7 +45,7 @@ document.getElementById('settingsId').addEventListener('click', function(e)
   if (!userId)
   {
     alert('Invalid token. Please log in again.');
-    window.location.href = '/login/';
+    window.location.href = '/';
     return;
   }
 
@@ -66,7 +66,6 @@ document.getElementById('settingsId').addEventListener('click', function(e)
   .then(data => {
     // Assuming your Django view will return a JSON response with user data
     
-    debugger
     console.log(data);
     window.location.href = `http://localhost:8000/settings/`;
   })

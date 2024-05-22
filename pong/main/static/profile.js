@@ -198,50 +198,367 @@ document.getElementById('homeId').addEventListener('click', function(e)
 
 document.getElementById('settingsId').addEventListener('click', function(e)
 {
-  e.preventDefault();
-  const token = localStorage.getItem('access');
-  if (!token)
-  {
-    alert('No token found. Please log in.');
-    window.location.href = '/';
-    return;
-  }
-  const userId = extractUserIdFromToken(token);
-  if (!userId)
-  {
-    alert('Invalid token. Please log in again.');
-    window.location.href = '/';
-    return;
-  }
-
-  const url = `http://localhost:8000/api/v1/settings/${userId}/`;
-  fetch(url, {
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-      },
-  })
-  .then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
+    e.preventDefault();
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
     }
-    console.log(response.status);
-    if (response.status === 200) {
-        // return response.json();
-        // console.log(data.message);
-          window.location.href = url;
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+  
+    const url = `http://localhost:8000/api/v1/settings/${userId}/`;
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    return response.json(); // Ensure response is converted to JSON here
-})
-  .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-  });
+      return response.json();
+    })
+    .then(data => {
+      // Assuming your Django view will return a JSON response with user data
+      
+      console.log(data);
+      window.location.href = `http://localhost:8000/settings/`;
+    })
+  //   .then(response => {
+  //     if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //     }
+  //     // console.log(data);
+  //     if (response.status === 200) {
+  //       console.log("Settings page");
+  //         // return response.json();
+  //         // console.log(data.message);
+  //           window.location.href = url;
+  //       }
+  //     return response.json(); // Ensure response is converted to JSON here
+  // })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
 });
 
 //friends zone
 
 function add_friend()
 {
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+    const url = `http://localhost:8000/api/v1/add_friend/${userId}/`;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+    //   window.location.href = `http://localhost:8000/profile/`; //vobsh stex
+    })
+    //
     
+    // const request_data = {
+    //     "friend_id": 1
+    // }
+
+    // fetch(url, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': 'Bearer ' + token
+    //     },
+    //     body: JSON.stringify(request_data)
+    // })
+    // .then(response => {
+    //   if (!response.ok) {
+    //     throw new Error('Network response was not ok');
+    //   }
+    //   return response.json();
+    // })
+    // .then(data => {
+    //   // Assuming your Django view will return a JSON response with user data
+      
+    //   console.log(data);
+    //   window.location.href = `http://localhost:8000/profile/`;
+    // })
+}
+
+function accept_request()
+{
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+    const url = `http://localhost:8000/api/v1/accept/${userId}/`;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+    //   window.location.href = `http://localhost:8000/profile/`; //vobsh stex
+    })
+    //
+    
+    // const request_data = {
+    //     "friend_id": 1
+    // }
+
+    // fetch(url, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': 'Bearer ' + token
+    //     },
+    //     body: JSON.stringify(request_data)
+    // })
+    // .then(response => {
+    //   if (!response.ok) {
+    //     throw new Error('Network response was not ok');
+    //   }
+    //   return response.json();
+    // })
+    // .then(data => {
+    //   // Assuming your Django view will return a JSON response with user data
+      
+    //   console.log(data);
+    //   window.location.href = `http://localhost:8000/profile/`;
+    // })
+}
+function remove_friend()
+{
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+    const url = `http://localhost:8000/api/v1/decline/${userId}/`;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+    //   window.location.href = `http://localhost:8000/profile/`; //vobsh stex
+    })
+    //
+    
+    // const request_data = {
+    //     "friend_id": 1
+    // }
+
+    // fetch(url, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': 'Bearer ' + token
+    //     },
+    //     body: JSON.stringify(request_data)
+    // })
+    // .then(response => {
+    //   if (!response.ok) {
+    //     throw new Error('Network response was not ok');
+    //   }
+    //   return response.json();
+    // })
+    // .then(data => {
+    //   // Assuming your Django view will return a JSON response with user data
+      
+    //   console.log(data);
+    //   window.location.href = `http://localhost:8000/profile/`;
+    // })
+}
+
+function decline_request()
+{
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+    const url = `http://localhost:8000/api/v1/decline/${userId}/`;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+    //   window.location.href = `http://localhost:8000/profile/`; //vobsh stex
+    })
+    //
+    
+    // const request_data = {
+    //     "friend_id": 1
+    // }
+
+    // fetch(url, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': 'Bearer ' + token
+    //     },
+    //     body: JSON.stringify(request_data)
+    // })
+    // .then(response => {
+    //   if (!response.ok) {
+    //     throw new Error('Network response was not ok');
+    //   }
+    //   return response.json();
+    // })
+    // .then(data => {
+    //   // Assuming your Django view will return a JSON response with user data
+      
+    //   console.log(data);
+    //   window.location.href = `http://localhost:8000/profile/`;
+    // })
+}
+
+function remove_friend()
+{
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+    const url = `http://localhost:8000/api/v1/remove/${userId}/`;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+    //   window.location.href = `http://localhost:8000/profile/`; //vobsh stex
+    })
+    //
+    
+    // const request_data = {
+    //     "friend_id": 1
+    // }
+
+    // fetch(url, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': 'Bearer ' + token
+    //     },
+    //     body: JSON.stringify(request_data)
+    // })
+    // .then(response => {
+    //   if (!response.ok) {
+    //     throw new Error('Network response was not ok');
+    //   }
+    //   return response.json();
+    // })
+    // .then(data => {
+    //   // Assuming your Django view will return a JSON response with user data
+      
+    //   console.log(data);
+    //   window.location.href = `http://localhost:8000/profile/`;
+    // })
 }

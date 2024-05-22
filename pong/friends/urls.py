@@ -9,6 +9,8 @@ urlpatterns = [
     path('api/v1/accept/<int:pk>/', views.accept, name="accept"),
     path('api/v1/decline/<int:pk>/', views.decline, name="decline"),
     path('api/v1/remove/<int:pk>/', views.remove , name="remove"),
+    
+    # path('profile/', views.users , name="users"),
 ]
 
 

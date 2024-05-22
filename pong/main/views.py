@@ -62,7 +62,6 @@ def check_settings(request, id):
         try:
             user = User.objects.get(id=id)
             if user:
-                print(user.username)
                 return JsonResponse({'username': user.username})
         except User.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=404)
