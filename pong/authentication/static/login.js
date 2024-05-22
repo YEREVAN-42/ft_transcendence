@@ -26,12 +26,21 @@ async function hashPassword(password)
         .join('');
 }
 
+function extractUserIdFromToken(token) {
+    // Decode the JWT token to extract the user ID
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  
+    const decodedToken = JSON.parse(jsonPayload);
+    return decodedToken.user_id;
+  }
 
 document.getElementById("forSubmit").addEventListener("submit", async function(event)
 {
-    debugger
     event.preventDefault();
-    
     if (!validateForm())
     {
       alert("Please, fill in all fields!");
@@ -69,7 +78,19 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
                 }
                 else
                 {
-                    window.location.href = "/home/";
+                    localStorage.setItem('access', data.access);
+                    localStorage.setItem('refresh', data.refresh);
+
+                    const userId = extractUserIdFromToken(data.access);
+                    if (!userId)
+                    {
+                      alert('Invalid token. Please log in again.');
+                      window.location.href = '/';
+                      return;
+                    }
+                  
+                    const url = `http://localhost:8000/api/v1/home/${userId}/`;
+                    window.location.href = url;
                 }
             })
         .catch(error =>

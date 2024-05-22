@@ -28,6 +28,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# ALLOWED_HOSTS = [
+#     'localhost',
+#     '127.0.0.1',
+#     '[::1]',
+# ]
 
 # Application definition
 
@@ -41,6 +46,7 @@ INSTALLED_APPS = [
 	'corsheaders',
     'main',
     'authentication',
+	'friendship',
 	'rest_framework',
 	'rest_framework_simplejwt.token_blacklist',
 ]

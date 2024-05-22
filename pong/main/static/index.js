@@ -12,8 +12,10 @@ const routes = {
 	"/signin": "{% url 'signin' %}",
 	"/signup": "{% url 'signup' %}",
 	"/confirm": "{% url 'confirm' %}",
+	"/profile": "{% url 'profile' %}",
+	"/match_history": "{% url 'match_history' %}",
+	"/tournaments": "{% url 'tournaments' %}",
 	"/settings": "{% url 'settings' %}",
-	// "/profile": "{% url 'profile' %}",
 };
 
 const handleLocation = async () => {

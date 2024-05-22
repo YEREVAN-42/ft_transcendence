@@ -1,6 +1,6 @@
+var defaultProfilePic = '/static/images/guest.png'; // Define the default profile picture path
 // For the profile menu
-document.addEventListener("DOMContentLoaded", function()
-{
+document.addEventListener("DOMContentLoaded", function() {
     var profileImage = document.getElementById("profileImage");
     var menu = document.getElementById("menu");
     
@@ -20,10 +20,10 @@ window.addEventListener("click", function(event) {
       });
 });
     
-// var profilePic = localStorage.getItem('profilePic');
-// document.getElementById('profileImage').src = profilePic || 'profile.jpg';
-// var profilePicLarge = localStorage.getItem('profilePicLarge');
-// document.getElementById('profileImageLarge').src = profilePic || 'profile.jpg';
+var profilePic = localStorage.getItem('profilePic');
+document.getElementById('profileImage').src = profilePic || '/static/images/guest.png';
+var profilePicLarge = localStorage.getItem('profilePicLarge');
+document.getElementById('profileImageLarge').src = profilePic || '/static/images/guest.png';
       
 // Update profile picture
 var profilePic = localStorage.getItem('profilePic');
@@ -61,7 +61,6 @@ document.getElementById('profilePicInput').addEventListener('change', function(e
     reader.readAsDataURL(file);
 });
 
-var defaultProfilePic = './images/default_user.jpg'; // Define the default profile picture path
 
 // Remove profile picture
 document.getElementById('removeProfileBtn').addEventListener('click', function() {
@@ -134,16 +133,39 @@ document.getElementById('saveChangesBtn').addEventListener('click', async functi
         password: hashedPassword,
     };
 
-    fetch('http://localhost:8000/settings/', {
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+
+    const url = `http://localhost:8000/api/v1/settings/${userId}/`;
+
+    fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify(requestData)
     })
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
+        }
+        if (response.status === 200)
+        {
+            alert('Changes saved successfully!');
+            window.location.href = url;
         }
         return response.json();
     })
@@ -153,7 +175,6 @@ document.getElementById('saveChangesBtn').addEventListener('click', async functi
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
     });
-    alert('Changes saved successfully!');
 });
 
 //Listen for Enter key press to save changes
@@ -185,8 +206,6 @@ document.getElementById('userPassword1').addEventListener('keydown', function(e)
     }
 });
 
-document.getElementById('guest').textContent = profileName;
-
 function togglePasswordVisibility(inputId) {
     var passwordInput = document.getElementById(inputId);
     var icon = passwordInput.nextElementSibling.querySelector('i');
@@ -208,23 +227,50 @@ document.getElementById('editBtn4').addEventListener('click', function() {
     passwordInput.focus();
 });
 
+function extractUserIdFromToken(token) {
+    // Decode the JWT token to extract the user ID
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  
+    const decodedToken = JSON.parse(jsonPayload);
+    return decodedToken.user_id;
+  }
+
 // Delete account
 document.getElementById('deleteAccountBtn').addEventListener('click', function(e) {
     e.preventDefault();
-    var requestData = {
-        id: 10,
-    };
 
     var question = confirm('Are you sure you want to delete your account?');
     if (!question) {
         return;
     }
-    fetch('http://localhost:8000/delete_account/', {
+
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+
+    const url = `http://localhost:8000/api/v1/settings/${userId}/`;
+
+    fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
         },
-        body: JSON.stringify(requestData)
     })
     .then(response => {
         if (!response.ok) {
@@ -233,17 +279,102 @@ document.getElementById('deleteAccountBtn').addEventListener('click', function(e
         if (response.status === 200)
         {            
             alert('Account deleted successfully!');
-            //clear routing history
             window.history.pushState({}, "", '/');
             localStorage.clear();
-            window.location.href = 'http://localhost:8000/';
+            window.location.href = '/';
         }
         return response.json();
-    })
-    .then(data => {
-        console.log(data);
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
     });
+});
+
+document.getElementById('homeId').addEventListener('click', function(e)
+{
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+
+    const url = `http://localhost:8000/api/v1/home/${userId}/`;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        if (response.status === 200)
+        {            
+            window.location.href = url;
+        }
+        return response.json();
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+});
+
+document.getElementById('profileId').addEventListener('click', function(e)
+{
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+
+    const url = `http://localhost:8000/api/v1/profile/${userId}/`;
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        if (response.status === 200)
+        {            
+            window.location.href = url;
+        }
+        return response.json();
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+});
+
+document.getElementById('logoutId').addEventListener('click', function(e)
+{
+  localStorage.clear();
+  window.history.pushState({}, "", '/');
+  window.location.href = '/';
 });

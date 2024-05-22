@@ -13,21 +13,21 @@
     </head>
     <body>
         <div class="navbar">
-            <a href="/home">
+            <a href="/home" id = "homeId">
                 <img alt="HOME" src="{% static '/images/icons8-home-20.png' %}" /> HOME
             </a>
-            <a href="/profile">
+            <a href="/profile" id = "profileId">
                 <img alt="PROFILE" src="{% static '/images/icons8-customer-20.png' %}" /> PROFILE
             </a>
-            <img class="profile-icon" alt="Profile Picture" id="profileImage" src="{% static 'images/default_user.jpg' %}" />
+            <img class="profile-icon" alt="Profile Picture" id="profileImage" src="{% static 'images/guest.png' %}" />
             <div class="menu" id="menu">
-                <a href="/settings" class="settings">SETTINGS</a>
-                <a href="/" class="logout">LOG OUT</a>
+                <a href="#" class="settings" id="settingsId">SETTINGS</a>
+                <a href="/" class="logout" id="logoutId">LOG OUT</a>
             </div>
         </div>
             <div class="container">
                 <h1 class="header">Settings</h1>
-                <img class="profile-icon-large" alt="Profile Picture" id="profileImageLarge" src="{% static 'images/default_user.jpg' %}" />
+                <img class="profile-icon-large" alt="Profile Picture" id="profileImageLarge" src="{% static 'images/guest.png' %}" />
                 <div class="profile-icon-change">
                 <img class="edit-profile-icon" src="{% static './images/icons8-edit-image-30.png' %}" alt="Edit" id="editProfileBtn">
                 <input type="file" id="profilePicInput" accept="image/*" style="display: none;">
@@ -59,8 +59,15 @@
                                 <i class="fas fa-eye"></i>
                             </span>
                         </div>
-                    </div>                        
-                    </form>
+                    </div>
+                <div class="toggle-container">
+                    <span class="toggle-description">2FA</span>
+                    <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                    </label>
+                </div>                  
+                    </form>                      
                     <div class="action-buttons">
                         <button class="delete-account" id="deleteAccountBtn">Delete Account</button>
                         <button class="save-changes" id="saveChangesBtn">Save Changes</button>

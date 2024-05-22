@@ -61,7 +61,8 @@ function confirmCode()
 
         setTimeout(function()
         {
-            window.location.href = "/home/";
+            alert('Confirmation successful!');
+            window.location.href = "/";
         }, 2000);
     }
     else
