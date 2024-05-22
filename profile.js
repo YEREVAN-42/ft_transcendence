@@ -65,3 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function goToMatchHistory() {
     window.location.href = 'match_history.html';
 }
+
+function goTournaments() {
+    window.location.href = 'tournaments.html';
+}

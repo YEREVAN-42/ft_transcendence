@@ -4,11 +4,11 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Profile - Pong Game</title>
+        <title>Tournaments - Pong Game</title>
         <link rel="icon" href="./public/new_icon.png" type="image/x-icon">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <link rel="stylesheet" href="./profile.css"/>    
+        <link rel="stylesheet" href="./tournaments.css"/>    
     </head>
     <body>
         <div class="navbar">
@@ -25,118 +25,92 @@
             </div>
         </div>
             <div class="container">
-                <h1 class="header">Profile</h1>
-                <img class="profile-icon-large" alt="Profile Picture" id="profileImageLarge" src="" />
-                <div class="username" id="guest">Username</div>
-                <div class="friends-list-container">
-                    <h2>Friends List</h2>
-                    <input type="search" id="searchInput" placeholder="Search friends...">
+                <h1 class="header">Tournaments</h1>
+                <div class="tournaments-list-container">
                     <div class="tabs">
-                        <button class="tab-button active" onclick="openTab(event, 'Friends')">Friends</button>
+                        <button class="tab-button active" onclick="openTab(event, 'Users')">Users</button>
                         <button class="tab-button" onclick="openTab(event, 'Requests')">Requests</button>
-                        <button class="tab-button" onclick="openTab(event, 'Suggestions')">Users</button>
+                        <button class="tab-button" onclick="openTab(event, 'Tournament')">Tournament</button>
                     </div>
-                    <div id="Friends" class="tab-content active">
-                        <div class="friends-list">
+                    <div id="Users" class="tab-content active">
+                        <div class="users-list">
                             <div class="friend" data-friend-id="1">
                                 <img src="./public/guest.png" alt="Friend 1" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Friend 1</span>
-                                    <span class="friend-activity">Active 1 day ago</span>
+                                    <span class="friend-points">1000 points</span>
                                 </div>
-                                <button class="details-button" data-action="details">Remove</button>
+                                <button class="invite-button" data-action="details">Invite</button>
                             </div>
                             <div class="friend" data-friend-id="2">
                                 <img src="./public/guest.png" alt="Friend 2" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Friend 2</span>
-                                    <span class="friend-activity">Active 2 days ago</span>
+                                    <span class="friend-points">300 points</span>
                                 </div>
-                                <button class="details-button" data-action="details">Remove</button>
+                                <button class="invite-button" data-action="details">Invite</button>
                             </div>
                             <div class="friend" data-friend-id="3">
                                 <img src="./public/guest.png" alt="Friend 3" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Friend 3</span>
-                                    <span class="friend-activity">Active 2 հours ago</span>
+                                    <span class="friend-points">1500 points</span>
                                 </div>
-                                <button class="details-button" data-action="details">Remove</button>
+                                <button class="invite-button" data-action="details">Invite</button>
                             </div>
                             <div class="friend" data-friend-id="4">
                                 <img src="./public/guest.png" alt="Friend 4" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Friend 4</span>
-                                    <span class="friend-activity">Active 15 min ago</span>
+                                    <span class="friend-points">3600 points</span>
                                 </div>
-                                <button class="details-button" data-action="details">Remove</button>
+                                <button class="invite-button" data-action="details">Invite</button>
                             </div>
                             <!-- Add more friends here -->
                         </div>
                     </div>
                     <div id="Requests" class="tab-content">
-                        <div class="friends-list">
+                        <div class="users-list">
                             <div class="friend-request" data-request-id="1">
                                 <img src="./public/guest.png" alt="Request 1" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Request 1</span>
-                                    <button class="accept-button" data-action="accept">Accept</button>
-                                    <button class="decline-button" data-action="decline">Decline</button>
+                                    <button class="accept-button" data-action="accept">Join</button>
+                                    <button class="decline-button" data-action="decline">Ignore</button>
                                 </div>
                             </div>
                             <div class="friend-request" data-request-id="2">
                                 <img src="./public/guest.png" alt="Request 2" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Request 2</span>
-                                    <button class="accept-button" data-action="accept">Accept</button>
-                                    <button class="decline-button" data-action="decline">Decline</button>
+                                    <button class="accept-button" data-action="accept">Join</button>
+                                    <button class="decline-button" data-action="decline">Ignore</button>
                                 </div>
                             </div>
                             <div class="friend-request" data-request-id="3">
                                 <img src="./public/guest.png" alt="Request 3" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Request 3</span>
-                                    <button class="accept-button" data-action="accept">Accept</button>
-                                    <button class="decline-button" data-action="decline">Decline</button>
+                                    <button class="accept-button" data-action="accept">Join</button>
+                                    <button class="decline-button" data-action="decline">Ignore</button>
                                 </div>
                             </div>
                             <!-- Add more friend requests here -->
                         </div>
                     </div>
-                    <div id="Suggestions" class="tab-content">
-                        <div class="friends-list">
-                            <div class="friend-suggestion" data-suggestion-id="1">
-                                <img src="./public/guest.png" alt="Suggestion 1" class="friend-picture">
-                                <div class="friend-info">
-                                    <span class="friend-username">Suggestion 1</span>
-                                    <button class="add-button" data-action="add">Add</button>
+                    <div id="Tournament" class="tab-content">
+                        <div class="tournament-join">
+                            <button class="join-tournament-button" onclick="joinTournament()">Join Tournament</button>
+                            <div class="tournament-users">
+                                <h2>Joined Users:</h2>
+                                <div id="tournamentUserList">
+                                    <!-- Joined users will be added here -->
                                 </div>
                             </div>
-                            <div class="friend-suggestion" data-suggestion-id="2">
-                                <img src="./public/guest.png" alt="Suggestion 2" class="friend-picture">
-                                <div class="friend-info">
-                                    <span class="friend-username">Suggestion 2</span>
-                                    <button class="add-button" data-action="add">Add</button>
-                                </div>
-                            </div>
-                            <!-- Add more friend suggestions here -->
                         </div>
                     </div>
-                </div>
-                <div class="buttons-wrapper">
-                    <div class="arrow-container">
-                        <div class="arrow-button" onclick="goToMatchHistory()">
-                            <span class="arrow-text">Match history</span>
-                            <div class="arrow"></div>
-                        </div>
-                    </div>
-                    <div class="arrow-container">
-                        <div class="arrow-button" onclick="goTournaments()">
-                            <span class="arrow-text">Tournaments</span>
-                            <div class="arrow"></div>
-                        </div>
-                    </div>
-                </div>    
+                </div>  
             </div>
-            <script src="./profile.js"></script>
+        <script src="./tournaments.js"></script>
     </body>
 </html> 

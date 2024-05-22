@@ -146,41 +146,12 @@ body {
     letter-spacing: 3px;
 }
   
-.profile-icon-large {
-    width: 115px;
-    height: 115px;
-    border-radius: 50%;
-    margin-bottom: 10px;
-    margin-right: 350px;
-}
-
-.username {
-    font-size: 1.7em;
-    font-weight: bold;
-    text-align: center;
-    margin-top: -50px; /* Adjust the margin-top to position it under the profile picture */
-    margin-left: auto; /* Align to the right */
-    margin-right: 20px; /* Added margin for spacing */
-}
-
-.friends-list-container {
+.tournaments-list-container {
     margin-top: 40px;
     text-align: left;
     display: inline-block;
     width: 500px; /* Make it narrower */
     vertical-align: top;
-}
-
-#searchInput {
-    padding: 10px;
-    width: 100%;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-    font-size: 1.2em;
-    color: #000;
-    border-radius: 8px;
-    font-weight: 500;
-    border: 1px solid rgb(22, 22, 22);
 }
 
 .tabs {
@@ -193,13 +164,12 @@ body {
     flex-grow: 1;
     padding: 10px;
     background-color: #444343;
-    /* background-color: rgb(22, 22, 22); */
     border: none;
     border: 2px solid white;
     cursor: pointer;
     color: white;
     text-align: center;
-    font-size: 1.2em;
+    font-size: 1.5em;
 }
 
 .tab-button.active {
@@ -214,16 +184,15 @@ body {
     display: block;
 }
 
-.friends-list, .friend-request, .friend-suggestion {
-    max-height: 200px;
+.users-list, .friend-request {
+    max-height: 400px;
     overflow-y: auto; /* Enable scrolling */
 }
 
-.friend, .friend-request, .friend-suggestion {
+.friend, .friend-request {
     display: flex;
     align-items: center;
     padding: 10px;
-    /* background-color: rgb(22, 22, 22); */
     background-color: #444343;
     margin-bottom: 5px;
     border-radius: 5px;
@@ -238,26 +207,27 @@ body {
 }
 
 .friend-info {
-    flex-grow: 1;  
+  flex-grow: 1;  
   padding: 10px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 1.2em;
 }
 
 .friend-username {
     display: block;
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 1.3em;
 }
 
-.friend-activity, .accept-button, .decline-button, .add-button {
+.friend-points, .accept-button, .decline-button {
     display: block;
     color: #ccc;
 }
 
-.accept-button, .add-button {
+.accept-button, .invite-button {
     padding: 5px 10px;
     background-color: #1e6a45;
     border: none;
@@ -265,11 +235,11 @@ body {
     color: white;
     cursor: pointer;
     margin-left: 10px;
-    font-size: 1.1em;
+    font-size: 1.2em;
     width: 100px;
 }
 
-.details-button, .decline-button {
+.decline-button {
     padding: 5px 10px;
     background-color: #960000;
     border: none;
@@ -277,108 +247,109 @@ body {
     color: white;
     cursor: pointer;
     margin-left: 10px;
-    font-size: 1.1em;
+    font-size: 1.2em;
     width: 100px;
 }
 
-.accept-button:hover, .add-button:hover {
+.accept-button:hover:hover, .invite-button:hover {
     background-color: #164b31;
 }
 
-.details-button:hover, .decline-button:hover {
+.decline-button:hover {
     background-color: #740e0e;
 }
 
-.buttons-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px; /* Adjust the gap between buttons as needed */
-    flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
-    padding: 20px; /* Add some padding for better appearance on smaller screens */
+/*for tournament tab */
+.tournament-join {
+    text-align: center;
 }
 
-.arrow-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px; /* Add some margin for better appearance when wrapped */
-}
-
-.arrow-button {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+.join-tournament-button {
+    padding: 10px 20px;
     background-color: #1e6a45;
     color: white;
-    padding: 10px 20px;
     border: none;
     border-radius: 8px;
-    text-decoration: none;
-    font-size: 1.2em;
-    transition: background-color 0.3s ease;
     border: 2px solid white;
+    cursor: pointer;
+    font-size: 1.3em;
+    margin-top: 20px;
 }
 
-.arrow-button:hover {
+.join-tournament-button:hover {
     background-color: #164b31;
 }
 
-.arrow-text {
+.tournament-users {
+    margin-top: 20px;
+    text-align: start;
+}
+
+#tournamentUserList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.tournament-user {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #444343;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 200px;
+}
+
+.tournament-user img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     margin-right: 10px;
 }
 
-.arrow {
-    width: 0; 
-    height: 0; 
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid white;
-    transform: rotate(270deg);
+.tournament-user span {
+    font-size: 1.2em;
+    color: white;
 }
 
 /* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-    .arrow-button {
+@media only screen and (max-width: 600px) {
+    .tournaments-list-container {
+        padding: 20px;
+        width: 100%;
+    }
+
+    .tab-button {
+        font-size: 1.2em;
+        padding: 8px;
+    }
+
+    .join-tournament-button, .invite-button {
+        font-size: 1.2em;
         padding: 8px 16px;
-        font-size: 1em;
     }
 
-    .arrow-text {
-        margin-right: 8px;
+    .accept-button, .decline-button {
+        font-size: 1.1em;
+        padding: 8px 16px;
     }
 
-    .arrow {
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        border-top: 8px solid white;
-    }
-}
-
-@media (max-width: 480px) {
-    .arrow-button {
+    #tournamentUserList {
         flex-direction: column;
-        align-items: flex-start;
-        padding: 6px 12px;
-        font-size: 0.9em;
+        align-items: center;
     }
 
-    .arrow-text {
-        margin-right: 0;
-        margin-bottom: 5px;
-    }
-
-    .arrow {
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-top: 6px solid white;
+    .tournament-user {
+        width: 100%;
     }
 }
 
 @media only screen and (max-width: 600px) {
     /* Adjustments for smaller screens */
     .container {
-        padding: 20px; /* Reduce padding */
+        padding: 50px; /* Reduce padding */
         height: auto; /* Allow height to adjust */
     }
     .navbar {
@@ -388,11 +359,8 @@ body {
         width: 50px;
         height: 50px;
     }
-    .profile-icon-large {
-        width: 80px;
-        height: 80px;
-    }
-    .username {
-        font-size: 1.2em;
-    }
+    .friend-username {
+        font-size: 1.1em;
+    }   
 }
+
