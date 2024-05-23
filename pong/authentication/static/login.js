@@ -16,12 +16,12 @@ function togglePasswordVisibility(inputId)
     }
 }
 
-async function hashPassword(password)
+function hashPassword(password)
 {
     const encoder = new TextEncoder();
     const data = encoder.encode(password);
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hash))
+    // const hash = crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(data))
         .map(b => b.toString(16).padStart(2, '0'))
         .join('');
 }
@@ -101,7 +101,13 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
         
     }
 });
-  
+ 
+//Continue submition with "Continue with 42intra" button
+document.getElementById("continue").addEventListener("click", function()
+{
+    window.location.href = "http://localhost:8000/auth/42/";
+}); 
+
 function validateForm()
 {
     input1 = document.getElementById("email").value;

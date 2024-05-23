@@ -11,6 +11,7 @@ urlpatterns = [
 
 
     path('signup/', views.signup, name="signup"),
-    path('signin/', views.signin, name="signin"), 
+    path('signin/', views.signin, name="signin"),
+    path('api/v1/logout/<int:pk>/', views.logout, name="logout"),
     path('confirm/', views.confirm, name="confirm")
 ]
