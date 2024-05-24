@@ -12,6 +12,7 @@ const routes = {
 	"/signin": "{% url 'signin' %}",
 	"/signup": "{% url 'signup' %}",
 	"/confirm": "{% url 'confirm' %}",
+	"/intra": "{% url 'intra' %}",
 	"/profile": "{% url 'profile' %}",
 	"/match_history": "{% url 'match_history' %}",
 	"/tournaments": "{% url 'tournaments' %}",

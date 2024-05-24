@@ -27,24 +27,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 def signup(request):
-    # if request.method == "POST":
-    #     # username = request.POST.get('username') OR
-    #     username = request.POST['username']
-    #     fname = request.POST['fname']
-    #     lname = request.POST['lname']
-    #     email = request.POST['email']
-    #     pass1 = request.POST['pass1']
-    #     pass2 = request.POST['pass2']
-        
-    #     # print("sdfgh", username)
-    #     #if pass1 != pass2:
-    #     #    messages.error(request, "Passwords do not match.")
-    #     #    return redirect('signup')
-
-    #     messages.success(request, "Your account has been successfully created. ")
-
-    #     return redirect('signin')
     return render(request, "auth/registration.html")
+
+def intra(request):
+    return render(request, "auth/intra.html")
 
 @csrf_exempt
 def signin(request):

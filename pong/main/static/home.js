@@ -4,9 +4,17 @@
     var menu = document.getElementById("menu");
 
     const url_code = window.location.search?.slice(6)
+    if (!url_code)
+    {
+        alert('No code found. Please log in.');
+        window.location.href = '/';
+        return;
+    }
+    const username = localStorage.getItem('username');
 
     requestData = {
-        "code": url_code
+        "code": url_code,
+        "username": username
     }
 
     const url = `http://10.12.17.4:8000/api/v1/login/`
@@ -26,21 +34,27 @@
         }
         return response.json();
     })
-    
-    
-    
-    profileImage.addEventListener("click", function() {
-      if (menu.style.display === "block") {
-        menu.style.display = "none";
-      } else {
-        menu.style.display = "block";
-      }
+    .catch(error =>
+    {
+        alert("Invalid username");
+        console.error('There has been a problem with your fetch operation:', error);
+        window.location.href = '/';
     });
+    
+    
+    
+profileImage.addEventListener("click", function() {
+  if (menu.style.display === "block") {
+    menu.style.display = "none";
+  } else {
+    menu.style.display = "block";
+  }
+});
 
 // Close the menu when clicking outside of it
-    window.addEventListener("click", function(event) {
-      if (!event.target.matches("#profileImage") && !event.target.matches(".menu")) {
-        menu.style.display = "none";
+window.addEventListener("click", function(event) {
+  if (!event.target.matches("#profileImage") && !event.target.matches(".menu")) {
+      menu.style.display = "none";
       }
     });
 });
