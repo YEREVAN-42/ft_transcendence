@@ -14,6 +14,7 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
 import json
+from django.utils import timezone
 
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -53,12 +54,14 @@ def signin(request):
         pass1 = data.get('password')
         try:
             user = User.objects.get(email=email, password=pass1)
-            print(user)
             access = AccessToken.for_user(user)
             refresh = RefreshToken.for_user(user)
-            print(access)
-            print(refresh)
             if user is not None:
+                if user.is_active:
+                    return JsonResponse({'error': 'User already logged in'}, status=400)
+                user.last_login = None
+                user.is_active = True
+                user.save()
                 return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh)}, status=200)
             else:
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
@@ -83,7 +86,8 @@ def confirm(request):
                 first_name=name,
                 username=username,
                 email=email,
-                password=password
+                password=password,
+                is_active = False
             )
             return JsonResponse({'message': 'Data saved successfully'}, status=201)
         except json.JSONDecodeError:
@@ -93,4 +97,23 @@ def confirm(request):
 
     return render(request, "./auth/confirm.html")
 
-
+@csrf_exempt
+def logout(request, pk):
+    print("❌")
+    if request.method == 'POST':
+        print("✅")
+        try:
+            data = json.loads(request.body)
+            refresh = data.get('refresh')
+            token = RefreshToken(refresh)
+            token.blacklist()
+            print("Token", token)
+            user = User.objects.get(pk=pk)
+            print("Token", user)
+            user.last_login = timezone.now()
+            user.is_active = False
+            user.save()
+            return JsonResponse({'message': 'Logout successful'}, status=200)
+        except TokenError:
+            return JsonResponse({'error': 'Invalid token'}, status=400)
+    return render(request, "../main/templates/index.html")

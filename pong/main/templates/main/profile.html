@@ -29,13 +29,15 @@
                 <h1 class="header">Profile</h1>
                 <img class="profile-icon-large" alt="Profile Picture" id="profileImageLarge" src="{% static 'images/guest.png' %}" />
                 <div class="username" id="guest">Username</div>
+                <h3> Wins Count: <span id="wins"> 21 </span> </h3>
+                <h3> Loses Count: <span id="loses"> 10 </span> </h3>
                 <div class="friends-list-container">
                     <h2>Friends List</h2>
                     <input type="search" id="searchInput" placeholder="Search friends...">
                     <div class="tabs">
                         <button class="tab-button active" onclick="openTab(event, 'Friends')">Friends</button>
                         <button class="tab-button" onclick="openTab(event, 'Requests')">Requests</button>
-                        <button class="tab-button" onclick="openTab(event, 'Suggestions')">Users</button>
+                        <button class="tab-button" onclick="openTab(event, 'Users')">Users</button>
                     </div>
                     <div id="Friends" class="tab-content active">
                         <div class="friends-list">
@@ -103,19 +105,19 @@
                             <!-- Add more friend requests here -->
                         </div>
                     </div>
-                    <div id="Suggestions" class="tab-content">
+                    <div id="Users" class="tab-content">
                         <div class="friends-list">
                             <div class="friend-suggestion" data-suggestion-id="1">
                                 <img src="{% static 'images/guest.png' %}" alt="Suggestion 1" class="friend-picture">
                                 <div class="friend-info">
-                                    <span class="friend-username">Suggestion 1</span>
+                                    <span id="suggestion1" class="friend-username">Suggestion 1</span>
                                     <button class="add-button" data-action="add" onclick="add_friend()">Add</button>
                                 </div>
                             </div>
                             <div class="friend-suggestion" data-suggestion-id="2">
                                 <img src="{% static 'images/guest.png' %}" alt="Suggestion 2" class="friend-picture">
                                 <div class="friend-info">
-                                    <span class="friend-username">Suggestion 2</span>
+                                    <span id="suggestion2" class="friend-username">Suggestion 2</span>
                                     <button class="add-button" data-action="add" onclick="add_friend()">Add</button>
                                 </div>
                             </div>

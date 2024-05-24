@@ -19,7 +19,7 @@ urlpatterns = [
 #    path('settings/', TemplateView.as_view(template_name='settings.html'), name='settings'),
     
     path('', views.index, name="index"),
-    path('api/v1/home/<int:id>/', views.home, name="home"),
+    path('home/', views.home, name="home"),
     path('api/v1/profile/<int:id>/', views.profile, name="profile"),
     path('api/v1/match_history/<int:id>/', views.match_history, name="match_history"),
     path('api/v1/tournaments/<int:id>/', views.tournaments, name="tournaments"),

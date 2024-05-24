@@ -148,7 +148,7 @@ document.getElementById('saveChangesBtn').addEventListener('click', async functi
       return;
     }
 
-    const url = `http://localhost:8000/api/v1/settings/${userId}/`;
+    const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
 
     fetch(url, {
         method: 'POST',
@@ -248,6 +248,11 @@ document.getElementById('deleteAccountBtn').addEventListener('click', function(e
         return;
     }
 
+    requested_data = {
+        "token": localStorage.getItem('access'),
+        "refresh": localStorage.getItem('refresh')
+    }
+
     const token = localStorage.getItem('access');
     if (!token)
     {
@@ -263,7 +268,7 @@ document.getElementById('deleteAccountBtn').addEventListener('click', function(e
       return;
     }
 
-    const url = `http://localhost:8000/api/v1/settings/${userId}/`;
+    const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
 
     fetch(url, {
         method: 'POST',
@@ -271,6 +276,7 @@ document.getElementById('deleteAccountBtn').addEventListener('click', function(e
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
         },
+        body: JSON.stringify(requested_data)
     })
     .then(response => {
         if (!response.ok) {
@@ -307,7 +313,7 @@ document.getElementById('homeId').addEventListener('click', function(e)
       return;
     }
 
-    const url = `http://localhost:8000/api/v1/home/${userId}/`;
+    const url = `http://10.12.17.4:8000/home/${userId}/`;
 
     fetch(url, {
         method: 'GET',
@@ -348,7 +354,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
       return;
     }
 
-    const url = `http://localhost:8000/api/v1/profile/${userId}/`;
+    const url = `http://10.12.17.4:8000/api/v1/profile/${userId}/`;
 
     fetch(url, {
         method: 'GET',
@@ -374,6 +380,44 @@ document.getElementById('profileId').addEventListener('click', function(e)
 
 document.getElementById('logoutId').addEventListener('click', function(e)
 {
+  requested_data = {
+    "token": localStorage.getItem('access'),
+    "refresh": localStorage.getItem('refresh')
+  }
+  const token = localStorage.getItem('access');
+  if (!token)
+  {
+    alert('No token found. Please log in.');
+    window.location.href = '/';
+    return;
+  }
+  const userId = extractUserIdFromToken(token);
+  if (!userId)
+  {
+    alert('Invalid token. Please log in again.');
+    window.location.href = '/';
+    return;
+  }
+  const url = `http://10.12.17.4:8000/api/v1/logout/${userId}/`;
+  fetch(url, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify(requested_data)
+    
+  })
+  .then(response => {
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+  })
+  .then(data => {
+    console.log(data);
+  })
+
   localStorage.clear();
   window.history.pushState({}, "", '/');
   window.location.href = '/';
