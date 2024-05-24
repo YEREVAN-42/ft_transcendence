@@ -24,10 +24,10 @@ menu.style.display = "none";
 });
 
 var profilePic = localStorage.getItem('profilePic');
-document.getElementById('profileImage').src = profilePic || 'profile.jpg';
+document.getElementById('profileImage').src = profilePic || 'static/images/guest.png';
 
 var profilePicLarge = localStorage.getItem('profilePicLarge');
-document.getElementById('profileImageLarge').src = profilePic || 'profile.jpg';
+document.getElementById('profileImageLarge').src = profilePic || 'static/images/guest.png';
 
 var profileName = localStorage.getItem('profileName') || 'Guest';
 document.getElementById('guest').textContent = profileName;
@@ -92,7 +92,7 @@ function friends_list()
   return;
 }
 
-  const url = `http://localhost:8000/api/v1/friends/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/friends/${userId}/`;
 
   fetch(url, {
     method: 'GET',
@@ -146,7 +146,7 @@ function requests_list()
     return;
 }
 
-const url = `http://localhost:8000/api/v1/requests/${userId}/`;
+const url = `http://10.12.17.4:8000/api/v1/requests/${userId}/`;
 
 fetch(url, {
 method: 'GET',
@@ -201,7 +201,7 @@ function users_list()
     return;
   }
   
-  const url = `http://localhost:8000/api/v1/users_list/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/users_list/${userId}/`;
   
   fetch(url, {
     method: 'GET',
@@ -220,7 +220,7 @@ function users_list()
     console.log(data);
     document.getElementById("suggestion1").textContent = data[0].username;
     document.getElementById("suggestion2").textContent = data[1].username;
-    // window.location.href = `http://localhost:8000/users/`;
+    // window.location.href = `http://10.12.17.4:8000/users/`;
   
   })
   // .then(data => {
@@ -271,7 +271,7 @@ window.location.href = '/';
 return;
 }
 
-const url = `http://localhost:8000/api/v1/match_history/${userId}/`;
+const url = `http://10.12.17.4:8000/api/v1/match_history/${userId}/`;
 
 fetch(url, {
   method: 'GET',
@@ -311,7 +311,7 @@ window.location.href = '/';
 return;
 }
 
-const url = `http://localhost:8000/api/v1/tournaments/${userId}/`;
+const url = `http://10.12.17.4:8000/api/v1/tournaments/${userId}/`;
 
 fetch(url, {
   method: 'GET',
@@ -365,7 +365,7 @@ window.location.href = '/';
 return;
 }
 
-const url = `http://localhost:8000/api/v1/home/${userId}/`;
+const url = `http://10.12.17.4:8000/home/${userId}/`;
 
 fetch(url, {
   method: 'GET',
@@ -407,7 +407,7 @@ window.location.href = '/';
 return;
 }
 
-const url = `http://localhost:8000/api/v1/settings/${userId}/`;
+const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
 fetch(url, {
   method: 'GET',
   headers: {
@@ -425,7 +425,7 @@ return response.json();
 // Assuming your Django view will return a JSON response with user data
 
 console.log(data);
-window.location.href = `http://localhost:8000/settings/`;
+window.location.href = `http://10.12.17.4:8000/settings/`;
 })
 //   .then(response => {
 //     if (!response.ok) {
@@ -466,7 +466,7 @@ function add_friend()
     window.location.href = '/';
     return;
   }
-  const url = `http://localhost:8000/api/v1/add_friend/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/add_friend/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -505,7 +505,7 @@ function accept_request()
     window.location.href = '/';
     return;
   }
-  const url = `http://localhost:8000/api/v1/accept/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/accept/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -545,7 +545,7 @@ function decline_request()
     window.location.href = '/';
     return;
   }
-  const url = `http://localhost:8000/api/v1/decline/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/decline/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -584,7 +584,7 @@ function remove_friend()
     window.location.href = '/';
     return;
   }
-  const url = `http://localhost:8000/api/v1/remove/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/remove/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -624,7 +624,7 @@ document.getElementById('logoutId').addEventListener('click', function(e)
     window.location.href = '/';
     return;
   }
-  const url = `http://localhost:8000/api/v1/logout/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/logout/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {

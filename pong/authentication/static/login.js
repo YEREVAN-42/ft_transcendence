@@ -1,5 +1,10 @@
 var input1, input2;
 
+let INTRA_API_URL="https://api.intra.42.fr/";
+let INTRA_API_UID="u-s4t2ud-d934927d41b1907cf997e49d099e6a5635f0dcf9a6ad1b0d05b47180b7bcea9d";
+let INTRA_REDIRECT_URI="http://10.12.17.4:8000/home/";
+
+
 function togglePasswordVisibility(inputId)
 {
     var passwordInput = document.getElementById(inputId);
@@ -16,14 +21,30 @@ function togglePasswordVisibility(inputId)
     }
 }
 
-function hashPassword(password)
-{
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    // const hash = crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(data))
-        .map(b => b.toString(16).padStart(2, '0'))
-        .join('');
+async function hashPassword(password) {
+    if (window.crypto && window.crypto.subtle) {
+        // Modern browsers with Web Crypto API support
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        try {
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hash))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        } catch (error) {
+            console.error('Error hashing password with Web Crypto API:', error);
+            throw error;
+        }
+    } else {
+        // Fallback for older browsers without Web Crypto API support
+        try {
+            const hash = CryptoJS.SHA256(password);
+            return hash.toString(CryptoJS.enc.Hex);
+        } catch (error) {
+            console.error('Error hashing password with crypto-js:', error);
+            throw error;
+        }
+    }
 }
 
 function extractUserIdFromToken(token) {
@@ -38,9 +59,15 @@ function extractUserIdFromToken(token) {
     return decodedToken.user_id;
   }
 
+
+
 document.getElementById("forSubmit").addEventListener("submit", async function(event)
 {
     event.preventDefault();
+    //Check if all fields are filled and 
+    if (document.activeElement.id === "continue"){
+        return;
+    }
     if (!validateForm())
     {
       alert("Please, fill in all fields!");
@@ -53,7 +80,7 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
             email: input1,
             password: hashedPassword
         };
-        fetch('http://localhost:8000/signin/',
+        fetch('http://10.12.17.4:8000/signin/',
         {
             method: 'POST',
             headers: {
@@ -89,7 +116,7 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
                       return;
                     }
                   
-                    const url = `http://localhost:8000/api/v1/home/${userId}/`;
+                    const url = `http://10.12.17.4:8000/home/`;
                     window.location.href = url;
                 }
             })
@@ -102,11 +129,35 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
     }
 });
  
-//Continue submition with "Continue with 42intra" button
+// Continue submition with "Continue with 42intra" button
 document.getElementById("continue").addEventListener("click", function()
 {
-    window.location.href = "http://localhost:8000/auth/42/";
+    window.location.href = `${INTRA_API_URL}/oauth/authorize?client_id=${INTRA_API_UID}&redirect_uri=${INTRA_REDIRECT_URI}&response_type=code`
+
+    
+    //fetch code to login view
+    // url = `http://api/v1/login/`
+    // fetch(url, {
+    //     method: 'POST',
+    //     headers:
+    //     {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     // body: JSON.stringify(requestData)
+    // })
+    // .then(response =>
+    // {
+    //     if (!response.ok)
+    //     {
+    //         throw new Error('Network response was not ok');
+    //     }
+    //     return response.json();
+    // })
+    
+    
 }); 
+
+
 
 function validateForm()
 {

@@ -12,6 +12,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 import json
 
@@ -28,7 +29,7 @@ def index(request):
     print("❌ index")
     return render(request, 'index.html')
 
-def home(request, id):
+def home(request):
     # print("❌, home")
     # if request.method == 'POST':
     #         try:
@@ -82,7 +83,7 @@ def change_settings(request, id):
             pass1 = data.get('password')
 
             try:
-                user = User.objects.get(id = "3")
+                user = User.objects.get(id = id)
 
                 if user is not None:
                     user.first_name = name
@@ -103,6 +104,11 @@ def delete_account(request, id):
             try:
                 user = User.objects.get(id = id)
                 if user is not None:
+                    data = json.loads(request.body)
+                    refresh = data.get('refresh')
+                    token = RefreshToken(refresh)
+                    token.blacklist()
+                    print("Token", token)
                     # user.delete()
                     return JsonResponse({'message': 'Delete successful'}, status=200)
                 else:

@@ -19,14 +19,30 @@ function togglePasswordVisibility(inputId)
     }
 }
 
-async function hashPassword(password)
-{
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hash))
-        .map(b => b.toString(16).padStart(2, '0'))
-        .join('');
+async function hashPassword(password) {
+    if (window.crypto && window.crypto.subtle) {
+        // Modern browsers with Web Crypto API support
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        try {
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hash))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        } catch (error) {
+            console.error('Error hashing password with Web Crypto API:', error);
+            throw error;
+        }
+    } else {
+        // Fallback for older browsers without Web Crypto API support
+        try {
+            const hash = CryptoJS.SHA256(password);
+            return hash.toString(CryptoJS.enc.Hex);
+        } catch (error) {
+            console.error('Error hashing password with crypto-js:', error);
+            throw error;
+        }
+    }
 }
 
 document.getElementById("forSubmit").addEventListener("submit", async function(event)
