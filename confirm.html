@@ -13,8 +13,8 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="header">Confirm your Email</h1>
-        <p class="text">Please enter the confirmation code sent to your email:</p>
+        <h1 class="header" id="confirmEmail">Confirm your Email</h1>
+        <p class="text" id="enterConfirm">Please enter the confirmation code sent to your email:</p>
         <form autocomplete="off" action="" name="Confirm Email" id="forSubmit">
             <div class="confirmation-code">
                 <input type="text" maxlength="1" id="digit1" onkeyup="moveFocus('digit1', 'digit2')" />
@@ -24,7 +24,7 @@
                 <input type="text" maxlength="1" id="digit5" onkeyup="moveFocus('digit5', null)" />
             </div>
             <div class="buttons">
-                <button type="button" onclick="confirmCode()" class="button">Confirm</button>
+                <button type="button" onclick="confirmCode()" class="button" id="confirmButton">Confirm</button>
                 <p id="message" class="message"></p>
                 <div class="loading">
                     <img src="./public/loading-loading-forever.gif" alt="Loading..." />

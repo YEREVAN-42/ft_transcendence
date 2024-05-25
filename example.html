@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Pong Game</title>
+    <link rel="icon" href="./public/new_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./home.css" />  
+</head>
+<body>
+    <div class="navbar">
+        <a href="home.html" id="homeLink">
+            <img alt="HOME" src="./public/icons8-home-20.png" /> HOME
+        </a>
+        <!-- Add other navbar links here -->
+        <div class="image-wrapper" id="imageWrapper">
+            <img src="./public/switch_language.png" alt="Button Image" width=50 high=50>
+        </div>
+        <div class="dropdown-content" id="dropdownContent">
+            <select name="language" id="languageSelect">
+                <option value="en">English</option>
+                <option value="arm">Armenian</option>
+                <option value="ru">Russian</option>
+                <!-- Add more language options -->
+            </select>
+        </div>
+        <!-- Profile icon and menu -->
+    </div>
+    <div class="container">
+        <!-- Add other content here -->
+        <h1 class="header" id="howToPlayHeader">HOW TO PLAY ?</h1>
+        <p class="text" id="howToPlayText">A small ball moves across the screen...</p>
+        <div class="buttons">
+            <a href="https://www.ponggame.org/#google_vignette">
+                <div class="button" id="playButton">Play</div>
+            </a>
+        </div>
+    </div>
+    <!-- /<script src="./home.js"></script> -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var languageSelect = document.getElementById("languageSelect");
+            var homeLink = document.getElementById("homeLink");
+            var howToPlayHeader = document.getElementById("howToPlayHeader");
+            var howToPlayText = document.getElementById("howToPlayText");
+            var playButton = document.getElementById("playButton");
+
+            languageSelect.addEventListener("change", function() {
+                var selectedLanguage = languageSelect.value;
+                switchLanguage(selectedLanguage);
+            });
+
+            function switchLanguage(language) {
+                var translations = {
+                    "en": {
+                        "home": "Home",
+                        "howToPlayHeader": "HOW TO PLAY ?",
+                        "howToPlayText": "A small ball moves across the screen..."
+                    },
+                    "arm": {
+                        "home": "Գլխավոր Էջ",
+                        "howToPlayHeader": "ԻՆՉՊԵՍ ?",
+                        "howToPlayText": "Փոքր գնդակը շարժվում է էկրանի վրա..."
+                    },
+                    "ru": {
+                        "home": "Главная",
+                        "howToPlayHeader": "КАК ИГРАТЬ ?",
+                        "howToPlayText": "Небольшой шар двигается по экрану..."
+                    }
+                    // Add more translations for other languages
+                };
+
+                homeLink.textContent = translations[language]["home"];
+                howToPlayHeader.textContent = translations[language]["howToPlayHeader"];
+                howToPlayText.textContent = translations[language]["howToPlayText"];      
+            }
+
+            // Call switchLanguage with the default language
+            switchLanguage(languageSelect.value);
+        });
+    </script>
+</body>
+</html>

@@ -33,6 +33,39 @@ function confirmCode() {
     }
 }
 
+function switchLanguage(language) {
+    var translations = {
+        "en": {
+            "confirmEmail":"Confirm your Email",
+            "enterConfirm":"Please enter the confirmation code sent to your email:",
+            "confirmButton":"Confirm"
+            //"":""
+        },
+        "arm": {
+            "confirmEmail":"Confirm your Email",
+            "enterConfirm":"aaaaaaaa",
+            "confirmButton":"Confirm"
+        },
+        "ru": {
+            "confirmEmail":"Confirm your Email",
+            "enterConfirm":"rrrrrrrrr",
+            "confirmButton":"Confirm"
+        },
+        "cn": {
+            "confirmEmail":"Confirm your Email",
+            "enterConfirm":"ccccccchin",
+            "confirmButton":"Confirm"
+      }
+    };
+
+    homeLink.textContent = translations[language]["home"];
+    howToPlayHeader.textContent = translations[language]["howToPlayHeader"];
+    howToPlayText.textContent = translations[language]["howToPlayText"];  
+    profileLink.textContent = translations[language]["profileLink"];
+    playButton.textContent = translations[language]["playButton"];
+  }
+  switchLanguage(languageSelect.value);
+
 document.querySelectorAll('.confirmation-code input').forEach(function(input) {
     input.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {

@@ -37,6 +37,12 @@ body {
     z-index: 1000;
 }
 
+.navbar.icon {
+    width: 30px; /* Adjust the size as needed */
+    height: 30px; /* Adjust the size as needed */
+    margin-right: 10px; /* Space between icon and text */
+}
+
 .navbar a {
     text-decoration: none;
     color: #fff;
@@ -217,6 +223,13 @@ body {
 
 .button:hover {
     background-color: #397262;
+}
+
+select {
+    margin: 40px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 1000px) {
