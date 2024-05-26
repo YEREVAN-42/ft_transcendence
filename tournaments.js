@@ -37,55 +37,63 @@ function openTab(evt, tabName) {
 
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
+    evt.currentTarget.className+= " active";
 }
 
-// handle joining the tournament
+function showJoinForm() {
+document.getElementById('joinFormModal').style.display = 'block';
+}
+
+function closeModal() {
+document.getElementById('joinFormModal').style.display = 'none';
+}
 
 var joinedUsers = 0;
 
 function joinTournament() {
+var usernameInput = document.getElementById('usernameInput').value;
+var passwordInput = document.getElementById('passwordInput').value;
+if (usernameInput && passwordInput) {
     if (joinedUsers < 4) {
         var userList = document.getElementById("tournamentUserList");
         var user = document.createElement("div");
         user.className = "tournament-user";
         user.innerHTML = `
             <img src="./public/guest.png" alt="User">
-            <span>User ${joinedUsers + 1}</span>
+            <span>${usernameInput}</span>
         `;
         userList.appendChild(user);
         joinedUsers++;
-        
+
         if (joinedUsers === 4) {
             var newTournamentButton = document.getElementById("newTournamentButton");
             newTournamentButton.style.display = "block";
         }
+
+        // Clear the input fields after submission
+        document.getElementById('usernameInput').value = '';
+        document.getElementById('passwordInput').value = '';
+
+        // Close the modal after submission
+        closeModal();
+    }
+} 
+    else {
+        alert("Please fill in both fields.");
     }
 }
 
-// Start new tournament
-
 function startNewTournament() {
-    // Your logic for starting a new tournament
-    alert("Starting a new tournament!");
-    // Reset the tournament for new users
-    var userList = document.getElementById("tournamentUserList");
-    userList.innerHTML = '';
-    joinedUsers = 0;
-    document.getElementById("newTournamentButton").style.display = "none";
+// Your logic for starting a new tournament
+alert("Starting a new tournament!");
+// Reset the tournament for new users
+var userList = document.getElementById("tournamentUserList");
+userList.innerHTML = '';
+joinedUsers = 0;
+document.getElementById("newTournamentButton").style.display = "none";
 }
-
 
 // Set default tab to be opened
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('.tab-button').click();
+document.querySelector('.tab-button').click();
 });
-
-function goToMatchHistory() {
-    window.location.href = 'match_history.html';
-}
-
-function goTournaments() {
-    window.location.href = 'tournaments.html';
-}
-
