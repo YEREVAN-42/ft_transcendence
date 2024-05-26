@@ -17,7 +17,9 @@ function applyLanguage() {
                 "removeButton":"Remove",
                 "accept":"Accept",
                 "decline":"Decline",
-                "add":"Add"
+                "add":"Add",
+                "matchHistory":"Match history",
+                "turm":"Tournaments"
             },
             "hy": {
                 "homeheader":"ԳԼԽԱՎՈՐ",
@@ -34,7 +36,9 @@ function applyLanguage() {
                 "removeButton":"Հեռացնել",
                 "accept":"Ընդունել",
                 "decline":"Մերժել",
-                "add":"Ավելացնել"
+                "add":"Ավելացնել",
+                "matchHistory":"Խաղի պատմություն",
+                "turm":"Մրցաշարեր"
             },
             "ru": {
                 "homeheader":"ГЛАВНАЯ",
@@ -51,7 +55,9 @@ function applyLanguage() {
                 "removeButton":"Удалять",
                 "accept":"Принимать",
                 "decline":"Отклонить",
-                "add":"Добавлять"
+                "add":"Добавлять",
+                "matchHistory":"История матчей",
+                "turm":"Турниры"
             },
             "cn": {
                 "homeheader":"家",
@@ -68,33 +74,47 @@ function applyLanguage() {
                 "removeButton":"消除",
                 "accept":"接受",
                 "decline":"衰退",
-                "add":"添加"
+                "add":"添加",
+                "matchHistory":"比賽歷史",
+                "turm":"錦標賽"
             },
     };
-
-    document.getElementById('homeheader').textContent = translations[selectedLanguage].homeheader;
-    document.getElementById('profile').textContent = translations[selectedLanguage].profile;
-    document.getElementById('setting').textContent = translations[selectedLanguage].setting;
-    document.getElementById('logout').innerText = translations[selectedLanguage].logout;
-    document.getElementById('prof').textContent = translations[selectedLanguage].prof;
-    document.getElementById('guest').textContent = translations[selectedLanguage].guest;
-    document.getElementById('listHeader').innerText = translations[selectedLanguage].listHeader;
+    const elementsToTranslate = {
+        'homeheader': 'homeheader',
+        'profile': 'profile',
+        'setting': 'setting',
+        'logout': 'logout',
+        'prof': 'prof',
+        'guest': 'guest',
+        'listHeader': 'listHeader',
+        'friends': 'friends',
+        'request': 'request',
+        'matchHistory': 'matchHistory',
+        'users':'users',
+        'turm': 'turm'
+    };
+    
+    Object.keys(elementsToTranslate).forEach(function(id) {
+        var element = document.getElementById(id);
+        if (element) {
+            var translationKey = elementsToTranslate[id];
+            element.textContent = translations[selectedLanguage][translationKey];
+        }
+    });
     document.getElementById('searchInput').placeholder = translations[selectedLanguage].searchInput;
-    document.getElementById('friends').innerText = translations[selectedLanguage].friends;
-    document.getElementById('request').innerText = translations[selectedLanguage].request;
-    document.getElementById('users').innerText = translations[selectedLanguage].users;
+
     var detailsButtons = document.getElementsByClassName('details-button');
     for (var i = 0; i < detailsButtons.length; i++) {
         detailsButtons[i].innerText = translations[selectedLanguage].removeButton;
     }
-    var detailsButtons = document.getElementsByClassName('decline-button');
+    var declineButtons = document.getElementsByClassName('decline-button');
     var acceptButtons = document.getElementsByClassName('accept-button');
-    for (var i = 0; i < detailsButtons.length; i++) {
-        detailsButtons[i].innerText = translations[selectedLanguage].decline;
+    for (var i = 0; i < declineButtons.length; i++) {
+        declineButtons[i].innerText = translations[selectedLanguage].decline;
         acceptButtons[i].innerText = translations[selectedLanguage].accept;
     }
     var addButtons = document.getElementsByClassName('add-button');
-    for (var i = 0; i < detailsButtons.length; i++) {
+    for (var i = 0; i < addButtons.length; i++) {
         addButtons[i].innerText = translations[selectedLanguage].add;
     }
   }

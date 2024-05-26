@@ -1,3 +1,45 @@
+function applyLanguage() {
+    var selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+
+    const translations = {
+            "en": {
+                "homeheader":"HOME",
+                "profile":"PROFILE",
+                "setting": "SETTINGS",
+                "logout":"LOG OUT",
+            },
+            "hy": {
+                "homeheader":"ԳԼԽԱՎՈՐ",
+                "profile":"ՊՐՈՖԻԼ",
+                "setting": "ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ",
+                "logout":"ԴՈՒՐՍ ԳԱԼ",
+            },
+            "ru": {
+                "homeheader":"ГЛАВНАЯ",
+                "profile":"ПРОФИЛЬ",
+                "setting": "НАСТРОЙКИ",
+                "logout":"ВЫЙТИ",
+            },
+            "cn": {
+                "homeheader":"家",
+                "profile":"档案",
+                "setting": "設定",
+                "logout":"登出",
+            },
+    };
+
+    document.getElementById('homeheader').textContent = translations[selectedLanguage].homeheader;
+    document.getElementById('profile').textContent = translations[selectedLanguage].profile;
+    document.getElementById('setting').textContent = translations[selectedLanguage].setting;
+    document.getElementById('logout').textContent = translations[selectedLanguage].logout;
+
+    var won = document.getElementsByClassName('result-won');
+    for (var i = 0; i < won.length; i++) {
+        won[i].innerText = translations[selectedLanguage].won;
+    }
+
+  }
+
 // JavaScript for the profile menu
 document.addEventListener("DOMContentLoaded", function() {
     var profileImage = document.getElementById("profileImage");
@@ -89,3 +131,4 @@ function goTournaments() {
     window.location.href = 'tournaments.html';
 }
 
+applyLanguage()
