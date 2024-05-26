@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Profile - Pong Game</title>
+        <link rel="icon" href="{% static 'images/new_icon.png' %}" type="image/x-icon">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="{% static './profile.css' %}"/>    
+    </head>
+    <body>
+        <div class="navbar">
+            <a href="/home" id="homeId">
+                <img alt="HOME" src="{% static '/images/icons8-home-20.png' %}" /> <span id="homeheader">HOME</span>
+            </a>
+            <a href="#">
+                <img alt="PROFILE" src="{% static '/images/icons8-customer-20.png' %}" /> <span id="profile">PROFILE</span>
+            </a>
+            <img class="profile-icon" alt="Profile Picture" id="profileImage" src="" />
+            <div class="menu" id="menu">
+                <a href="/settings" class="settings" id="settingsId">SETTINGS</a>
+                <a href="/" class="logout" id="logoutId">LOG OUT</a>
+            </div>
+        </div>
+            <div class="container">
+                <h1 class="header" id="prof">Profile</h1>
+                <img class="profile-icon-large" alt="Profile Picture" id="profileImageLarge" src="{% static 'images/guest.png' %}" />
+                <div class="username" id="guest">Username</div>
+                <h3> Wins Count: <span id="wins"> 21 </span> </h3>
+                <h3> Loses Count: <span id="loses"> 10 </span> </h3>
+                <div class="friends-list-container">
+                    <h2 id="listHeader">Friends List</h2>
+                    <input type="search" id="searchInput" placeholder="Search friends...">
+                    <div class="tabs">
+                        <button class="tab-button active" onclick="openTab(event, 'Friends')" id="friends">Friends</button>
+                        <button class="tab-button" onclick="openTab(event, 'Requests')" id="request">Requests</button>
+                        <button class="tab-button" onclick="openTab(event, 'Users')" id="users">Users</button>
+                    </div>
+                    <div id="Friends" class="tab-content active">
+                        <div class="friends-list">
+                            <div class="friend" data-friend-id="1">
+                                <img src="{% static 'images/guest.png' %}" alt="Friend 1" class="friend-picture">
+                                <div class="friend-info">
+                                    <span class="friend-username">Friend 1</span>
+                                    <span class="friend-activity">Active 1 day ago</span>
+                                </div>
+                                <button class="details-button" data-action="details" onclick="remove_friend()" >Remove</button>
+                            </div>
+                            <div class="friend" data-friend-id="2">
+                                <img src="{% static 'images/guest.png' %}" alt="Friend 2" class="friend-picture">
+                                <div class="friend-info">
+                                    <span class="friend-username">Friend 2</span>
+                                    <span class="friend-activity">Active 2 days ago</span>
+                                </div>
+                                <button class="details-button" data-action="details" onclick="remove_friend()">Remove</button>
+                            </div>
+                            <div class="friend" data-friend-id="3">
+                                <img src="{% static 'images/guest.png' %}" alt="Friend 3" class="friend-picture">
+                                <div class="friend-info">
+                                    <span class="friend-username">Friend 3</span>
+                                    <span class="friend-activity">Active 2 hours ago</span>
+                                </div>
+                                <button class="details-button" data-action="details" onclick="remove_friend()">Remove</button>
+                            </div>
+                            <div class="friend" data-friend-id="4">
+                                <img src="{% static 'images/guest.png' %}" alt="Friend 4" class="friend-picture">
+                                <div class="friend-info">
+                                    <span class="friend-username">Friend 4</span>
+                                    <span class="friend-activity">Active 15 min ago</span>
+                                </div>
+                                <button class="details-button" data-action="details" onclick="remove_friend()">Remove</button>
+                            </div>
+                            <!-- Add more friends here -->
+                        </div>
+                    </div>
+                    <div id="Requests" class="tab-content">
+                        <div class="friends-list">
+                            <div class="friend-request" data-request-id="1">
+                                <img src="{% static 'images/guest.png' %}" alt="Request 1" class="friend-picture">
+                                <div class="friend-info">
+                                    <span class="friend-username">Request 1</span>
+                                    <button class="accept-button" data-action="accept" onclick="accept_request()">Accept</button>
+                                    <button class="decline-button" data-action="decline" onclick="decline_request()">Decline</button>
+                                </div>
+                            </div>
+                            <div class="friend-request" data-request-id="2">
+                                <img src="{% static 'images/guest.png' %}" alt="Request 2" class="friend-picture">
+                                <div class="friend-info">
+                                    <span class="friend-username">Request 2</span>
+                                    <button class="accept-button" data-action="accept" onclick="accept_request()">Accept</button>
+                                    <button class="decline-button" data-action="decline" onclick="decline_request()">Decline</button>
+                                </div>
+                            </div>
+                            <div class="friend-request" data-request-id="3">
+                                <img src="{% static 'images/guest.png' %}" alt="Request 3" class="friend-picture">
+                                <div class="friend-info">
+                                    <span class="friend-username">Request 3</span>
+                                    <button class="accept-button" data-action="accept" onclick="accept_request()">Accept</button>
+                                    <button class="decline-button" data-action="decline" onclick="decline_request()">Decline</button>
+                                </div>
+                            </div>
+                            <!-- Add more friend requests here -->
+                        </div>
+                    </div>
+                    <div id="Users" class="tab-content">
+                        <div class="friends-list">
+                            <div class="friend-suggestion" data-suggestion-id="1">
+                                <img src="{% static 'images/guest.png' %}" alt="Suggestion 1" class="friend-picture">
+                                <div class="friend-info">
+                                    <span id="suggestion1" class="friend-username">Suggestion 1</span>
+                                    <button class="add-button" data-action="add" onclick="add_friend()">Add</button>
+                                </div>
+                            </div>
+                            <div class="friend-suggestion" data-suggestion-id="2">
+                                <img src="{% static 'images/guest.png' %}" alt="Suggestion 2" class="friend-picture">
+                                <div class="friend-info">
+                                    <span id="suggestion2" class="friend-username">Suggestion 2</span>
+                                    <button class="add-button" data-action="add" onclick="add_friend()">Add</button>
+                                </div>
+                            </div>
+                            <!-- Add more friend suggestions here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons-wrapper">
+                    <div class="arrow-container">
+                        <div class="arrow-button" onclick="goToMatchHistory()">
+                            <span class="arrow-text" id="matchHistory">Match history</span>
+                            <div class="arrow"></div>
+                        </div>
+                    </div>
+                    <div class="arrow-container">
+                        <div class="arrow-button" onclick="goTournaments()">
+                            <span class="arrow-text" id="turm">Tournaments</span>
+                            <div class="arrow"></div>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+            <script src="{% static './profile.js' %}"></script>
+    </body>
+</html> 
