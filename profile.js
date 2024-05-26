@@ -1,3 +1,6 @@
+
+
+
 // JavaScript for the profile menu
 document.addEventListener("DOMContentLoaded", function() {
     var profileImage = document.getElementById("profileImage");

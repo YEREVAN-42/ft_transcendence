@@ -39,22 +39,21 @@ function switchLanguage(language) {
             "confirmEmail":"Confirm your Email",
             "enterConfirm":"Please enter the confirmation code sent to your email:",
             "confirmButton":"Confirm"
-            //"":""
         },
-        "arm": {
-            "confirmEmail":"Confirm your Email",
-            "enterConfirm":"aaaaaaaa",
-            "confirmButton":"Confirm"
+        "hy": {
+            "confirmEmail":"Հաստատեք ձեր էլ հասցեն",
+            "enterConfirm":"Խնդրում ենք մուտքագրել հաստատման կոդը, որն ուղարկվել է ձեր էլ հասցեն",
+            "confirmButton":"Հաստատել"
         },
         "ru": {
-            "confirmEmail":"Confirm your Email",
-            "enterConfirm":"rrrrrrrrr",
-            "confirmButton":"Confirm"
+            "confirmEmail":"Подтвердите ваш адрес электронной почты",
+            "enterConfirm":"Пожалуйста, введите код подтверждения, отправленный на вашу электронную почту:",
+            "confirmButton":"Подтверждать"
         },
         "cn": {
-            "confirmEmail":"Confirm your Email",
-            "enterConfirm":"ccccccchin",
-            "confirmButton":"Confirm"
+            "confirmEmail":"確認您的電子郵件",
+            "enterConfirm":"請輸入寄至您信箱的確認碼：",
+            "confirmButton":"確認"
       }
     };
 
