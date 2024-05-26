@@ -20,7 +20,8 @@ urlpatterns = [
     
     path('', views.index, name="index"),
     path('home/', views.home, name="home"),
-    path('api/v1/profile/<int:id>/', views.profile, name="profile"),
+    path('profile/', views.profile, name="profile"),
+    path('api/v1/profile/<int:id>/', views.profile_info, name="profile_info"),
     path('api/v1/match_history/<int:id>/', views.match_history, name="match_history"),
     path('api/v1/tournaments/<int:id>/', views.tournaments, name="tournaments"),
     path('api/v1/change_settings/<int:id>/', views.change_settings, name="change_settings"),

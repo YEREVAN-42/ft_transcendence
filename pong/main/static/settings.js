@@ -313,13 +313,12 @@ document.getElementById('homeId').addEventListener('click', function(e)
       return;
     }
 
-    const url = `http://10.12.17.4:8000/home/${userId}/`;
+    const url = `http://10.12.17.4:8000/home/`;
 
     fetch(url, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Content-Type': 'application/json'
         },
     })
     .then(response => {
@@ -422,100 +421,3 @@ document.getElementById('logoutId').addEventListener('click', function(e)
   window.history.pushState({}, "", '/');
   window.location.href = '/';
 });
-
-function applyLanguage() {
-    var selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
-    // var selectedLanguage = 'hy';
-
-    const translations = {
-            "en": {
-                "homeheader":"HOME",
-                "profile":"PROFILE",
-                "settingsId": "SETTINGS",
-                "logoutId":"LOG OUT",
-                "h1Header":"Settings",
-                "profileName":"Edit Profile Name",
-                "userName":"Edit Profile Username",
-                "userEmail":"Edit Profile Email",
-                "userPassword":"Change Password",
-                "deleteAccountBtn":"Delete Account",
-                "saveChangesBtn":"Save Changes"
-            },
-            "hy": {
-                "homeheader":"ԳԼԽԱՎՈՐ",
-                "profile":"ԱՆՁՆԱԿԱՆ ԷՋ",
-                "settingsId": "ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ",
-                "logoutId":"ԴՈՒՐՍ ԳԱԼ",
-                "h1Header":"Կարգավորումներ",
-                "profileName":"Խմբագրել պրոֆիլի անունը",
-                "userName":"Խմբագրել պրոֆիլի օգտանունը",
-                "userEmail":"Խմբագրել պրոֆիլի էլ հասցեն",
-                "userPassword":"Փոխել գաղտնաբառը",
-                "deleteAccountBtn":"Հաշիվը ջնջել",
-                "saveChangesBtn":"Պահպանել փոփոխությունները"
-            },
-            "ru": {
-                "homeheader":"ГЛАВНАЯ",
-                "profile":"ПРОФИЛЬ",
-                "settingsId": "НАСТРОЙКИ",
-                "logoutId":"ВЫЙТИ",
-                "h1Header":"Настройки",
-                "profileName":"Изменить имя профиля",
-                "userName":"Изменить имя пользователя профиля",
-                "userEmail":"Изменить адрес эл. почты профиля",
-                "userPassword":"Изменить пароль",
-                "deleteAccountBtn":"Удалить аккаунт",
-                "saveChangesBtn":"Сохранить изменения"
-            },
-            "cn": {
-                "homeheader":"家",
-                "profile":"档案",
-                "settingsId": "設定",
-                "logoutId":"登出",
-                "h1Header":"設定",
-                "profileName":"編輯個人資料名稱",
-                "userName":"編輯個人資料用戶名",
-                "userEmail":"編輯個人資料電子郵件",
-                "userPassword":"更改密碼",
-                "deleteAccountBtn":"刪除帳戶",
-                "saveChangesBtn":"儲存變更"
-            },
-    };
-
-    const elementsToTranslate = {
-        'homeheader':'homeheader',
-        'profile':'profile',
-        'settingsId':'settingsId',
-        'logoutId':'logoutId',
-        'h1Header':'h1Header',
-        'profileName':'profileName',
-        'userName':'userName',
-        'userEmail':'userEmail',
-        'userPassword':'userPassword',
-        'deleteAccountBtn':'deleteAccountBtn',
-        'saveChangesBtn':'saveChangesBtn'
-    };
-
-    Object.keys(elementsToTranslate).forEach(id => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.textContent = translations[selectedLanguage][elementsToTranslate[id]];
-        }
-    });
-
-    const classElementsToTranslate = {
-        'accept-button': 'accept-button',
-        'invite-button': 'invite-button',
-        'decline-button': 'decline-button',
-    };
-
-    Object.keys(classElementsToTranslate).forEach(className => {
-        const elements = document.getElementsByClassName(className);
-        const translationKey = classElementsToTranslate[className];
-        Array.from(elements).forEach(element => {
-            element.innerText = translations[selectedLanguage][translationKey];
-        });
-    });
-  }
-
-document.addEventListener('DOMContentLoaded', applyLanguage);

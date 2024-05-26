@@ -14,24 +14,24 @@
     <body>
         <div class="navbar">
             <a href="home/" id="homeId">
-                <img alt="HOME" src="{% static '/images/icons8-home-20.png' %}" /> <span id="homeheader">HOME</span>
+                <img alt="HOME" src="{% static '/images/icons8-home-20.png' %}" /> HOME
             </a>
             <a href="profile/" id="profileId">
-                <img alt="PROFILE" src="{% static '/images/icons8-customer-20.png' %}" /> <span id="profile">PROFILE</span>
+                <img alt="PROFILE" src="{% static '/images/icons8-customer-20.png' %}" /> PROFILE
             </a>
             <img class="profile-icon" alt="Profile Picture" id="profileImage" src="" />
             <div class="menu" id="menu">
-                <a href="settings.html" class="settings" id="settingsId">SETTINGS</a>
-                <a href="index.html" class="logout" id="logoutId">LOG OUT</a>
+                <a href="settings/" class="settings" id="settingsId">SETTINGS</a>
+                <a href="/" class="logout" id="logoutId">LOG OUT</a>
             </div>
         </div>
             <div class="container">
-                <h1 class="header" id="tourn">Tournaments</h1>
+                <h1 class="header">Tournaments</h1>
                 <div class="tournaments-list-container">
                     <div class="tabs">
-                        <button class="tab-button active" onclick="openTab(event, 'Users')" id="user">Users</button>
-                        <button class="tab-button" onclick="openTab(event, 'Requests')" id="resuest">Requests</button>
-                        <button class="tab-button" onclick="openTab(event, 'Tournament')" id="tournament">Tournament</button>
+                        <button class="tab-button active" onclick="openTab(event, 'Users')">Users</button>
+                        <button class="tab-button" onclick="openTab(event, 'Requests')">Requests</button>
+                        <button class="tab-button" onclick="openTab(event, 'Tournament')">Tournament</button>
                     </div>
                     <div id="Users" class="tab-content active">
                         <div class="users-list">
@@ -41,7 +41,7 @@
                                     <span class="friend-username">Friend 1</span>
                                     <span class="friend-points">1000 points</span>
                                 </div>
-                                <button class="invite-button" data-action="details">Invite</button>
+                                <button class="invite-button" data-action="details" onclick="invite_user()">Invite</button>
                             </div>
                             <div class="friend" data-friend-id="2">
                                 <img src="{% static 'images/guest.png' %}" alt="Friend 2" class="friend-picture">
@@ -49,7 +49,7 @@
                                     <span class="friend-username">Friend 2</span>
                                     <span class="friend-points">300 points</span>
                                 </div>
-                                <button class="invite-button" data-action="details">Invite</button>
+                                <button class="invite-button" data-action="details" onclick="invite_user()">Invite</button>
                             </div>
                             <div class="friend" data-friend-id="3">
                                 <img src="{% static 'images/guest.png' %}" alt="Friend 3" class="friend-picture">
@@ -57,7 +57,7 @@
                                     <span class="friend-username">Friend 3</span>
                                     <span class="friend-points">1500 points</span>
                                 </div>
-                                <button class="invite-button" data-action="details">Invite</button>
+                                <button class="invite-button" data-action="details" onclick="invite_user()">Invite</button>
                             </div>
                             <div class="friend" data-friend-id="4">
                                 <img src="{% static 'images/guest.png' %}" alt="Friend 4" class="friend-picture">
@@ -65,7 +65,7 @@
                                     <span class="friend-username">Friend 4</span>
                                     <span class="friend-points">3600 points</span>
                                 </div>
-                                <button class="invite-button" data-action="details">Invite</button>
+                                <button class="invite-button" data-action="details" onclick="invite_user()">Invite</button>
                             </div>
                             <!-- Add more friends here -->
                         </div>
@@ -76,24 +76,24 @@
                                 <img src="{% static 'images/guest.png' %}" alt="Request 1" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Request 1</span>
-                                    <button class="accept-button" data-action="accept">Join</button>
-                                    <button class="decline-button" data-action="decline">Ignore</button>
+                                    <button class="accept-button" data-action="accept" onclick="join_user()">Join</button>
+                                    <button class="decline-button" data-action="decline" onclick="ignore_user()">Ignore</button>
                                 </div>
                             </div>
                             <div class="friend-request" data-request-id="2">
                                 <img src="{% static 'images/guest.png' %}" alt="Request 2" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Request 2</span>
-                                    <button class="accept-button" data-action="accept">Join</button>
-                                    <button class="decline-button" data-action="decline">Ignore</button>
+                                    <button class="accept-button" data-action="accept" onclick="join_user()">Join</button>
+                                    <button class="decline-button" data-action="decline" onclick="ignore_user()">Ignore</button>
                                 </div>
                             </div>
                             <div class="friend-request" data-request-id="3">
                                 <img src="{% static 'images/guest.png' %}" alt="Request 3" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Request 3</span>
-                                    <button class="accept-button" data-action="accept">Join</button>
-                                    <button class="decline-button" data-action="decline">Ignore</button>
+                                    <button class="accept-button" data-action="accept" onclick="join_user()">Join</button>
+                                    <button class="decline-button" data-action="decline" onclick="ignore_user()">Ignore</button>
                                 </div>
                             </div>
                             <!-- Add more friend requests here -->
@@ -101,9 +101,9 @@
                     </div>
                     <div id="Tournament" class="tab-content">
                         <div class="tournament-join">
-                            <button class="join-tournament-button" onclick="joinTournament()" id="joinTourn">Join Tournament</button>
+                            <button class="join-tournament-button" onclick="joinTournament()">Join Tournament</button>
                             <div class="tournament-users">
-                                <h2 id="h2Header">Joined Users:</h2>
+                                <h2>Joined Users:</h2>
                                 <div id="tournamentUserList">
                                     <!-- Joined users will be added here -->
                                 </div>

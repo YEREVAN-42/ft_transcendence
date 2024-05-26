@@ -14,27 +14,27 @@
     <body>
         <div class="navbar">
             <a href="/home" id="homeId">
-                <img alt="HOME" src="{% static '/images/icons8-home-20.png' %}" /> <span id="homeheader">HOME</span>
+                <img alt="HOME" src="{% static '/images/icons8-home-20.png' %}" /> HOME
             </a>
             <a href="/profile" id="profileId">
-                <img alt="PROFILE" src="{% static '/images/icons8-customer-20.png' %}" /> <span id="profile">PROFILE</span>
+                <img alt="PROFILE" src="{% static '/images/icons8-customer-20.png' %}" /> PROFILE
             </a>
             <img class="profile-icon" alt="Profile Picture" id="profileImage" src="" />
             <div class="menu" id="menu">
-                <a href="/settings" class="settings" id="setting">SETTINGS</a>
-                <a href="/" class="logout" id="logout">LOG OUT</a>
+                <a href="/settings" class="settings">SETTINGS</a>
+                <a href="/" class="logout">LOG OUT</a>
             </div>
         </div>
         <div class="container">
-            <h1 id="header">Match History</h1>
+            <h1>Match History</h1>
             <table id="matchHistoryTable">
                 <thead>
                     <tr>
-                        <th id="playerList">Player List</th>
-                        <th id="preference">Preference</th>
-                        <th id="points">Points</th>
-                        <th id="date">Date</th>
-                        <th id="result">Result</th>
+                        <th>Player List</th>
+                        <th>Preference</th>
+                        <th>Points</th>
+                        <th>Date</th>
+                        <th>Result</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,7 +43,7 @@
                             <img src="{% static 'images/guest.png' %}" alt="Player1">
                             Player1
                         </td>
-                        <td id="classic">Classic</td>
+                        <td>Classic</td>
                         <td>120</td>
                         <td>2023-05-20</td>
                         <td class="result-won">Won</td>
@@ -53,7 +53,7 @@
                             <img src="{% static 'images/guest.png' %}" alt="Player2">
                             Player2
                         </td>
-                        <td id="arcade">Arcade</td>
+                        <td>Arcade</td>
                         <td>85</td>
                         <td>2023-05-21</td>
                         <td class="result-lose">Lose</td>
