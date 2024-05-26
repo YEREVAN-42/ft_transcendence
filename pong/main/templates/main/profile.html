@@ -35,96 +35,13 @@
                     <h2>Friends List</h2>
                     <input type="search" id="searchInput" placeholder="Search friends...">
                     <div class="tabs">
-                        <button class="tab-button active" onclick="openTab(event, 'Friends')">Friends</button>
+                        <button class="tab-button" onclick="openTab(event, 'Friends')">Friends</button>
                         <button class="tab-button" onclick="openTab(event, 'Requests')">Requests</button>
                         <button class="tab-button" onclick="openTab(event, 'Users')">Users</button>
                     </div>
-                    <div id="Friends" class="tab-content active">
-                        <div class="friends-list">
-                            <div class="friend" data-friend-id="1">
-                                <img src="{% static 'images/guest.png' %}" alt="Friend 1" class="friend-picture">
-                                <div class="friend-info">
-                                    <span class="friend-username">Friend 1</span>
-                                    <span class="friend-activity">Active 1 day ago</span>
-                                </div>
-                                <button class="details-button" data-action="details" onclick="remove_friend()">Remove</button>
-                            </div>
-                            <div class="friend" data-friend-id="2">
-                                <img src="{% static 'images/guest.png' %}" alt="Friend 2" class="friend-picture">
-                                <div class="friend-info">
-                                    <span class="friend-username">Friend 2</span>
-                                    <span class="friend-activity">Active 2 days ago</span>
-                                </div>
-                                <button class="details-button" data-action="details" onclick="remove_friend()">Remove</button>
-                            </div>
-                            <div class="friend" data-friend-id="3">
-                                <img src="{% static 'images/guest.png' %}" alt="Friend 3" class="friend-picture">
-                                <div class="friend-info">
-                                    <span class="friend-username">Friend 3</span>
-                                    <span class="friend-activity">Active 2 hours ago</span>
-                                </div>
-                                <button class="details-button" data-action="details" onclick="remove_friend()">Remove</button>
-                            </div>
-                            <div class="friend" data-friend-id="4">
-                                <img src="{% static 'images/guest.png' %}" alt="Friend 4" class="friend-picture">
-                                <div class="friend-info">
-                                    <span class="friend-username">Friend 4</span>
-                                    <span class="friend-activity">Active 15 min ago</span>
-                                </div>
-                                <button class="details-button" data-action="details" onclick="remove_friend()">Remove</button>
-                            </div>
-                            <!-- Add more friends here -->
-                        </div>
-                    </div>
-                    <div id="Requests" class="tab-content">
-                        <div class="friends-list">
-                            <div class="friend-request" data-request-id="1">
-                                <img src="{% static 'images/guest.png' %}" alt="Request 1" class="friend-picture">
-                                <div class="friend-info">
-                                    <span class="friend-username">Request 1</span>
-                                    <button class="accept-button" data-action="accept" onclick="accept_request()">Accept</button>
-                                    <button class="decline-button" data-action="decline" onclick="decline_request()">Decline</button>
-                                </div>
-                            </div>
-                            <div class="friend-request" data-request-id="2">
-                                <img src="{% static 'images/guest.png' %}" alt="Request 2" class="friend-picture">
-                                <div class="friend-info">
-                                    <span class="friend-username">Request 2</span>
-                                    <button class="accept-button" data-action="accept" onclick="accept_request()">Accept</button>
-                                    <button class="decline-button" data-action="decline" onclick="decline_request()">Decline</button>
-                                </div>
-                            </div>
-                            <div class="friend-request" data-request-id="3">
-                                <img src="{% static 'images/guest.png' %}" alt="Request 3" class="friend-picture">
-                                <div class="friend-info">
-                                    <span class="friend-username">Request 3</span>
-                                    <button class="accept-button" data-action="accept" onclick="accept_request()">Accept</button>
-                                    <button class="decline-button" data-action="decline" onclick="decline_request()">Decline</button>
-                                </div>
-                            </div>
-                            <!-- Add more friend requests here -->
-                        </div>
-                    </div>
-                    <div id="Users" class="tab-content">
-                        <div class="friends-list">
-                            <div class="friend-suggestion" data-suggestion-id="1">
-                                <img src="{% static 'images/guest.png' %}" alt="Suggestion 1" class="friend-picture">
-                                <div class="friend-info">
-                                    <span id="suggestion1" class="friend-username">Suggestion 1</span>
-                                    <button class="add-button" data-action="add" onclick="add_friend()">Add</button>
-                                </div>
-                            </div>
-                            <div class="friend-suggestion" data-suggestion-id="2">
-                                <img src="{% static 'images/guest.png' %}" alt="Suggestion 2" class="friend-picture">
-                                <div class="friend-info">
-                                    <span id="suggestion2" class="friend-username">Suggestion 2</span>
-                                    <button class="add-button" data-action="add" onclick="add_friend()">Add</button>
-                                </div>
-                            </div>
-                            <!-- Add more friend suggestions here -->
-                        </div>
-                    </div>
-                </div>
+                    <div id="Friends" class="tab-content"></div>
+                    <div id="Requests" class="tab-content"></div>
+                    <div id="Users" class="tab-content"></div>
                 <div class="buttons-wrapper">
                     <div class="arrow-container">
                         <div class="arrow-button" onclick="goToMatchHistory()">

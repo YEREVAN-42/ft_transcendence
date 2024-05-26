@@ -24,6 +24,7 @@ def friends(request, pk):
 	print("friends")
 	if request.method == 'GET':
 		user = User.objects.get(pk=pk)
+		# send user data to the frontend
 		# friends = Friend.objects.friends(user)
 		# serializer = FriendListSerializer(friends, many=True)
 		# return JsonResponse(serializer.data, safe=False)
@@ -53,8 +54,14 @@ def users_list(request, pk):
 def add_friend(request, pk):
 	if request.method == 'POST':
 		sender = User.objects.get(pk=pk)
+		if not sender:
+			raise Exception('User not found')
 		data = json.loads(request.body)
+		if not data.get('receiver_id'):
+			raise Exception('Receiver not found')
 		receiver = User.objects.get(pk=data.get('receiver_id'))
+		if not receiver:
+			raise Exception('Receiver not found')
 		if FriendshipRequest.objects.filter(from_user=sender, to_user=receiver).exists():
 			raise Exception('Friend request already sent')
 		friend_request = FriendshipRequest.objects.create(from_user=sender, to_user=receiver)
@@ -65,8 +72,14 @@ def add_friend(request, pk):
 def accept(request, pk):
 	if request.method == 'POST':
 		receiver = User.objects.get(pk=pk)
+		if not receiver:
+			raise Exception('User not found')
 		data = json.loads(request.body)
+		if not data.get('sender_id'):
+			raise Exception('Sender not found')
 		sender = User.objects.get(pk=data.get('sender_id'))
+		if not sender:
+			raise Exception('Sender not found')
 		friend_request = FriendshipRequest.objects.get(from_user=sender, to_user=receiver)
 		friend_request.accept()
 		return JsonResponse({'message': 'Friend request accepted'})
@@ -75,8 +88,14 @@ def accept(request, pk):
 def decline(request, pk):
 	if request.method == 'POST':
 		receiver = User.objects.get(pk=pk)
+		if not receiver:
+			raise Exception('User not found')
 		data = json.loads(request.body)
+		if not data.get('sender_id'):
+			raise Exception('Sender not found')
 		sender = User.objects.get(pk=data.get('sender_id'))
+		if not sender:
+			raise Exception('Sender not found')
 		friend_request = FriendshipRequest.objects.get(from_user=sender, to_user=receiver)
 		friend_request.reject()
 		FriendshipRequest.objects.filter(from_user=sender, to_user=receiver).delete()
@@ -86,7 +105,13 @@ def decline(request, pk):
 def remove(request, pk):
 	if request.method == 'POST':
 		sender = User.objects.get(pk=pk)
+		if not sender:
+			raise Exception('User not found')
 		data = json.loads(request.body)
+		if not data.get('receiver_id'):
+			raise Exception('Receiver not found')
 		receiver = User.objects.get(pk=data.get('receiver_id'))
+		if not receiver:
+			raise Exception('Receiver not found')
 		Friend.objects.remove_friend(sender, receiver)
 		return JsonResponse({'message': 'Friend removed'})

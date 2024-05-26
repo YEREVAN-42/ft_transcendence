@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 import json
 from django.utils import timezone
+from game.models import Player
 
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -75,6 +76,10 @@ def confirm(request):
                 password=password,
                 is_active = False
             )
+            # player = Player.objects.create(
+            #     user=user
+            # )
+            # print("Player", player)
             return JsonResponse({'message': 'Data saved successfully'}, status=201)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)

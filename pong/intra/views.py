@@ -6,6 +6,7 @@ import requests
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 import os
 import json
@@ -35,13 +36,13 @@ def get_access_token(code):
 
 @csrf_exempt
 def login(request):
+    print("🔑 Request data:", request.body)
     if request.method == 'POST':
         data = json.loads(request.body)
         code = data.get('code')
         intra_login = data.get('username')
         if code is None:
             return JsonResponse({'error': 'No code provided'}, status=400)
-        print("🔑 Code received:", code)
         access_token = get_access_token(code)
         if access_token is None:
             return JsonResponse({'error': 'Failed to obtain access token'}, status=400)
@@ -56,8 +57,22 @@ def login(request):
                     email=user_info['email'],
                     is_active = True
                 )
-        # You can now use the access token to authenticate the user or perform further actions
-        return JsonResponse({'access_token': access_token})
+            access = AccessToken.for_user(user)
+            refresh = RefreshToken.for_user(user)
+            # if user.is_active:
+            #     return JsonResponse({'error': 'User already logged in'}, status=400)
+            # user.last_login = None
+            # user.is_active = True
+            user.save()
+        else:
+            access = AccessToken.for_user(user)
+            refresh = RefreshToken.for_user(user)
+            # if user.is_active:
+            #     return JsonResponse({'error': 'User already logged in'}, status=400)
+            # user.last_login = None
+            # user.is_active = True
+            user.save()
+        return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh)}, status=200)
     return render(request, 'main/home.html')
 
 def get_user_info(login, access_token):

@@ -46,146 +46,27 @@ friends.forEach(friend => {
 });
 });
 
-function openTab(evt, tabName)
-{
+const tabs = document.querySelectorAll('.tab-button');
+const tabContents = document.querySelectorAll('.tab-content');
 
-  let i, tabcontent, tabbuttons;
-  tabcontent = document.getElementsByClassName('tab-content');
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = 'none';
-  }
-    tabbuttons = document.getElementsByClassName('tab-button');
-  for (i = 0; i < tabbuttons.length; i++) {
-    tabbuttons[i].className = tabbuttons[i].className.replace(' active', '');
-  }
-  document.getElementById(tabName).style.display = 'block';
-  document.getElementById(tabName).classList.add('active');
-  evt.currentTarget.className += ' active';
+function openTab(event, tabName) {
+  tabs.forEach(tab => tab.classList.remove('active'));
+  tabContents.forEach(content => content.classList.remove('active'));
 
-  // localStorage.setItem('activeTab', tabName);
+  event.currentTarget.classList.add('active');
 
-  if (tabName === 'Friends') {
-    friends_list();
-  }
-  else if (tabName === 'Requests') {
-    requests_list();
-  }
-  else if (tabName === 'Users') {
-    users_list();
-  }
+  fetchData(tabName);
 }
 
-function friends_list()
-{
-  const token = localStorage.getItem('access');
-  if (!token)
-  {
-    alert('No token found. Please log in.');
-    window.location.href = '/';
-    return;
-  }
-  const userId = extractUserIdFromToken(token);
-  if (!userId)
-  {
-    alert('Invalid token. Please log in again.');
-    window.location.href = '/';
-  return;
-}
+async function fetchData(tabName) {
+  let endpoint = '';
+  if (tabName === 'Friends') endpoint = 'friends';
+  else if (tabName === 'Requests') endpoint = 'requests';
+  else if (tabName === 'Users') endpoint = 'users_list';
 
-  const url = `http://10.12.17.4:8000/api/v1/friends/${userId}/`;
+  const tabContent = document.getElementById(tabName);
+  tabContent.innerHTML = '<p>Loading...</p>'; // Show loading indicator
 
-  fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    },
-  })
-  .then(response => {
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-    return response.json();
-  })
-  // .then(data => {
-  //     console.log(data);
-  //     let friends = document.getElementById('friends');
-  //     friends.innerHTML = '';
-  //     data.forEach(friend => {
-  //         let friendElement = document.createElement('div');
-  //         friendElement.className = 'friend';
-  //         friendElement.innerHTML = `
-  //             <img src="${friend.profile_pic}" alt="Profile Picture" class="friend-profile-pic">
-  //             <div class="friend-username">${friend.username}</div>
-  //             <div class="friend-buttons">
-  //                 <button class="friend-button" onclick="remove_friend()">Remove</button>
-  //             </div>
-  //         `;
-  //         friends.appendChild(friendElement);
-  //     });
-  // })
-  // .catch(error => {
-    //     console.error('There was a problem with the fetch operation:', error);
-    // });
-}
-
-function requests_list()
-{
-  const token = localStorage.getItem('access');
-  if (!token)
-  {
-    alert('No token found. Please log in.');
-    window.location.href = '/';
-    return;
-  }
-  const userId = extractUserIdFromToken(token);
-  if (!userId)
-  {
-    alert('Invalid token. Please log in again.');
-    window.location.href = '/';
-    return;
-}
-
-const url = `http://10.12.17.4:8000/api/v1/requests/${userId}/`;
-
-fetch(url, {
-method: 'GET',
-headers: {
-'Content-Type': 'application/json',
-'Authorization': 'Bearer ' + token
-},
-})
-.then(response => {
-if (!response.ok) {
-throw new Error('Network response was not ok');
-}
-return response.json();
-})
-// .then(data => {
-//     console.log(data);
-//     let friends = document.getElementById('friends');
-//     friends.innerHTML = '';
-//     data.forEach(friend => {
-//         let friendElement = document.createElement('div');
-//         friendElement.className = 'friend';
-//         friendElement.innerHTML = `
-//             <img src="${friend.profile_pic}" alt="Profile Picture" class="friend-profile-pic">
-//             <div class="friend-username">${friend.username}</div>
-//             <div class="friend-buttons">
-//                 <button class="friend-button" onclick="remove_friend()">Remove</button>
-//             </div>
-//         `;
-//         friends.appendChild(friendElement);
-//     });
-// })
-// .catch(error => {
-  //     console.error('There was a problem with the fetch operation:', error);
-  // });
-  
-}
-
-function users_list()
-{
   const token = localStorage.getItem('access');
   if (!token)
   {
@@ -200,60 +81,297 @@ function users_list()
     window.location.href = '/';
     return;
   }
-  
-  const url = `http://10.12.17.4:8000/api/v1/users_list/${userId}/`;
-  
-  fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    },
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log(data);
-    document.getElementById("suggestion1").textContent = data[0].username;
-    document.getElementById("suggestion2").textContent = data[1].username;
-    // window.location.href = `http://10.12.17.4:8000/users/`;
-  
-  })
-  // .then(data => {
-    //     console.log(data);
-    //     let friends = document.getElementById('friends');
-    //     friends.innerHTML = '';
-    //     data.forEach(friend => {
-      //         let friendElement = document.createElement('div');
-      //         friendElement.className = 'friend';
-      //         friendElement.innerHTML = `
-      //             <img src="${friend.profile_pic}" alt="Profile Picture" class="friend-profile-pic">
-      //             <div class="friend-username">${friend.username}</div>
-      //             <div class="friend-buttons">
-      //                 <button class="friend-button" onclick="remove_friend()">Remove</button>
-      //             </div>
-      //         `;
-      //         friends.appendChild(friendElement);
-      //     });
-      // })
-      // .catch(error => {
-        //     console.error('There was a problem with the fetch operation:', error);
-        // });
+  const url = `http://10.12.17.4:8000/api/v1/${endpoint}/${userId}/`;
+
+  try {
+      const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+      },
+    });
+      console.log(response);
+      const data = await response.json();
+      console.log(data);
+
+      tabContent.innerHTML = ''; // Clear previous content
+
+      if (tabName === 'Friends') {
+          data.forEach(item => {
+              const div = document.createElement('div');
+              div.className = 'friend';
+              div.innerHTML = `
+                  <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
+                  <div class="friend-info">
+                      <span class="friend-username">${item.username}</span>
+                      <span class="friend-activity">${item.activity_status}</span>
+                  </div>
+                  <button class="details-button" data-action="details">Remove</button>
+              `;
+              tabContent.appendChild(div);
+          });
+      } else if (tabName === 'Requests') {
+          data.forEach(item => {
+              const div = document.createElement('div');
+              div.className = 'friend-request';
+              div.innerHTML = `
+                  <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
+                  <div class="friend-info">
+                      <span class="friend-username">${item.username}</span>
+                      <button class="accept-button" data-action="accept">Accept</button>
+                      <button class="decline-button" data-action="decline">Decline</button>
+                  </div>
+              `;
+              tabContent.appendChild(div);
+          });
+      } else if (tabName === 'Users') {
+          data.forEach(item => {
+              const div = document.createElement('div');
+              div.className = 'friend-suggestion';
+              div.innerHTML = `
+                  <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
+                  <div class="friend-info">
+                      <span class="friend-username">${item.username}</span>
+                      <button class="add-button" data-action="add">Add</button>
+                  </div>
+              `;
+              tabContent.appendChild(div);
+          });
       }
-      
-// document.addEventListener('DOMContentLoaded', (event) => {
-//   const activeTab = localStorage.getItem('activeTab'); // Default to 'Friends' if no tab is saved
-//   document.querySelector(`.tab-button[onclick="openTab(event, '${activeTab}')"]`).click();
-// });
+
+      tabContent.classList.add('active'); // Only show content after data is loaded
+  } catch (error) {
+      tabContent.innerHTML = '<p>Error loading data</p>';
+      console.error('Error fetching data:', error);
+  }
+}
+
+
+
+var dataFetched = false; // Boolean variable to check if data is fetched
+
+document.getElementById('friends-tab').addEventListener('click', async function() {
+  var friendsTab = document.getElementById('friends-tab');
+  var friendsContent = document.getElementById('friends-content');
+  var friendsList = document.getElementById('friends-list');
+
+  // Check if data is already fetched
+  if (dataFetched) {
+      friendsTab.classList.add('active');
+      friendsContent.classList.add('active');
+      return;
+  }
+
+  // Fetch friends data from the server
+  try {
+      let response = await fetch('http://10.12.17.4:8000/api/friends');
+      let data = await response.json();
+
+      // Populate the friends list
+      friendsList.innerHTML = '';
+      data.forEach(friend => {
+          let listItem = document.createElement('li');
+          listItem.textContent = friend.name; // Adjust according to your data structure
+          friendsList.appendChild(listItem);
+      });
+
+      // Set dataFetched to true and display the content
+      dataFetched = true;
+      friendsTab.classList.add('active');
+      friendsContent.classList.add('active');
+      } 
+      catch (error) {
+          console.error('Error fetching friends data:', error);
+      }
+});
+
+// Initially hide all tab contents
+tabContents.forEach(content => content.classList.remove('active'));
 
 // Set default tab to be opened
-// document.addEventListener('DOMContentLoaded', function() {
-//   document.querySelector('.tab-button').click();
-// });
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelector('.tab-button').click();
+});
+
+// function friends_list()
+// {
+//   const token = localStorage.getItem('access');
+//   if (!token)
+//   {
+//     alert('No token found. Please log in.');
+//     window.location.href = '/';
+//     return;
+//   }
+//   const userId = extractUserIdFromToken(token);
+//   if (!userId)
+//   {
+//     alert('Invalid token. Please log in again.');
+//     window.location.href = '/';
+//   return;
+// }
+
+//   const url = `http://10.12.17.4:8000/api/v1/friends/${userId}/`;
+
+//   fetch(url, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer ' + token
+//     },
+//   })
+//   .then(response => {
+//   if (!response.ok) {
+//     throw new Error('Network response was not ok');
+//   }
+//     return response.json();
+//   })
+//   // .then(data => {
+//   //     console.log(data);
+//   //     let friends = document.getElementById('friends');
+//   //     friends.innerHTML = '';
+//   //     data.forEach(friend => {
+//   //         let friendElement = document.createElement('div');
+//   //         friendElement.className = 'friend';
+//   //         friendElement.innerHTML = `
+//   //             <img src="${friend.profile_pic}" alt="Profile Picture" class="friend-profile-pic">
+//   //             <div class="friend-username">${friend.username}</div>
+//   //             <div class="friend-buttons">
+//   //                 <button class="friend-button" onclick="remove_friend()">Remove</button>
+//   //             </div>
+//   //         `;
+//   //         friends.appendChild(friendElement);
+//   //     });
+//   // })
+//   // .catch(error => {
+//     //     console.error('There was a problem with the fetch operation:', error);
+//     // });
+// }
+
+// function requests_list()
+// {
+//   const token = localStorage.getItem('access');
+//   if (!token)
+//   {
+//     alert('No token found. Please log in.');
+//     window.location.href = '/';
+//     return;
+//   }
+//   const userId = extractUserIdFromToken(token);
+//   if (!userId)
+//   {
+//     alert('Invalid token. Please log in again.');
+//     window.location.href = '/';
+//     return;
+// }
+
+// const url = `http://10.12.17.4:8000/api/v1/requests/${userId}/`;
+
+// fetch(url, {
+// method: 'GET',
+// headers: {
+// 'Content-Type': 'application/json',
+// 'Authorization': 'Bearer ' + token
+// },
+// })
+// .then(response => {
+// if (!response.ok) {
+// throw new Error('Network response was not ok');
+// }
+// return response.json();
+// })
+// // .then(data => {
+// //     console.log(data);
+// //     let friends = document.getElementById('friends');
+// //     friends.innerHTML = '';
+// //     data.forEach(friend => {
+// //         let friendElement = document.createElement('div');
+// //         friendElement.className = 'friend';
+// //         friendElement.innerHTML = `
+// //             <img src="${friend.profile_pic}" alt="Profile Picture" class="friend-profile-pic">
+// //             <div class="friend-username">${friend.username}</div>
+// //             <div class="friend-buttons">
+// //                 <button class="friend-button" onclick="remove_friend()">Remove</button>
+// //             </div>
+// //         `;
+// //         friends.appendChild(friendElement);
+// //     });
+// // })
+// // .catch(error => {
+//   //     console.error('There was a problem with the fetch operation:', error);
+//   // });
+  
+// }
+
+// function users_list()
+// {
+//   const token = localStorage.getItem('access');
+//   if (!token)
+//   {
+//     alert('No token found. Please log in.');
+//     window.location.href = '/';
+//     return;
+//   }
+//   const userId = extractUserIdFromToken(token);
+//   if (!userId)
+//   {
+//     alert('Invalid token. Please log in again.');
+//     window.location.href = '/';
+//     return;
+//   }
+  
+//   const url = `http://10.12.17.4:8000/api/v1/users_list/${userId}/`;
+  
+//   fetch(url, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer ' + token
+//     },
+//   })
+//   .then(response => {
+//     if (!response.ok) {
+//       throw new Error('Network response was not ok');
+//     }
+//     return response.json();
+//   })
+//   .then(data => {
+//     console.log(data);
+//     document.getElementById("suggestion1").textContent = data[0].username;
+//     document.getElementById("suggestion2").textContent = data[1].username;
+//     // window.location.href = `http://10.12.17.4:8000/users/`;
+  
+//   })
+//   // .then(data => {
+//     //     console.log(data);
+//     //     let friends = document.getElementById('friends');
+//     //     friends.innerHTML = '';
+//     //     data.forEach(friend => {
+//       //         let friendElement = document.createElement('div');
+//       //         friendElement.className = 'friend';
+//       //         friendElement.innerHTML = `
+//       //             <img src="${friend.profile_pic}" alt="Profile Picture" class="friend-profile-pic">
+//       //             <div class="friend-username">${friend.username}</div>
+//       //             <div class="friend-buttons">
+//       //                 <button class="friend-button" onclick="remove_friend()">Remove</button>
+//       //             </div>
+//       //         `;
+//       //         friends.appendChild(friendElement);
+//       //     });
+//       // })
+//       // .catch(error => {
+//         //     console.error('There was a problem with the fetch operation:', error);
+//         // });
+//       }
+      
+// // document.addEventListener('DOMContentLoaded', (event) => {
+// //   const activeTab = localStorage.getItem('activeTab'); // Default to 'Friends' if no tab is saved
+// //   document.querySelector(`.tab-button[onclick="openTab(event, '${activeTab}')"]`).click();
+// // });
+
+// // Set default tab to be opened
+// // document.addEventListener('DOMContentLoaded', function() {
+// //   document.querySelector('.tab-button').click();
+// // });
 
 function goToMatchHistory() {
 const token = localStorage.getItem('access');
@@ -365,13 +483,13 @@ window.location.href = '/';
 return;
 }
 
-const url = `http://10.12.17.4:8000/home/${userId}/`;
+const url = `http://10.12.17.4:8000/home/`;
 
 fetch(url, {
   method: 'GET',
   headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
+
   },
 })
 .then(response => {
@@ -475,15 +593,15 @@ function add_friend()
     },
     body: JSON.stringify(request_data)
   })
+
   .then(response => {
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
     return response.json();
     })
-  .then(data => {
-    console.log(data);
-    })
+
+
 }
 
 function accept_request()

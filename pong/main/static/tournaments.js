@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 var profilePic = localStorage.getItem('profilePic');
-document.getElementById('profileImage').src = profilePic || 'profile.jpg';
+document.getElementById('profileImage').src = profilePic || 'static/images/guest.png';
 
 function openTab(evt, tabName) {
     // Get all elements with class="tab-content" and hide them
@@ -38,6 +38,16 @@ function openTab(evt, tabName) {
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
+
+    if (tabName === 'Users') {
+        gamers();
+      }
+    else if (tabName === 'Requests') {
+        game_requests();
+      }
+    //   else if (tabName === 'Users') {
+    //     ();
+    //   }
 }
 
 // handle joining the tournament
@@ -81,13 +91,25 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.tab-button').click();
 });
 
-function goToMatchHistory() {
-    window.location.href = 'match_history.html';
-}
+// function goToMatchHistory() {
+//     window.location.href = 'match_history.html';
+// }
 
 function goTournaments() {
     window.location.href = 'tournaments.html';
 }
+
+function extractUserIdFromToken(token) {
+    // Decode the JWT token to extract the user ID
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  
+    const decodedToken = JSON.parse(jsonPayload);
+    return decodedToken.user_id;
+  }
 
 document.getElementById('logoutId').addEventListener('click', function(e)
 {
@@ -133,3 +155,405 @@ document.getElementById('logoutId').addEventListener('click', function(e)
   window.history.pushState({}, "", '/');
   window.location.href = '/';
 });
+
+//settings page
+document.getElementById('settingsId').addEventListener('click', function(e)
+{
+    e.preventDefault();
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+        alert('No token found. Please log in.');
+        window.location.href = '/';
+        return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+        window.location.href = '/';
+        alert('Invalid token. Please log in again.');
+        return;
+    }
+
+const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
+fetch(url, {
+  method: 'GET',
+  headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+  },
+})
+.then(response => {
+if (!response.ok) {
+  throw new Error('Network response was not ok');
+}
+return response.json();
+})
+.then(data => {
+// Assuming your Django view will return a JSON response with user data
+
+console.log(data);
+window.location.href = `http://10.12.17.4:8000/settings/`;
+})
+//   .then(response => {
+//     if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//     }
+//     // console.log(data);
+//     if (response.status === 200) {
+//       console.log("Settings page");
+//         // return response.json();
+//         // console.log(data.message);
+//           window.location.href = url;
+//       }
+//     return response.json(); // Ensure response is converted to JSON here
+// })
+.catch(error => {
+  console.error('There was a problem with the fetch operation:', error);
+});
+});
+
+//profile page
+document.getElementById('profileId').addEventListener('click', function(e)
+{
+  e.preventDefault();
+  const token = localStorage.getItem('access');
+  if (!token)
+  {
+    alert('No token found. Please log in.');
+    window.location.href = '/';
+    return;
+  }
+  const userId = extractUserIdFromToken(token);
+  if (!userId)
+  {
+    alert('Invalid token. Please log in again.');
+    window.location.href = '/';
+    return;
+  }
+
+  const url = `http://10.12.17.4:8000/api/v1/profile/${userId}/`;
+  fetch(url, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+      },
+  })
+  .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    console.log(response.status);
+    if (response.status === 200) {
+          window.location.href = url;
+      }
+    return response.json();
+})
+  .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+  });
+});
+
+//home page
+document.getElementById('homeId').addEventListener('click', function(e)
+{
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+        alert('No token found. Please log in.');
+        window.location.href = '/';
+        return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+        alert('Invalid token. Please log in again.');
+        window.location.href = '/';
+        return;
+}
+
+    const url = `http://10.12.17.4:8000/home/`;
+
+    fetch(url, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    })
+    .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    if (response.status === 200)
+    {            
+        window.location.href = url;
+    }
+    return response.json();
+    })
+    .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+    });
+});
+
+function gamers() {
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+        alert('No token found. Please log in.');
+        window.location.href = '/';
+        return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+        alert('Invalid token. Please log in again.');
+        window.location.href = '/';
+        return;
+    }
+
+    const url = `http://10.12.17.4:8000/api/v1/game_users/${userId}/`;
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    // .then(data => {
+    //     console.log(data);
+    //     var userList = document.getElementById("friendsList");
+    //     userList.innerHTML = '';
+    //     for (var i = 0; i < data.length; i++) {
+    //         var user = document.createElement("div");
+    //         user.className = "friend";
+    //         user.innerHTML = `
+    //             <img src="./public/guest.png" alt="User">
+    //             <span>${data[i].username}</span>
+    //         `;
+    //         userList.appendChild(user);
+    //     }
+    // })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+function game_requests() {
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+        alert('No token found. Please log in.');
+        window.location.href = '/';
+        return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+        alert('Invalid token. Please log in again.');
+        window.location.href = '/';
+        return;
+    }
+
+    const url = `http://10.12.17.4:8000/api/v1/game_requests/${userId}/`;
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    // .then(data => {
+    //     console.log(data);
+    //     var userList = document.getElementById("requestsList");
+    //     userList.innerHTML = '';
+    //     for (var i = 0; i < data.length; i++) {
+    //         var user = document.createElement("div");
+    //         user.className = "request";
+    //         user.innerHTML = `
+    //             <img src="./public/guest.png" alt="User">
+    //             <span>${data[i].username}</span>
+    //         `;
+    //         userList.appendChild(user);
+    //     }
+    // })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+function invite_user() {
+    requested_data = {
+        "receiver_id": 2
+    };
+        
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+        alert('No token found. Please log in.');
+        window.location.href = '/';
+        return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+        alert('Invalid token. Please log in again.');
+        window.location.href = '/';
+        return;
+    }
+
+    const url = `http://10.12.17.4:8000/api/v1/invite/${userId}/`;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(requested_data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    // .then(data => {
+    //     console.log(data);
+    //     var userList = document.getElementById("requestsList");
+    //     userList.innerHTML = '';
+    //     for (var i = 0; i < data.length; i++) {
+    //         var user = document.createElement("div");
+    //         user.className = "request";
+    //         user.innerHTML = `
+    //             <img src="./public/guest.png" alt="User">
+    //             <span>${data[i].username}</span>
+    //         `;
+    //         userList.appendChild(user);
+    //     }
+    // })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+function join_user() {
+    requested_data = {
+        "sender_id": 1
+    };
+        
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+        alert('No token found. Please log in.');
+        window.location.href = '/';
+        return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+        alert('Invalid token. Please log in again.');
+        window.location.href = '/';
+        return;
+    }
+
+    const url = `http://10.12.17.4:8000/api/v1/join/${userId}/`;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(requested_data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    // .then(data => {
+    //     console.log(data);
+    //     var userList = document.getElementById("requestsList");
+    //     userList.innerHTML = '';
+    //     for (var i = 0; i < data.length; i++) {
+    //         var user = document.createElement("div");
+    //         user.className = "request";
+    //         user.innerHTML = `
+    //             <img src="./public/guest.png" alt="User">
+    //             <span>${data[i].username}</span>
+    //         `;
+    //         userList.appendChild(user);
+    //     }
+    // })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+function ignore_user() {
+    requested_data = {
+        "sender_id": 1
+    };
+        
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+        alert('No token found. Please log in.');
+        window.location.href = '/';
+        return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+        alert('Invalid token. Please log in again.');
+        window.location.href = '/';
+        return;
+    }
+
+    const url = `http://10.12.17.4:8000/api/v1/ignore/${userId}/`;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(requested_data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    // .then(data => {
+    //     console.log(data);
+    //     var userList = document.getElementById("requestsList");
+    //     userList.innerHTML = '';
+    //     for (var i = 0; i < data.length; i++) {
+    //         var user = document.createElement("div");
+    //         user.className = "request";
+    //         user.innerHTML = `
+    //             <img src="./public/guest.png" alt="User">
+    //             <span>${data[i].username}</span>
+    //         `;
+    //         userList.appendChild(user);
+    //     }
+    // })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+

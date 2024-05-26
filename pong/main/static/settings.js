@@ -313,13 +313,12 @@ document.getElementById('homeId').addEventListener('click', function(e)
       return;
     }
 
-    const url = `http://10.12.17.4:8000/home/${userId}/`;
+    const url = `http://10.12.17.4:8000/home/`;
 
     fetch(url, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Content-Type': 'application/json'
         },
     })
     .then(response => {
