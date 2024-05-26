@@ -63,9 +63,16 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
     if (document.activeElement.id === "continue"){
         return;
     }
-    if (!validateForm())
-    {
-      alert("Please, fill in all fields!");
+    const language = localStorage.getItem('selectedLanguage') || 'en';
+    if (!validateForm()) {
+        // event.preventDefault(); // Prevent the form from submitting
+        var texts = {
+            "en": "Please, fill in all fields!",
+            "hy": "Խնդրում ենք լրացնել բոլոր դաշտերը:",
+            "ru": "Пожалуйста, заполните все поля!",
+            "cn": "請填寫所有欄位！"
+        };
+      alert(texts[language]);
     }
     else
     {
@@ -106,7 +113,13 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
                     const userId = extractUserIdFromToken(data.access);
                     if (!userId)
                     {
-                      alert('Invalid token. Please log in again.');
+                        var texts = {
+                            "en": "Invalid token. Please log in again.",
+                            "hy": "Անվավեր նշան: Խնդրում ենք նորից մուտք գործել:",
+                            "ru": "Неверный токен. Пожалуйста, войдите снова.",
+                            "cn": "令牌無效。 請重新登入。"
+                        };
+                        alert(texts[language]);
                       window.location.href = '/';
                       return;
                     }
@@ -117,8 +130,13 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
             })
         .catch(error =>
         {
-            alert("Invalid email or password!");
-            console.error('There has been a problem with your fetch operation:', error);
+            var texts = {
+                "en": "Invalid email or password!",
+                "hy": "Սխալ էլ. հասցե կամ գաղտնաբառ!",
+                "ru": "Неверный адрес электронной почты или пароль!",
+                "cn": "無效的電子郵件或密碼！"
+            };
+            alert(texts[language]);            console.error('There has been a problem with your fetch operation:', error);
         });
         
     }
@@ -128,9 +146,7 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
 document.getElementById("continue").addEventListener("click", function()
 {
     window.location.href = '/intra/'       
-}); 
-
-
+});
 
 function validateForm()
 {
@@ -143,3 +159,52 @@ function redirectToHome()
 {
     window.location.href = "/";
 }
+
+function applyLanguage() {
+    const language = localStorage.getItem('selectedLanguage') || 'en';
+    document.documentElement.lang = language;
+  
+    const translations = {
+            "en": {
+                "header":"Welcome back",
+                "text": "Signin to your account",
+                "buttonSignIn":"Sign in",
+                "continue":"Continue with 42Intra",
+                "email":"Email",
+                "password":"Password"
+            },
+            "hy": {
+                "header":"Բարի գալուստ",
+                "text": "Մուտք գործեք ձեր հաշիվ",
+                "buttonSignIn":"Մուտք գործել",
+                "continue":"Շարունակեք 42Intra-ով",
+                "email":"էլ հասցե",
+                "password":"Գաղտնաբառ"
+            },
+            "ru": {
+                "header":"Добро пожаловать",
+                "text": "Войдите в свой аккаунт",
+                "buttonSignIn":"Войти",
+                "continue":"Продолжить с 42Intra",
+                "email":"Электронная почта",
+                "password":"Пароль"
+            },
+            "cn": {
+                "header":"歡迎回來",
+                "text": "登入您的帳戶",
+                "buttonSignIn":"登入",
+                "continue":"繼續 42Intra",
+                "email":"電子郵件",
+                "password":"密碼"
+            },
+    };
+  
+    document.getElementById('header').innerText = translations[language].header;
+    document.getElementById('text').innerText = translations[language].text;
+    document.getElementById('buttonSignIn').value = translations[language].buttonSignIn;
+    document.getElementById('continue').value = translations[language].continue;
+    document.getElementById('email').placeholder = translations[language].email;
+    document.getElementById('password').placeholder = translations[language].password;
+  }
+
+  document.addEventListener('DOMContentLoaded', applyLanguage);
