@@ -1,3 +1,4 @@
+const language = localStorage.getItem('selectedLanguage') || 'en';
 // For the profile menu
 document.addEventListener("DOMContentLoaded", function() {
     var profileImage = document.getElementById("profileImage");
@@ -67,7 +68,13 @@ document.getElementById('removeProfileBtn').addEventListener('click', function()
     localStorage.setItem('profilePic', defaultProfilePic);
     document.getElementById('profileImage').src = defaultProfilePic; // Set the profile picture to the default image
     document.getElementById('profileImageLarge').src = defaultProfilePic;
-    alert('Are you sure you want to remove the profile picture ?');
+    var texts = {
+        "en": "Are you sure you want to remove the profile picture ?",
+        "hy": "Արդյո՞ք ուզում եք հեռացնել պրոֆիլի նկարը:",
+        "ru": "Вы уверены, что хотите удалить изображение профиля?",
+        "cn": "您確定要刪除個人資料圖片嗎？"
+    };
+      alert(texts[language]);
 });
     
     var profileName = localStorage.getItem('profileName');
@@ -114,7 +121,14 @@ document.getElementById('saveChangesBtn').addEventListener('click', function(e) 
     localStorage.setItem('userName', document.getElementById('userName1').value);
     localStorage.setItem('userEmail', document.getElementById('userEmail1').value);
     localStorage.setItem('userPassword', document.getElementById('userPassword1').value);
-        alert('Changes saved successfully!');
+    var texts = {
+        "en": "Changes saved successfully!",
+        "hy": "Փոփոխությունները հաջողությամբ պահպանվեցին:",
+        "ru": "Изменения успешно сохранены!",
+        "cn": "更改儲存成功！"
+    };
+      alert(texts[language]);
+        // alert('Changes saved successfully!');
         location.reload(); // Refresh the page
 });
 
@@ -169,3 +183,100 @@ document.getElementById('editBtn4').addEventListener('click', function() {
     var passwordInput = document.getElementById('userPassword1');
     passwordInput.focus();
 });
+
+
+function applyLanguage() {
+    var selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+
+    const translations = {
+            "en": {
+                "homeheader":"HOME",
+                "profile":"PROFILE",
+                "setting": "SETTINGS",
+                "logout":"LOG OUT",
+                "h1Header":"Settings",
+                "profileName":"Edit Profile Name",
+                "userName":"Edit Profile Username",
+                "userEmail":"Edit Profile Email",
+                "userPassword":"Change Password",
+                "delaccount":"Delete Account",
+                "saveChangesBtn":"Save Changes"
+            },
+            "hy": {
+                "homeheader":"ԳԼԽԱՎՈՐ",
+                "profile":"ՊՐՈՖԻԼ",
+                "setting": "ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ",
+                "logout":"ԴՈՒՐՍ ԳԱԼ",
+                "h1Header":"Կարգավորումներ",
+                "profileName":"Խմբագրել պրոֆիլի անունը",
+                "userName":"Խմբագրել պրոֆիլի օգտանունը",
+                "userEmail":"Խմբագրել պրոֆիլի էլ հասցեն",
+                "userPassword":"Փոխել գաղտնաբառը",
+                "delaccount":"Հաշիվը ջնջել",
+                "saveChangesBtn":"Պահպանել փոփոխությունները"
+            },
+            "ru": {
+                "homeheader":"ГЛАВНАЯ",
+                "profile":"ПРОФИЛЬ",
+                "setting": "НАСТРОЙКИ",
+                "logout":"ВЫЙТИ",
+                "h1Header":"Настройки",
+                "profileName":"Изменить имя профиля",
+                "userName":"Изменить имя пользователя профиля",
+                "userEmail":"Изменить адрес эл. почты профиля",
+                "userPassword":"Изменить пароль",
+                "delaccount":"Удалить аккаунт",
+                "saveChangesBtn":"Сохранить изменения"
+            },
+            "cn": {
+                "homeheader":"家",
+                "profile":"档案",
+                "setting": "設定",
+                "logout":"登出",
+                "h1Header":"設定",
+                "profileName":"編輯個人資料名稱",
+                "userName":"編輯個人資料用戶名",
+                "userEmail":"編輯個人資料電子郵件",
+                "userPassword":"更改密碼",
+                "delaccount":"刪除帳戶",
+                "saveChangesBtn":"儲存變更"
+            },
+    };
+
+    const elementsToTranslate = {
+        'homeheader':'homeheader',
+        'profile':'profile',
+        'setting':'setting',
+        'logout':'logout',
+        'h1Header':'h1Header',
+        'profileName':'profileName',
+        'userName':'userName',
+        'userEmail':'userEmail',
+        'userPassword':'userPassword',
+        'delaccount':'delaccount',
+        'saveChangesBtn':'saveChangesBtn'
+    };
+
+    Object.keys(elementsToTranslate).forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = translations[selectedLanguage][elementsToTranslate[id]];
+        }
+    });
+
+    const classElementsToTranslate = {
+        'accept-button': 'accept-button',
+        'invite-button': 'invite-button',
+        'decline-button': 'decline-button',
+    };
+
+    Object.keys(classElementsToTranslate).forEach(className => {
+        const elements = document.getElementsByClassName(className);
+        const translationKey = classElementsToTranslate[className];
+        Array.from(elements).forEach(element => {
+            element.innerText = translations[selectedLanguage][translationKey];
+        });
+    });
+  }
+
+document.addEventListener('DOMContentLoaded', applyLanguage);

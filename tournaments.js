@@ -97,16 +97,6 @@ function applyLanguage() {
             element.innerText = translations[selectedLanguage][translationKey];
         });
     });
-
-    var invite = document.getElementsByClassName('invite-button');
-    for (var i = 0; i < won.length; i++) {
-        invite[i].innerText = translations[selectedLanguage].inviteButton;
-    }
-    var inv = document.getElementsByClassName('ignore-button');
-    for (var i = 0; i < won.length; i++) {
-        inv[i].innerText = translations[selectedLanguage].ignoreButton;
-    }
-
   }
 
 // JavaScript for the profile menu
@@ -200,4 +190,4 @@ function goTournaments() {
     window.location.href = 'tournaments.html';
 }
 
-applyLanguage()
+document.addEventListener('DOMContentLoaded', applyLanguage);

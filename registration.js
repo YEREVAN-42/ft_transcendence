@@ -115,4 +115,4 @@ function validatePasswords() {
 }
 
 
-  document.addEventListener('DOMContentLoaded', applyLanguage);
+document.addEventListener('DOMContentLoaded', applyLanguage);
