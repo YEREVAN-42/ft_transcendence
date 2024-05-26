@@ -7,35 +7,104 @@ function applyLanguage() {
                 "profile":"PROFILE",
                 "setting": "SETTINGS",
                 "logout":"LOG OUT",
+                "tourn":"Tournaments",
+                "user":"Users",
+                "resuest":"Requests",
+                "tournament":"Tournament",
+                "joinTourn":"Join Tournament",
+                "h2Header":"Joined Users:",
+                "accept-button":"Join",
+                "decline-button":"Ignore",
+                "invite-button":"Invite"
             },
             "hy": {
                 "homeheader":"ԳԼԽԱՎՈՐ",
                 "profile":"ՊՐՈՖԻԼ",
                 "setting": "ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ",
                 "logout":"ԴՈՒՐՍ ԳԱԼ",
+                "tourn":"Մրցաշարեր",
+                "user":"Օգտատերեր",
+                "resuest":"Հարցումներ",
+                "tournament":"Մրցաշար",
+                "joinTourn":"Միացեք մրցաշարին",
+                "h2Header":"Միացած օգտատերեր:",
+                "accept-button":"Միանալ",
+                "decline-button":"Անտեսել",
+                "invite-button":"Հրավիրել"
             },
             "ru": {
                 "homeheader":"ГЛАВНАЯ",
                 "profile":"ПРОФИЛЬ",
                 "setting": "НАСТРОЙКИ",
                 "logout":"ВЫЙТИ",
+                "tourn":"Турниры",
+                "user":"Пользователи",
+                "resuest":"Запросы",
+                "tournament":"Турнир",
+                "joinTourn":"Присоединяйтесь к турниру",
+                "h2Header":"Присоединившиеся пользователи:",
+                "accept-button":"Присоединиться",
+                "invite-button":"Приглашать",
+                "decline-button":"Игнорировать"
             },
             "cn": {
                 "homeheader":"家",
                 "profile":"档案",
                 "setting": "設定",
                 "logout":"登出",
+                "tourn":"錦標賽",
+                "user":"使用者",
+                "resuest":"要求",
+                "tournament":"比賽",
+                "joinTourn":"參加錦標賽",
+                "h2Header":"已加入用戶:",
+                "accept-button":"加入",
+                "invite-button":"邀請",
+                "decline-button":"忽略"
             },
     };
 
-    document.getElementById('homeheader').textContent = translations[selectedLanguage].homeheader;
-    document.getElementById('profile').textContent = translations[selectedLanguage].profile;
-    document.getElementById('setting').textContent = translations[selectedLanguage].setting;
-    document.getElementById('logout').textContent = translations[selectedLanguage].logout;
+    const elementsToTranslate = {
+        'homeheader': 'homeheader',
+        'profile': 'profile',
+        'setting': 'setting',
+        'logout': 'logout',
+        'tourn': 'tourn',
+        'user': 'user',
+        'resuest': 'resuest',
+        'tournament': 'tournament',
+        'joinTourn': 'joinTourn',
+        'h2Header': 'h2Header'
+    };
 
-    var won = document.getElementsByClassName('result-won');
+    Object.keys(elementsToTranslate).forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = translations[selectedLanguage][elementsToTranslate[id]];
+        }
+    });
+
+    const classElementsToTranslate = {
+        'accept-button': 'accept-button',
+        'invite-button': 'invite-button',
+        'decline-button': 'decline-button',
+    };
+
+    Object.keys(classElementsToTranslate).forEach(className => {
+        const elements = document.getElementsByClassName(className);
+        const translationKey = classElementsToTranslate[className];
+        Array.from(elements).forEach(element => {
+            element.innerText = translations[selectedLanguage][translationKey];
+        });
+    });
+
+    var invite = document.getElementsByClassName('invite-button');
     for (var i = 0; i < won.length; i++) {
-        won[i].innerText = translations[selectedLanguage].won;
+        invite[i].innerText = translations[selectedLanguage].inviteButton;
+    }
+    var inv = document.getElementsByClassName('ignore-button');
+    for (var i = 0; i < won.length; i++) {
+        inv[i].innerText = translations[selectedLanguage].ignoreButton;
     }
 
   }

@@ -20,17 +20,17 @@
             </a>
             <img class="profile-icon" alt="Profile Picture" id="profileImage" src="" />
             <div class="menu" id="menu">
-                <a href="settings.html" class="settings">SETTINGS</a>
-                <a href="index.html" class="logout">LOG OUT</a>
+                <a href="settings.html" class="settings" id="setting">SETTINGS</a>
+                <a href="index.html" class="logout" id="logout">LOG OUT</a>
             </div>
         </div>
             <div class="container">
-                <h1 class="header">Tournaments</h1>
+                <h1 class="header" id="tourn">Tournaments</h1>
                 <div class="tournaments-list-container">
                     <div class="tabs">
-                        <button class="tab-button active" onclick="openTab(event, 'Users')">Users</button>
-                        <button class="tab-button" onclick="openTab(event, 'Requests')">Requests</button>
-                        <button class="tab-button" onclick="openTab(event, 'Tournament')">Tournament</button>
+                        <button class="tab-button active" onclick="openTab(event, 'Users')" id="user">Users</button>
+                        <button class="tab-button" onclick="openTab(event, 'Requests')" id="resuest">Requests</button>
+                        <button class="tab-button" onclick="openTab(event, 'Tournament')" id="tournament">Tournament</button>
                     </div>
                     <div id="Users" class="tab-content active">
                         <div class="users-list">
@@ -100,9 +100,9 @@
                     </div>
                     <div id="Tournament" class="tab-content">
                         <div class="tournament-join">
-                            <button class="join-tournament-button" onclick="joinTournament()">Join Tournament</button>
+                            <button class="join-tournament-button" onclick="joinTournament()" id="joinTourn">Join Tournament</button>
                             <div class="tournament-users">
-                                <h2>Joined Users:</h2>
+                                <h2 id="h2Header">Joined Users:</h2>
                                 <div id="tournamentUserList">
                                     <!-- Joined users will be added here -->
                                 </div>
