@@ -3,13 +3,6 @@
     var profileImage = document.getElementById("profileImage");
     var menu = document.getElementById("menu");
     var languageSelect = document.getElementById("languageSelect");
-    var homeLink = document.getElementById("homeLink");
-    var howToPlayHeader = document.getElementById("howToPlayHeader");
-    var howToPlayText = document.getElementById("howToPlayText");
-    var playButton = document.getElementById("playButton");
-    var profileLink = document.getElementById("profileLink");
-    var setting = document.getElementById("setting");
-    var logout = document.getElementById("logout");
     var selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
     
     languageSelect.value = selectedLanguage;
@@ -17,7 +10,6 @@
     languageSelect.addEventListener("change", function() {
        var selectedLanguage = languageSelect.value;
        switchLanguage(selectedLanguage);
-       // Store selected language in localStorage
        localStorage.setItem('selectedLanguage', selectedLanguage);
     });
 
@@ -61,13 +53,13 @@
         }
       };
 
-      homeLink.textContent = translations[language]["home"];
-      howToPlayHeader.textContent = translations[language]["howToPlayHeader"];
-      howToPlayText.textContent = translations[language]["howToPlayText"];  
-      profileLink.textContent = translations[language]["profileLink"];
-      playButton.textContent = translations[language]["playButton"];
-      setting.textContent = translations[language]["setting"];
-      logout.textContent = translations[language]["logout"];
+      document.getElementById("homeLink").textContent = translations[language]["home"];
+      document.getElementById("howToPlayHeader").textContent = translations[language]["howToPlayHeader"];
+      document.getElementById("howToPlayText").textContent = translations[language]["howToPlayText"];  
+      document.getElementById("profileLink").textContent = translations[language]["profileLink"];
+      document.getElementById("playButton").textContent = translations[language]["playButton"];
+      document.getElementById("setting").textContent = translations[language]["setting"];
+      document.getElementById("logout").textContent = translations[language]["logout"];
     }
     switchLanguage(languageSelect.value);
     

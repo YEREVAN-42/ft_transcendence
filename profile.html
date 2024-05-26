@@ -13,36 +13,36 @@
     <body>
         <div class="navbar">
             <a href="home.html">
-                <img alt="HOME" id="home" src="./public/icons8-home-20.png" /> HOME
+                <img alt="HOME" id="homeheaderIcon" src="./public/icons8-home-20.png" /> <span id="homeheader">HOME</span>
             </a>
             <a href="profile.html">
-                <img alt="PROFILE" id="profile" src="./public/icons8-customer-20.png" /> PROFILE
+                <img alt="PROFILE" id="profileIcon" src="./public/icons8-customer-20.png" /> <span id="profile">PROFILE</span>
             </a>
             <img class="profile-icon" alt="Profile Picture" id="profileImage" src="" />
             <div class="menu" id="menu">
-                <a href="settings.html" class="settings">SETTINGS</a>
-                <a href="index.html" class="logout">LOG OUT</a>
+                <a href="settings.html" class="settings" id="setting">SETTINGS</a>
+                <a href="index.html" class="logout" id="logout">LOG OUT</a>
             </div>
         </div>
             <div class="container">
-                <h1 class="header">Profile</h1>
+                <h1 class="header" id="prof">Profile</h1>
                 <img class="profile-icon-large" alt="Profile Picture" id="profileImageLarge" src="" />
                 <div class="username" id="guest">Username</div>
                 <div class="friends-list-container">
-                    <h2>Friends List</h2>
+                    <h2 id ="listHeader">Friends List</h2>
                     <input type="search" id="searchInput" placeholder="Search friends...">
                     <div class="tabs">
-                        <button class="tab-button active" onclick="openTab(event, 'Friends')">Friends</button>
-                        <button class="tab-button" onclick="openTab(event, 'Requests')">Requests</button>
-                        <button class="tab-button" onclick="openTab(event, 'Suggestions')">Users</button>
+                        <button class="tab-button active" onclick="openTab(event, 'Friends')" id="friends">Friends</button>
+                        <button class="tab-button" onclick="openTab(event, 'Requests')" id="request">Requests</button>
+                        <button class="tab-button" onclick="openTab(event, 'Suggestions')" id="users">Users</button>
                     </div>
                     <div id="Friends" class="tab-content active">
                         <div class="friends-list">
                             <div class="friend" data-friend-id="1">
                                 <img src="./public/guest.png" alt="Friend 1" class="friend-picture">
                                 <div class="friend-info">
-                                    <span class="friend-username">Friend 1</span>
-                                    <span class="friend-activity">Active 1 day ago</span>
+                                    <span class="friend-username" id="friend1">Friend 1</span>
+                                    <span class="friend-activity" id="activity1">Active 1 day ago</span>
                                 </div>
                                 <button class="details-button" data-action="details">Remove</button>
                             </div>
@@ -78,7 +78,7 @@
                             <div class="friend-request" data-request-id="1">
                                 <img src="./public/guest.png" alt="Request 1" class="friend-picture">
                                 <div class="friend-info">
-                                    <span class="friend-username">Request 1</span>
+                                    <span class="friend-username" id="resuest1">Request 1</span>
                                     <button class="accept-button" data-action="accept">Accept</button>
                                     <button class="decline-button" data-action="decline">Decline</button>
                                 </div>
@@ -95,8 +95,8 @@
                                 <img src="./public/guest.png" alt="Request 3" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Request 3</span>
-                                    <button class="accept-button" data-action="accept">Accept</button>
-                                    <button class="decline-button" data-action="decline">Decline</button>
+                                    <button class="accept-button" data-action="accept" id="accept">Accept</button>
+                                    <button class="decline-button" data-action="decline" id="decline">Decline</button>
                                 </div>
                             </div>
                             <!-- Add more friend requests here -->
