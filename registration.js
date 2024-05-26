@@ -1,60 +1,3 @@
-function applyLanguage() {
-    const language = localStorage.getItem('selectedLanguage') || 'en';
-    document.documentElement.lang = language;
-  
-    const translations = {
-            "en": {
-                "name":"Name",
-                "username": "Username",
-                "email":"Email",
-                "password":"Password",
-                "repeatPassword":"Repeat Password",
-                "registr":"Registration",
-                "text":"Fill in the fields below",
-                "continue": "Continue"
-            },
-            "hy": {
-                "name":"Անուն",
-                "username": "Օգտանուն",
-                "email":"էլ հասցե",
-                "password":"Գաղտնաբառ",
-                "repeatPassword":"Կրկնեք գաղտնաբառը",
-                "registr":"Գրանցում",
-                "text":"Լրացրե՛ք ստորև նշված դաշտերը",
-                "continue": "Շարունակել"
-            },
-            "ru": {
-                "name":"Имя",
-                "username": "Имя пользователя",
-                "email":"Электронная почта",
-                "password":"Пароль",
-                "repeatPassword":"Повторите пароль",
-                "registr":"Регистрация",
-                "text":"Заполните поля ниже",
-                "continue": "Продолжать"
-            },
-            "cn": {
-                "name":"姓名",
-                "username": "使用者名稱",
-                "email":"電子郵件",
-                "password":"密碼",
-                "repeatPassword":"重複輸入密碼",
-                "registr":"登記",
-                "text":"填寫下面的字段",
-                "continue": "繼續"
-            },
-    };
-  
-    document.getElementById('name').placeholder = translations[language].name;
-    document.getElementById('username').placeholder = translations[language].username;
-    document.getElementById('email').placeholder = translations[language].email;
-    document.getElementById('password').placeholder = translations[language].password;
-    document.getElementById('repeat-password').placeholder = translations[language].repeatPassword;
-    document.getElementById('registr').innerText = translations[language].registr;
-    document.getElementById('text').innerText = translations[language].text;
-    document.getElementById('continue').value = translations[language].continue;
-  }
-
 function togglePasswordVisibility(inputId) {
     var passwordInput = document.getElementById(inputId);
     var toggleButton = document.querySelector("#" + inputId + " + .toggle-password i");
@@ -114,5 +57,61 @@ function validatePasswords() {
     return password1 === password2;
 }
 
+function applyLanguage() {
+    const language = localStorage.getItem('selectedLanguage') || 'en';
+    document.documentElement.lang = language;
+  
+    const translations = {
+            "en": {
+                "name":"Name",
+                "username": "Username",
+                "email":"Email",
+                "password":"Password",
+                "repeatPassword":"Repeat Password",
+                "registr":"Registration",
+                "text":"Fill in the fields below",
+                "continue": "Continue"
+            },
+            "hy": {
+                "name":"Անուն",
+                "username": "Օգտանուն",
+                "email":"էլ հասցե",
+                "password":"Գաղտնաբառ",
+                "repeatPassword":"Կրկնեք գաղտնաբառը",
+                "registr":"Գրանցում",
+                "text":"Լրացրե՛ք ստորև նշված դաշտերը",
+                "continue": "Շարունակել"
+            },
+            "ru": {
+                "name":"Имя",
+                "username": "Имя пользователя",
+                "email":"Электронная почта",
+                "password":"Пароль",
+                "repeatPassword":"Повторите пароль",
+                "registr":"Регистрация",
+                "text":"Заполните поля ниже",
+                "continue": "Продолжать"
+            },
+            "cn": {
+                "name":"姓名",
+                "username": "使用者名稱",
+                "email":"電子郵件",
+                "password":"密碼",
+                "repeatPassword":"重複輸入密碼",
+                "registr":"登記",
+                "text":"填寫下面的字段",
+                "continue": "繼續"
+            },
+    };
+  
+    document.getElementById('name').placeholder = translations[language].name;
+    document.getElementById('username').placeholder = translations[language].username;
+    document.getElementById('email').placeholder = translations[language].email;
+    document.getElementById('password').placeholder = translations[language].password;
+    document.getElementById('repeat-password').placeholder = translations[language].repeatPassword;
+    document.getElementById('registr').innerText = translations[language].registr;
+    document.getElementById('text').innerText = translations[language].text;
+    document.getElementById('continue').value = translations[language].continue;
+  }
 
 document.addEventListener('DOMContentLoaded', applyLanguage);

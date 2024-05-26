@@ -8,13 +8,20 @@ function moveFocus(current, next) {
 }
 
 function confirmCode() {
+    const language = localStorage.getItem('selectedLanguage') || 'en';
     var code = "";
     for (var i = 1; i <= 5; i++) {
         code += document.getElementById("digit" + i).value;
     }
 
     if (code === "12345") { // Replace "12345" with the actual confirmation code
-        document.getElementById("message").innerText = "Confirmation successful!";
+        var texts = {
+            "en": "Confirmation successful!",
+            "hy": "Հաստատումը հաջողվեց:",
+            "ru": "Подтверждение успешно!",
+            "cn": "確認成功！"
+        };
+        document.getElementById("message").innerText = texts[language];
         document.getElementById("message").classList.add("success");
         document.getElementById("message").style.display = "block";
         document.querySelector(".loading").style.display = "block";

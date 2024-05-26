@@ -191,5 +191,5 @@ function goTournaments() {
     window.location.href = 'tournaments.html';
 }
 
-applyLanguage()
-// document.addEventListener('DOMContentLoaded', applyLanguage);
+// applyLanguage()
+document.addEventListener('DOMContentLoaded', applyLanguage);
