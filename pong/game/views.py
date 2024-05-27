@@ -42,15 +42,17 @@ def invite(request, id):
         
         print("ID = ", id)
         sender = User.objects.get(id=id).id
-        #check is sender user exists then send id
+        if not sender:
+            raise Exception('User not found')
         data = json.loads(request.body)
+        if not data.get('receiver_id'):
+            raise Exception('Receiver not found')
         receiver = User.objects.get(id=data.get('receiver_id')).id
-        print("RECEIVER = ", receiver)
-        print("SENDER = ", sender)
-        # if GameInvite.objects.filter(sender_id=sender, receiver_id=receiver).exists():
-        #     raise Exception('Invite already sent')
+        if sender == receiver:
+            raise Exception('Cannot send invite to self')
+        if GameInvite.objects.filter(sender_id=sender, receiver_id=receiver).exists():
+            raise Exception('Invite already sent')
         game_invite = GameInvite.objects.create(sender_id=sender, receiver_id=receiver)
-        print("GAME_INVITE = ", game_invite)
         game_invite.save()
         return JsonResponse({'message': 'Invite sent'})
 
@@ -59,8 +61,14 @@ def invite(request, id):
 def join(request, id):
     if request.method == 'POST':
         receiver = User.objects.get(id=id).id
+        if not receiver:
+            raise Exception('User not found')
         data = json.loads(request.body)
+        if not data.get('sender_id'):
+            raise Exception('Sender not found')
         sender = User.objects.get(id=data.get('sender_id')).id
+        if not GameInvite.objects.filter(sender_id=sender, receiver_id=receiver).exists():
+            raise Exception('Invite not found')
         game_invite = GameInvite.objects.get(sender_id=sender, receiver_id=receiver)
         game_invite.join_invite()
         return JsonResponse({'message': 'Join accepted'})
@@ -69,8 +77,14 @@ def join(request, id):
 def ignore(request, id):
     if request.method == 'POST':
         receiver = User.objects.get(id=id)
+        if not receiver:
+            raise Exception('User not found')
         data = json.loads(request.body)
+        if not data.get('sender_id'):
+            raise Exception('Sender not found')
         sender = User.objects.get(id=data.get('sender_id')).id
+        if not GameInvite.objects.filter(sender_id=sender, receiver_id=receiver).exists():
+            raise Exception('Invite not found')
         game_invite = GameInvite.objects.get(sender_id=sender, receiver_id=receiver)
         game_invite.ignore_invite()
         GameInvite.objects.filter(sender_id=sender, receiver_id=receiver).delete()
@@ -80,15 +94,17 @@ def ignore(request, id):
 def get_history(request, id):
     if request.method == 'GET':
         player = User.objects.get(id=id)
+        if not player:
+            raise Exception('User not found')
         history = History.objects.filter(player=player)
         return JsonResponse({'message': 'History fetched', 'history': history})
 
-def  match_history(self):
-    History.objects.create(
-        player=self.request.user,
-        opponent=self.request.user,
-        result='draw',
-        points=0,
-        game_mode='classic',
-        created_at=timezone.now()
-        )
+# def  match_history(self):
+#     History.objects.create(
+#         player=self.request.user,
+#         opponent=self.request.user,
+#         result='draw',
+#         points=0,
+#         game_mode='classic',
+#         created_at=timezone.now()
+#         )

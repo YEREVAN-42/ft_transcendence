@@ -1,3 +1,5 @@
+
+
 // JavaScript for the profile menu
 document.addEventListener("DOMContentLoaded", function()
 {

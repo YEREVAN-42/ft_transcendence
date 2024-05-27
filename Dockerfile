@@ -18,4 +18,4 @@ RUN python -m venv /py && \
 
 ENV PATH="/scripts:/py/bin:$PATH"
 
-VOLUME [ "/pong" ]
+VOLUME /pong

@@ -146,7 +146,9 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
 document.getElementById("continue").addEventListener("click", function()
 {
     window.location.href = '/intra/'       
-});
+}); 
+
+
 
 function validateForm()
 {
