@@ -37,15 +37,14 @@ class Player(models.Model):
     win = models.IntegerField(default=0)
     lose = models.IntegerField(default=0)
     points = models.IntegerField(default=0)
-    game = models.ForeignKey(PongGame, related_name='game_players', on_delete=models.CASCADE)
+    game = models.ForeignKey(PongGame, related_name='game_players', on_delete=models.CASCADE, null=True, blank=True)
     fa = models.BooleanField(default=False)
     game_process = models.BooleanField(default=False)
-    game_mode = models.CharField(max_length=25)
+    game_mode = models.CharField(max_length=25, blank=True, default='')
 
     def __str__(self):
         return f'{self.user}'
 
-	
 class History(models.Model):
 	player = models.ForeignKey('Player', related_name='histories', on_delete=models.CASCADE)
 	opponent = models.ForeignKey('Player', related_name='opponent_histories', on_delete=models.CASCADE)

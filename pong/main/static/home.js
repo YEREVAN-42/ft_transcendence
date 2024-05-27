@@ -3,61 +3,63 @@
     var profileImage = document.getElementById("profileImage");
     var menu = document.getElementById("menu");
 
-    // const url_code = window.location.search?.slice(6)
-    // if (url_code)
-    // {
-    //   const username = localStorage.getItem('username');
+    const url_code = window.location.search?.slice(6)
+    if (url_code)
+    {
+      const username = localStorage.getItem('username');
 
-    //   requestData = {
-    //       "code": url_code,
-    //       "username": username
-    //   }
+      requestData = {
+          "code": url_code,
+          "username": username
+      }
   
-    //   const url = `http://10.12.17.4:8000/api/v1/login/`
-    //   fetch(url, {
-    //       method: 'POST',
-    //       headers:
-    //       {
-    //           'Content-Type': 'application/json'
-    //       },
-    //       body: JSON.stringify(requestData)
-    //   })
-    //   .then(response =>
-    //   {
-    //       if (!response.ok)
-    //       {
-    //           throw new Error('Network response was not ok');
-    //       }
-    //       return response.json();
-    //   })
-    //   .then(data =>
-    //   {
-    //       console.log(data);
-    //       if (data.status === "error")
-    //       {
-    //           alert(data.message);
-    //       }
-    //       else
-    //       {
-    //           localStorage.setItem('access', data.access);
-    //           localStorage.setItem('refresh', data.refresh);
+      const url = `http://10.12.17.4:8000/api/v1/login/`
+      fetch(url, {
+          method: 'POST',
+          headers:
+          {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestData)
+      })
+      .then(response =>
+      {
+          if (!response.ok)
+          {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(data =>
+      {
+          console.log(data);
+          if (data.status === "error")
+          {
+              alert(data.message);
+          }
+          else
+          {
+              localStorage.setItem('access', data.access);
+              localStorage.setItem('refresh', data.refresh);
   
-    //           // const userId = extractUserIdFromToken(data.access);
-    //           // if (!userId)
-    //           // {
-    //           //     alert('Invalid token. Please log in again.');
-    //           //     window.location.href = '/';
-    //           //     return;
-    //           // }
-    //       }
-    //     })
-    //   .catch(error =>
-    //   {
-    //       alert("Invalid username");
-    //       console.error('There has been a problem with your fetch operation:', error);
-    //       window.location.href = '/';
-    //   });
-    // }
+              // const userId = extractUserIdFromToken(data.access);
+              // if (!userId)
+              // {
+              //     alert('Invalid token. Please log in again.');
+              //     window.location.href = '/';
+              //     return;
+              // }
+          }
+        })
+      .catch(error =>
+      {
+          alert("Invalid username");
+          console.error('There has been a problem with your fetch operation:', error);
+          window.location.href = '/';
+      });
+    }
+  });
+
 
 
 profileImage.addEventListener("click", function() {
@@ -74,7 +76,6 @@ window.addEventListener("click", function(event) {
       menu.style.display = "none";
       }
     });
-});
 
 function extractUserIdFromToken(token) {
   // Decode the JWT token to extract the user ID
@@ -219,9 +220,8 @@ document.getElementById('profileId').addEventListener('click', function(e)
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
-    console.log(response.status);
     if (response.status === 200) {
-          window.location.href = url;
+          window.location.href = 'http://10.12.17.4:8000/profile/';
       }
     return response.json();
 })

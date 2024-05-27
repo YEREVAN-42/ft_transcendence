@@ -24,19 +24,13 @@ def get_access_token(code):
         'redirect_uri': os.environ.get('INTRA_REDIRECT_URI'),
         'code': code,
     }
-    print("🔑 Request data:", data)
-    # headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     response = requests.post('https://api.intra.42.fr/oauth/token', data=data)
-
-    print("❌ Response status:", response.status_code)
-    print("❌ Response content:", response.text)
     if response.status_code != 200:
         return None
     return response.json()
 
 @csrf_exempt
 def login(request):
-    print("🔑 Request data:", request.body)
     if request.method == 'POST':
         data = json.loads(request.body)
         code = data.get('code')
@@ -59,18 +53,18 @@ def login(request):
                 )
             access = AccessToken.for_user(user)
             refresh = RefreshToken.for_user(user)
-            # if user.is_active:
-            #     return JsonResponse({'error': 'User already logged in'}, status=400)
-            # user.last_login = None
-            # user.is_active = True
+            if user.is_active:
+                return JsonResponse({'error': 'User already logged in'}, status=400)
+            user.last_login = None
+            user.is_active = True
             user.save()
         else:
             access = AccessToken.for_user(user)
             refresh = RefreshToken.for_user(user)
-            # if user.is_active:
-            #     return JsonResponse({'error': 'User already logged in'}, status=400)
-            # user.last_login = None
-            # user.is_active = True
+            if user.is_active:
+                return JsonResponse({'error': 'User already logged in'}, status=400)
+            user.last_login = None
+            user.is_active = True
             user.save()
         return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh)}, status=200)
     return render(request, 'main/home.html')

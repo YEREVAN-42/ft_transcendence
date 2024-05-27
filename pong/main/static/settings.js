@@ -338,6 +338,7 @@ document.getElementById('homeId').addEventListener('click', function(e)
 
 document.getElementById('profileId').addEventListener('click', function(e)
 {
+    e.preventDefault();
     const token = localStorage.getItem('access');
     if (!token)
     {
@@ -368,7 +369,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
         }
         if (response.status === 200)
         {            
-            window.location.href = url;
+            window.location.href = 'http://10.12.17.4:8000/profile/';
         }
         return response.json();
     })

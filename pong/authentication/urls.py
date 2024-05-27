@@ -1,3 +1,5 @@
+#stexi commentnern a karoxa petq lini bacel
+
 from django.contrib import admin
 from django.urls import path, include
 from authentication import views
@@ -12,7 +14,7 @@ urlpatterns = [
 
     path('signup/', views.signup, name="signup"),
     path('signin/', views.signin, name="signin"),
-    path('api/v1/logout/<int:pk>/', views.logout, name="logout"),
     path('confirm/', views.confirm, name="confirm"),
-    path('intra/', views.intra, name="intra")
+    path('intra/', views.intra, name="intra"),
+    path('api/v1/logout/<int:pk>/', views.logout, name="logout")
 ]
