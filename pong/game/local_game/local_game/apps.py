@@ -2,4 +2,4 @@
 from django.apps import AppConfig
 
 class LocalGameConfig(AppConfig):
-    name = 'game'
+    name = 'local_game'

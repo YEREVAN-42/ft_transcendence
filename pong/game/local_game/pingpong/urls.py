@@ -21,5 +21,5 @@ from django.urls    import include, path  # Add the import for include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('game.urls')),
+    path('', include('local_game.urls')),
 ]

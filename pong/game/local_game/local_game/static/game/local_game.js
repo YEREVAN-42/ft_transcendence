@@ -1,18 +1,20 @@
-const canvas = document.getElementById('pongCanvas');
-const context = canvas.getContext('2d');
+const canvas        = document.getElementById('pongCanvas');
+const context       = canvas.getContext('2d');
+const exitButton    = document.getElementById('exitButton');
 const restartButton = document.getElementById('restartButton');
-const exitButton = document.getElementById('exitButton');
 
-canvas.width = 800;
-canvas.height = 400;
+canvas.width  = 800;
+canvas.height = 450;
 
-let paddleWidth = 10;
-let paddleHeight = 100;
-let ballRadius = 10;
-let player1Score = 0;
-let player2Score = 0;
 const winningScore = 7;
-let gameOver = false;
+
+let player1Score   = 0;
+let player2Score   = 0;
+let paddleWidth    = 10;
+let ballRadius     = 10;
+let paddleHeight   = 100;
+let gameOver       = false;
+let gameStarted    = false;
 
 let player1 = {
     x: 0,
@@ -62,7 +64,13 @@ function drawScore() {
 function drawWinner(winner) {
     context.font = '48px Arial';
     context.fillStyle = '#fff';
-    context.fillText(winner + " Wins!", canvas.width / 2 - 100, canvas.height / 2);
+    context.fillText(winner + " Wins!", canvas.width / 2 - 150, canvas.height / 2);
+}
+
+function drawStartMessage() {
+    context.font = '32px Arial';
+    context.fillStyle = '#fff';
+    context.fillText("Press Enter to start", canvas.width / 2 - 150, canvas.height / 2);
 }
 
 function resetBall() {
@@ -130,14 +138,24 @@ function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     drawPaddle(player1.x, player1.y, player1.width, player1.height);
     drawPaddle(player2.x, player2.y, player2.width, player2.height);
-    drawBall(ball.x, ball.y, ball.radius);
     drawScore();
+
+    if (gameOver) {
+        if (player1Score >= winningScore) {
+            drawWinner("Player 1");
+        } else if (player2Score >= winningScore) {
+            drawWinner("Player 2");
+        }
+    } else {
+        drawBall(ball.x, ball.y, ball.radius);
+    }
 }
 
 function restartGame() {
     player1Score = 0;
     player2Score = 0;
     gameOver = false;
+    gameStarted = false;
     restartButton.style.display = 'none';
     resetBall();
     draw();
@@ -149,22 +167,16 @@ function exitGame() {
     window.location.href = 'https://www.google.com';
 }
 
+function startGame() {
+    if (!gameStarted) {
+        gameStarted = true;
+        setInterval(update, 1000 / 60); // 60 FPS
+    }
+}
+
 // Attach event listeners
 restartButton.addEventListener('click', restartGame);
 exitButton.addEventListener('click', exitGame);
-
-let socket = new WebSocket('ws://' + window.location.host + '/ws/pong/');
-
-socket.onmessage = function(event) {
-    let data = JSON.parse(event.data);
-    // Update game state with data received from the server
-    player1 = data.player1;
-    player2 = data.player2;
-    ball = data.ball;
-    player1Score = data.player1Score;
-    player2Score = data.player2Score;
-};
-
 
 // Keyboard controls
 document.addEventListener('keydown', function(event) {
@@ -180,6 +192,9 @@ document.addEventListener('keydown', function(event) {
             break;
         case 83: // 'S'
             player1.dy = 6;
+            break;
+        case 13: // Enter key
+            startGame();
             break;
     }
 });
@@ -197,6 +212,4 @@ document.addEventListener('keyup', function(event) {
     }
 });
 
-setInterval(() => {
-    update();
-}, 1000 / 60); // 60 FPS
+drawStartMessage();

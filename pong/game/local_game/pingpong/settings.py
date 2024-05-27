@@ -40,17 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'channels',
-    'game',
+    'local_game',
 ]
 
-ASGI_APPLICATION = 'pingpong.asgi.application'
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    },
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
