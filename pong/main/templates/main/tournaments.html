@@ -21,8 +21,8 @@
             </a>
             <img class="profile-icon" alt="Profile Picture" id="profileImage" src="" />
             <div class="menu" id="menu">
-                <a href="settings.html" class="settings" id="settingsId">SETTINGS</a>
-                <a href="index.html" class="logout" id="logoutId">LOG OUT</a>
+                <a href="settings/" class="settings" id="settingsId">SETTINGS</a>
+                <a href="/" class="logout" id="logoutId">LOG OUT</a>
             </div>
         </div>
             <div class="container">
@@ -41,7 +41,7 @@
                                     <span class="friend-username">Friend 1</span>
                                     <span class="friend-points">1000 points</span>
                                 </div>
-                                <button class="invite-button" data-action="details">Invite</button>
+                                <button class="invite-button" data-action="details" onclick="invite_user()">Invite</button>
                             </div>
                             <div class="friend" data-friend-id="2">
                                 <img src="{% static 'images/guest.png' %}" alt="Friend 2" class="friend-picture">
@@ -49,7 +49,7 @@
                                     <span class="friend-username">Friend 2</span>
                                     <span class="friend-points">300 points</span>
                                 </div>
-                                <button class="invite-button" data-action="details">Invite</button>
+                                <button class="invite-button" data-action="details" onclick="invite_user()">Invite</button>
                             </div>
                             <div class="friend" data-friend-id="3">
                                 <img src="{% static 'images/guest.png' %}" alt="Friend 3" class="friend-picture">
@@ -57,7 +57,7 @@
                                     <span class="friend-username">Friend 3</span>
                                     <span class="friend-points">1500 points</span>
                                 </div>
-                                <button class="invite-button" data-action="details">Invite</button>
+                                <button class="invite-button" data-action="details" onclick="invite_user()">Invite</button>
                             </div>
                             <div class="friend" data-friend-id="4">
                                 <img src="{% static 'images/guest.png' %}" alt="Friend 4" class="friend-picture">
@@ -65,7 +65,7 @@
                                     <span class="friend-username">Friend 4</span>
                                     <span class="friend-points">3600 points</span>
                                 </div>
-                                <button class="invite-button" data-action="details">Invite</button>
+                                <button class="invite-button" data-action="details" onclick="invite_user()">Invite</button>
                             </div>
                             <!-- Add more friends here -->
                         </div>
@@ -76,24 +76,24 @@
                                 <img src="{% static 'images/guest.png' %}" alt="Request 1" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Request 1</span>
-                                    <button class="accept-button" data-action="accept">Join</button>
-                                    <button class="decline-button" data-action="decline">Ignore</button>
+                                    <button class="accept-button" data-action="accept" onclick="join_user()">Join</button>
+                                    <button class="decline-button" data-action="decline" onclick="ignore_user()">Ignore</button>
                                 </div>
                             </div>
                             <div class="friend-request" data-request-id="2">
                                 <img src="{% static 'images/guest.png' %}" alt="Request 2" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Request 2</span>
-                                    <button class="accept-button" data-action="accept">Join</button>
-                                    <button class="decline-button" data-action="decline">Ignore</button>
+                                    <button class="accept-button" data-action="accept" onclick="join_user()">Join</button>
+                                    <button class="decline-button" data-action="decline" onclick="ignore_user()">Ignore</button>
                                 </div>
                             </div>
                             <div class="friend-request" data-request-id="3">
                                 <img src="{% static 'images/guest.png' %}" alt="Request 3" class="friend-picture">
                                 <div class="friend-info">
                                     <span class="friend-username">Request 3</span>
-                                    <button class="accept-button" data-action="accept">Join</button>
-                                    <button class="decline-button" data-action="decline">Ignore</button>
+                                    <button class="accept-button" data-action="accept" onclick="join_user()">Join</button>
+                                    <button class="decline-button" data-action="decline" onclick="ignore_user()">Ignore</button>
                                 </div>
                             </div>
                             <!-- Add more friend requests here -->

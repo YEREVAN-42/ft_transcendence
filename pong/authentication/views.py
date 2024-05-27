@@ -1,3 +1,5 @@
+#stexi hert kapvac petq a harcnel Aramin
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
@@ -15,6 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 import json
 from django.utils import timezone
+from game.models import Player
 
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -27,29 +30,17 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 def signup(request):
-    # if request.method == "POST":
-    #     # username = request.POST.get('username') OR
-    #     username = request.POST['username']
-    #     fname = request.POST['fname']
-    #     lname = request.POST['lname']
-    #     email = request.POST['email']
-    #     pass1 = request.POST['pass1']
-    #     pass2 = request.POST['pass2']
-        
-    #     # print("sdfgh", username)
-    #     #if pass1 != pass2:
-    #     #    messages.error(request, "Passwords do not match.")
-    #     #    return redirect('signup')
-
-    #     messages.success(request, "Your account has been successfully created. ")
-
-    #     return redirect('signin')
     return render(request, "auth/registration.html")
+
+def intra(request):
+    return render(request, "auth/intra.html")
 
 @csrf_exempt
 def signin(request):
     if request.method == 'POST':
         data = json.loads(request.body)
+        if not data.get('email') or not data.get('password'):
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
         email = data.get('email')
         pass1 = data.get('password')
         try:
@@ -73,10 +64,9 @@ def signin(request):
 def confirm(request):
     if request.method == 'POST':
         try:
-            # Get the email from the JSON data
             data = json.loads(request.body)
-
-            # get data and send to User model
+            if not data.get('email') or not data.get('password') or not data.get('name') or not data.get('username'):
+                return JsonResponse({'error': 'Invalid JSON data'}, status=400)
             name = data.get('name')
             username = data.get('username')
             email = data.get('email')
@@ -89,27 +79,27 @@ def confirm(request):
                 password=password,
                 is_active = False
             )
+            Player.objects.create(user=user)
             return JsonResponse({'message': 'Data saved successfully'}, status=201)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
-
     return render(request, "./auth/confirm.html")
 
 @csrf_exempt
 def logout(request, pk):
-    print("❌")
     if request.method == 'POST':
-        print("✅")
         try:
             data = json.loads(request.body)
+            if not data.get('refresh') or not data.get('access'):
+                return JsonResponse({'error': 'Invalid JSON data'}, status=400)
             refresh = data.get('refresh')
             token = RefreshToken(refresh)
             token.blacklist()
-            print("Token", token)
             user = User.objects.get(pk=pk)
-            print("Token", user)
+            if user is None:
+                return JsonResponse({'error': 'User not found'}, status=404)
             user.last_login = timezone.now()
             user.is_active = False
             user.save()

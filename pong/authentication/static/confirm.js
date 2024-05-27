@@ -1,3 +1,5 @@
+//stex petq a miacnel confirm code-y
+
 function moveFocus(current, next)
 {
     var length = document.getElementById(current).value.length;
@@ -50,10 +52,14 @@ function confirmCode()
             {
                 throw new Error('Network response was not ok');
             }
+            if (response.status === 201)
+            {
+                localStorage.removeItem("name");
+                localStorage.removeItem("username");
+                localStorage.removeItem("email");
+                localStorage.removeItem("password");
+            }
             return response.json();
-        })
-        .then(data => {
-            console.log(data);
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);

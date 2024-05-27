@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 import json
+from game.models import GameInvite, PongGame, Player, History
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -43,8 +44,27 @@ def home(request):
     #     return render(request, 'main/home.html')
     return render(request, 'main/home.html')
 
-def profile(request, id):
+def profile(request):
     return render(request, 'main/profile.html')
+
+def profile_info(request, id):
+    if request.method == 'GET':
+        try:
+            user = User.objects.get(id=id)
+            if user is None:
+                return JsonResponse({'error': 'Invalid credentials'}, status=400)
+            player = Player.objects.get(id=id)
+            if player is None:
+                return JsonResponse({'error': 'Invalid credentials'}, status=400)
+            data = {
+                'username': user.username,
+                'wins': player.wins,
+                'loses': player.loses,
+            }
+            return JsonResponse(data)
+        except Player.DoesNotExist:
+            return JsonResponse({'error': 'Player not found'}, status=404)   
+            
 
 def match_history(request, id):
     return render(request, 'main/match_history.html')
@@ -62,6 +82,9 @@ def check_settings(request, id):
     if request.method == 'GET':
         try:
             user = User.objects.get(id=id)
+            print("User", user)
+            print("id", id)
+            print("User_id", user.id)
             if user:
                 return JsonResponse({'username': user.username})
         except User.DoesNotExist:

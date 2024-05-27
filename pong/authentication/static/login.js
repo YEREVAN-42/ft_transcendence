@@ -1,10 +1,5 @@
 var input1, input2;
 
-let INTRA_API_URL="https://api.intra.42.fr/";
-let INTRA_API_UID="u-s4t2ud-d934927d41b1907cf997e49d099e6a5635f0dcf9a6ad1b0d05b47180b7bcea9d";
-let INTRA_REDIRECT_URI="http://10.12.17.4:8000/home/";
-
-
 function togglePasswordVisibility(inputId)
 {
     var passwordInput = document.getElementById(inputId);
@@ -132,29 +127,7 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
 // Continue submition with "Continue with 42intra" button
 document.getElementById("continue").addEventListener("click", function()
 {
-    window.location.href = `${INTRA_API_URL}/oauth/authorize?client_id=${INTRA_API_UID}&redirect_uri=${INTRA_REDIRECT_URI}&response_type=code`
-
-    
-    //fetch code to login view
-    // url = `http://api/v1/login/`
-    // fetch(url, {
-    //     method: 'POST',
-    //     headers:
-    //     {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     // body: JSON.stringify(requestData)
-    // })
-    // .then(response =>
-    // {
-    //     if (!response.ok)
-    //     {
-    //         throw new Error('Network response was not ok');
-    //     }
-    //     return response.json();
-    // })
-    
-    
+    window.location.href = '/intra/'       
 }); 
 
 

@@ -1,3 +1,5 @@
+//stex el email-y hanel commentic
+
 var input1, input2, input3, input4, input5;
 
 function togglePasswordVisibility(inputId)
