@@ -117,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function() {
           window.location.href = '/';
       });
     }
+  });
     
     
     profileImage.addEventListener("click", function() {
