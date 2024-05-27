@@ -24,6 +24,16 @@ body {
     min-height: 100vh;
 }
 
+.navbar {
+    position: absolute;
+    top: 45px;
+    right: 45px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+
 .container {
     display: flex;
     align-items: center;
