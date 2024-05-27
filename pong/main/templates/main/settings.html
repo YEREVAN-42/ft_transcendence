@@ -14,10 +14,10 @@
     <body>
         <div class="navbar">
             <a href="/home" id = "homeId">
-                <img alt="HOME" src="{% static '/images/icons8-home-20.png' %}" /> HOME
+                <img alt="HOME" src="{% static '/images/icons8-home-20.png' %}" /> <span id="homeheader">HOME</span
             </a>
             <a href="/profile" id = "profileId">
-                <img alt="PROFILE" src="{% static '/images/icons8-customer-20.png' %}" /> PROFILE
+                <img alt="PROFILE" src="{% static '/images/icons8-customer-20.png' %}" /> <span id="profile">PROFILE</span>
             </a>
             <img class="profile-icon" alt="Profile Picture" id="profileImage" src="{% static 'images/guest.png' %}" />
             <div class="menu" id="menu">
@@ -26,7 +26,7 @@
             </div>
         </div>
             <div class="container">
-                <h1 class="header">Settings</h1>
+                <h1 class="header" id="h1Header">Settings</h1>
                 <img class="profile-icon-large" alt="Profile Picture" id="profileImageLarge" src="{% static 'images/guest.png' %}" />
                 <div class="profile-icon-change">
                 <img class="edit-profile-icon" src="{% static './images/icons8-edit-image-30.png' %}" alt="Edit" id="editProfileBtn">
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                 <div class="toggle-container">
-                    <span class="toggle-description">2FA</span>
+                    <span class="toggle-description" id="2fabutton">2FA</span>
                     <label class="toggle-switch">
                     <input type="checkbox">
                     <span class="slider"></span>

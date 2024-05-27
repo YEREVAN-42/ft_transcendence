@@ -556,4 +556,105 @@ function ignore_user() {
     });
 }
 
+function applyLanguage() {
+    var selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
 
+    const translations = {
+            "en": {
+                "homeheader":"HOME",
+                "profile":"PROFILE",
+                "settingsId": "SETTINGS",
+                "logoutId":"LOG OUT",
+                "tourn":"Tournaments",
+                "user":"Users",
+                "resuest":"Requests",
+                "tournament":"Tournament",
+                "joinTourn":"Join Tournament",
+                "h2Header":"Joined Users:",
+                "accept-button":"Join",
+                "decline-button":"Ignore",
+                "invite-button":"Invite"
+            },
+            "hy": {
+                "homeheader":"ԳԼԽԱՎՈՐ",
+                "profile":"ՊՐՈՖԻԼ",
+                "settingsId": "ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ",
+                "logout":"ԴՈՒՐՍ ԳԱԼ",
+                "tourn":"Մրցաշարեր",
+                "user":"Օգտատերեր",
+                "resuest":"Հարցումներ",
+                "tournament":"Մրցաշար",
+                "joinTourn":"Միացեք մրցաշարին",
+                "h2Header":"Միացած օգտատերեր:",
+                "accept-button":"Միանալ",
+                "decline-button":"Անտեսել",
+                "invite-button":"Հրավիրել"
+            },
+            "ru": {
+                "homeheader":"ГЛАВНАЯ",
+                "profile":"ПРОФИЛЬ",
+                "settingsId": "НАСТРОЙКИ",
+                "logoutId":"ВЫЙТИ",
+                "tourn":"Турниры",
+                "user":"Пользователи",
+                "resuest":"Запросы",
+                "tournament":"Турнир",
+                "joinTourn":"Присоединяйтесь к турниру",
+                "h2Header":"Присоединившиеся пользователи:",
+                "accept-button":"Присоединиться",
+                "invite-button":"Приглашать",
+                "decline-button":"Игнорировать"
+            },
+            "cn": {
+                "homeheader":"家",
+                "profile":"档案",
+                "settingsId": "設定",
+                "logoutId":"登出",
+                "tourn":"錦標賽",
+                "user":"使用者",
+                "resuest":"要求",
+                "tournament":"比賽",
+                "joinTourn":"參加錦標賽",
+                "h2Header":"已加入用戶:",
+                "accept-button":"加入",
+                "invite-button":"邀請",
+                "decline-button":"忽略"
+            },
+    };
+
+    const elementsToTranslate = {
+        'homeheader': 'homeheader',
+        'profile': 'profile',
+        'settingsId': 'settingsId',
+        'logoutId': 'logoutId',
+        'tourn': 'tourn',
+        'user': 'user',
+        'resuest': 'resuest',
+        'tournament': 'tournament',
+        'joinTourn': 'joinTourn',
+        'h2Header': 'h2Header'
+    };
+
+    Object.keys(elementsToTranslate).forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = translations[selectedLanguage][elementsToTranslate[id]];
+        }
+    });
+
+    const classElementsToTranslate = {
+        'accept-button': 'accept-button',
+        'invite-button': 'invite-button',
+        'decline-button': 'decline-button',
+    };
+
+    Object.keys(classElementsToTranslate).forEach(className => {
+        const elements = document.getElementsByClassName(className);
+        const translationKey = classElementsToTranslate[className];
+        Array.from(elements).forEach(element => {
+            element.innerText = translations[selectedLanguage][translationKey];
+        });
+    });
+  }
+
+applyLanguage()
