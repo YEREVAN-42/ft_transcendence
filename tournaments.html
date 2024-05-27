@@ -28,76 +28,12 @@
         <h1 class="header">Tournaments</h1>
         <div class="tournaments-list-container">
             <div class="tabs">
-                <button class="tab-button active" onclick="openTab(event, 'Users')">Users</button>
+                <button class="tab-button" onclick="openTab(event, 'Users')">Users</button>
                 <button class="tab-button" onclick="openTab(event, 'Requests')">Requests</button>
                 <button class="tab-button" onclick="openTab(event, 'Tournament')">Tournament</button>
             </div>
-            <div id="Users" class="tab-content active">
-                <div class="users-list">
-                    <div class="friend" data-friend-id="1">
-                        <img src="./public/guest.png" alt="Friend 1" class="friend-picture">
-                        <div class="friend-info">
-                            <span class="friend-username">Friend 1</span>
-                            <span class="friend-points">1000 points</span>
-                        </div>
-                        <button class="invite-button" data-action="details">Invite</button>
-                    </div>
-                    <div class="friend" data-friend-id="2">
-                        <img src="./public/guest.png" alt="Friend 2" class="friend-picture">
-                        <div class="friend-info">
-                            <span class="friend-username">Friend 2</span>
-                            <span class="friend-points">300 points</span>
-                        </div>
-                        <button class="invite-button" data-action="details">Invite</button>
-                    </div>
-                    <div class="friend" data-friend-id="3">
-                        <img src="./public/guest.png" alt="Friend 3" class="friend-picture">
-                        <div class="friend-info">
-                            <span class="friend-username">Friend 3</span>
-                            <span class="friend-points">1500 points</span>
-                        </div>
-                        <button class="invite-button" data-action="details">Invite</button>
-                    </div>
-                    <div class="friend" data-friend-id="4">
-                        <img src="./public/guest.png" alt="Friend 4" class="friend-picture">
-                        <div class="friend-info">
-                            <span class="friend-username">Friend 4</span>
-                            <span class="friend-points">3600 points</span>
-                        </div>
-                        <button class="invite-button" data-action="details">Invite</button>
-                    </div>
-                    <!-- Add more friends here -->
-                </div>
-            </div>
-            <div id="Requests" class="tab-content">
-                <div class="users-list">
-                    <div class="friend-request" data-request-id="1">
-                        <img src="./public/guest.png" alt="Request 1" class="friend-picture">
-                        <div class="friend-info">
-                            <span class="friend-username">Request 1</span>
-                            <button class="accept-button" data-action="accept">Join</button>
-                            <button class="decline-button" data-action="decline">Ignore</button>
-                        </div>
-                    </div>
-                    <div class="friend-request" data-request-id="2">
-                        <img src="./public/guest.png" alt="Request 2" class="friend-picture">
-                        <div class="friend-info">
-                            <span class="friend-username">Request 2</span>
-                            <button class="accept-button" data-action="accept">Join</button>
-                            <button class="decline-button" data-action="decline">Ignore</button>
-                        </div>
-                    </div>
-                    <div class="friend-request" data-request-id="3">
-                        <img src="./public/guest.png" alt="Request 3" class="friend-picture">
-                        <div class="friend-info">
-                            <span class="friend-username">Request 3</span>
-                            <button class="accept-button" data-action="accept">Join</button>
-                            <button class="decline-button" data-action="decline">Ignore</button>
-                        </div>
-                    </div>
-                    <!-- Add more friend requests here -->
-                </div>
-            </div>
+            <div id="Users" class="tab-content"> </div>
+            <div id="Requests" class="tab-content"> </div>
             <div id="Tournament" class="tab-content">
                 <div class="tournament-join">
                     <button class="join-tournament-button" onclick="showJoinForm()">Join Tournament</button>
@@ -125,3 +61,4 @@
 <script src="./tournaments.js"> </script>
 </body>
 </html>
+

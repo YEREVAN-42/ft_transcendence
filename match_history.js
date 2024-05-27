@@ -42,7 +42,7 @@ function populateTable(data) {
         const playerCell = document.createElement('td');
         const playerImage = document.createElement('img');
         playerImage.src = match.profile_picture; // URL to the player's profile picture
-        const playerName = document.createTextNode(match.username);
+        const playerName = document.createTextNode(' ' + match.username); // Add a space between the image and name
         playerCell.appendChild(playerImage);
         playerCell.appendChild(playerName);
         playerCell.setAttribute('data-label', 'Player List');
