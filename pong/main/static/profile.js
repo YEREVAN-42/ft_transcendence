@@ -36,7 +36,9 @@ function applyLanguage() {
               "decline":"Decline",
               "add":"Add",
               "matchHistory":"Match history",
-              "turm":"Tournaments"
+              "turm":"Tournaments",
+              "winCount":"Wins Count:",
+              "loseCount": "Loses Count:"
           },
           "hy": {
               "homeheader":"ԳԼԽԱՎՈՐ",
@@ -55,7 +57,9 @@ function applyLanguage() {
               "decline":"Մերժել",
               "add":"Ավելացնել",
               "matchHistory":"Խաղի պատմություն",
-              "turm":"Մրցաշարեր"
+              "turm":"Մրցաշարեր",
+              "winCount":"Հաղթանակների քանակ.",
+              "loseCount": "Պարտությունների քանակ."
           },
           "ru": {
               "homeheader":"ГЛАВНАЯ",
@@ -74,7 +78,9 @@ function applyLanguage() {
               "decline":"Отклонить",
               "add":"Добавлять",
               "matchHistory":"История матчей",
-              "turm":"Турниры"
+              "turm":"Турниры",
+              "winCount":"Количество побед:",
+              "loseCount": "Количество потерь:"
           },
           "cn": {
               "homeheader":"家",
@@ -93,7 +99,9 @@ function applyLanguage() {
               "decline":"衰退",
               "add":"添加",
               "matchHistory":"比賽歷史",
-              "turm":"錦標賽"
+              "turm":"錦標賽",
+              "winCount":"損失數量。",
+              "loseCount": "損失數量："
           },
   };
   const elementsToTranslate = {
@@ -108,7 +116,9 @@ function applyLanguage() {
       'request': 'request',
       'matchHistory': 'matchHistory',
       'users':'users',
-      'turm': 'turm'
+      'turm': 'turm',
+      'winCount' : 'winCount',
+      'loseCount': 'loseCount'
   };
   
   Object.keys(elementsToTranslate).forEach(function(id) {
