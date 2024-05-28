@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'main',
     'intra',
     'local_game',
+	'game',
 	'friends',
     'authentication',
 	'friendship',
