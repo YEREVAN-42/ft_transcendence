@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 "logoutId":"LOG OUT"
             },
             "hy": {
-                "profileLink":"ԱՆՁՆԱԿԱՆ ԷՋ",
+                "profileLink":"ՊՐՈՖԻԼ",
                 "home": "ԳԼԽԱՎՈՐ",
                 "playButton": "Խաղալ",
                 "howToPlayHeader": "ԻՆՉՊԵՍ ԽԱՂԱԼ?",
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
           "username": username
       }
   
-      const url = `http://10.12.17.4:8000/api/v1/login/`
+      const url = `http://0.0.0.0:8000/api/v1/login/`
       fetch(url, {
             method: 'POST',
             headers:
@@ -119,6 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
     
+  switchLanguage(languageSelect.value);
     
     profileImage.addEventListener("click", function() {
       if (menu.style.display === "block") {
@@ -127,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function() {
         menu.style.display = "block";
       }
 });
-switchLanguage(languageSelect.value);
 
 // Close the menu when clicking outside of it
 window.addEventListener("click", function(event) {
@@ -166,7 +166,7 @@ document.getElementById('settingsId').addEventListener('click', function(e)
     return;
   }
 
-  const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
+  const url = `http://0.0.0.0:8000/api/v1/settings/${userId}/`;
   fetch(url, {
       method: 'GET',
       headers: {
@@ -184,7 +184,7 @@ document.getElementById('settingsId').addEventListener('click', function(e)
     // Assuming your Django view will return a JSON response with user data
     
     console.log(data);
-    window.location.href = `http://10.12.17.4:8000/settings/`;
+    window.location.href = `http://0.0.0.0:8000/settings/`;
   })
 //   .then(response => {
 //     if (!response.ok) {
@@ -227,7 +227,7 @@ document.getElementById('logoutId').addEventListener('click', function(e)
     window.location.href = '/';
     return;
   }
-  const url = `http://10.12.17.4:8000/api/v1/logout/${userId}/`;
+  const url = `http://0.0.0.0:8000/api/v1/logout/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -273,7 +273,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     return;
   }
 
-  const url = `http://10.12.17.4:8000/api/v1/profile/${userId}/`;
+  const url = `http://0.0.0.0:8000/api/v1/profile/${userId}/`;
   fetch(url, {
       method: 'GET',
       headers: {
@@ -286,7 +286,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
         throw new Error('Network response was not ok');
     }
     if (response.status === 200) {
-          window.location.href = 'http://10.12.17.4:8000/profile/';
+          window.location.href = 'http://0.0.0.0:8000/profile/';
       }
     return response.json();
 })

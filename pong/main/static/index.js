@@ -4,7 +4,6 @@ const route = (event) => {
     window.history.pushState({}, "", event.target.href);
     handleLocation();
 };
-
 const routes = {
     // 404: "{% url 'error' %}",
 	"/": "{% url 'index' %}",
@@ -22,8 +21,8 @@ const routes = {
 const handleLocation = async () => {
     const path = window.location.pathname;
     const route = routes[path] || routes[404];
-    const html = await fetch(route).then((data) => data.text());
-    document.getElementById("main-page").innerHTML = html;
+    // const html = await fetch(route).then((data) => data.text());
+    // document.getElementById("main-page").innerHTML = html;
 };
 
 window.onpopstate = handleLocation;
