@@ -53,18 +53,19 @@ def login(request):
                 )
             access = AccessToken.for_user(user)
             refresh = RefreshToken.for_user(user)
-            if user.is_active:
-                return JsonResponse({'error': 'User already logged in'}, status=400)
-            user.last_login = None
-            user.is_active = True
+            # if user.is_active:
+            #     return JsonResponse({'error': 'User already logged in'}, status=400)
+            # print('login')  
+            # user.last_login = None
+            # user.is_active = True
             user.save()
         else:
             access = AccessToken.for_user(user)
             refresh = RefreshToken.for_user(user)
-            if user.is_active:
-                return JsonResponse({'error': 'User already logged in'}, status=400)
-            user.last_login = None
-            user.is_active = True
+            # if user.is_active:
+            #     return JsonResponse({'error': 'User already logged in'}, status=400)
+            # user.last_login = None
+            # user.is_active = True
             user.save()
         return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh)}, status=200)
     return render(request, 'main/home.html')

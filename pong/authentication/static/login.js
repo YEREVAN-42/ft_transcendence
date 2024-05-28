@@ -101,6 +101,8 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
         .then(data =>
             {
                 console.log(data);
+                if (data)//data.fa = true
+                    window.location.href = '/confirm/';
                 if (data.status === "error")
                 {
                     alert(data.message);

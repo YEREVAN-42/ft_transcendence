@@ -24,8 +24,11 @@ def friends(request, pk):
 	print("friends")
 	if request.method == 'GET':
 		user = User.objects.get(pk=pk)
-		# send user data to the frontend
-		# friends = Friend.objects.friends(user)
+		friends = Friend.objects.friends(user)
+		if not friends:
+			return JsonResponse({'message': 'No friends'}, status=200)
+		friends = [{'id': friend.pk, 'username': friend.username,} for friend in friends]
+		return JsonResponse(friends, safe=False)
 		# serializer = FriendListSerializer(friends, many=True)
 		# return JsonResponse(serializer.data, safe=False)
 		return render(request, 'main/profile.html')
@@ -33,15 +36,16 @@ def friends(request, pk):
 def requests(request, pk):
 	print("requests")
 	if request.method == 'GET':
+		requests = FriendshipRequest.objects.filter(to_user=pk)
+		if not requests:
+			return JsonResponse({'message': 'No requests'}, status=200)
+		requests = [{'id': request.pk, 'from_user': request.from_user.username} for request in requests]
+	
+		return JsonResponse(requests, safe=False)
 		# users = User.objects.all()
 		# serializer = FriendListSerializer(users, many=True)
 		# return JsonResponse(serializer.data, safe=False)
 		return render(request, 'main/profile.html')
-
-# def users(request):
-# 	print("users")
-# 	if request.method == 'GET':
-# 		return render(request, 'main/profile.html')
 
 def users_list(request, pk):
 	if request.method == 'GET':
