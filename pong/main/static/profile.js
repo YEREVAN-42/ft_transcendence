@@ -237,9 +237,9 @@ async function fetchData(tabName) {
                   <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
                   <div class="friend-info">
                       <span class="friend-username">${item.username}</span>
-                      <span class="friend-activity">${item.activity_status}</span>
+                      <span class="friend-activity">${item.is_active}</span>
                   </div>
-                  <button class="details-button" data-action="details">Remove</button>
+                  <button class="details-button" data-action="details" onclick="remove_friend(event)">Remove</button>
               `;
               tabContent.appendChild(div);
           });
@@ -251,8 +251,8 @@ async function fetchData(tabName) {
                   <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
                   <div class="friend-info">
                       <span class="friend-username">${item.username}</span>
-                      <button class="accept-button" data-action="accept">Accept</button>
-                      <button class="decline-button" data-action="decline">Decline</button>
+                      <button class="accept-button" data-action="accept" onclick="accept_request(event)">Accept</button>
+                      <button class="decline-button" data-action="decline" onclick="decline_request(event)">Decline</button>
                   </div>
               `;
               tabContent.appendChild(div);
@@ -265,7 +265,7 @@ async function fetchData(tabName) {
                   <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
                   <div class="friend-info">
                       <span class="friend-username">${item.username}</span>
-                      <button class="add-button" data-action="add">Add</button>
+                      <button class="add-button" data-action="add" onclick="add_friend(event)">Add</button>
                   </div>
               `;
               tabContent.appendChild(div);
@@ -326,185 +326,16 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.tab-button').click();
 });
 
-// function friends_list()
-// {
-//   const token = localStorage.getItem('access');
-//   if (!token)
-//   {
-//     alert('No token found. Please log in.');
-//     window.location.href = '/';
-//     return;
-//   }
-//   const userId = extractUserIdFromToken(token);
-//   if (!userId)
-//   {
-//     alert('Invalid token. Please log in again.');
-//     window.location.href = '/';
-//   return;
-// }
-
-//   const url = `http://10.12.17.4:8000/api/v1/friends/${userId}/`;
-
-//   fetch(url, {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Authorization': 'Bearer ' + token
-//     },
-//   })
-//   .then(response => {
-//   if (!response.ok) {
-//     throw new Error('Network response was not ok');
-//   }
-//     return response.json();
-//   })
-//   // .then(data => {
-//   //     console.log(data);
-//   //     let friends = document.getElementById('friends');
-//   //     friends.innerHTML = '';
-//   //     data.forEach(friend => {
-//   //         let friendElement = document.createElement('div');
-//   //         friendElement.className = 'friend';
-//   //         friendElement.innerHTML = `
-//   //             <img src="${friend.profile_pic}" alt="Profile Picture" class="friend-profile-pic">
-//   //             <div class="friend-username">${friend.username}</div>
-//   //             <div class="friend-buttons">
-//   //                 <button class="friend-button" onclick="remove_friend()">Remove</button>
-//   //             </div>
-//   //         `;
-//   //         friends.appendChild(friendElement);
-//   //     });
-//   // })
-//   // .catch(error => {
-//     //     console.error('There was a problem with the fetch operation:', error);
-//     // });
-// }
-
-// function requests_list()
-// {
-//   const token = localStorage.getItem('access');
-//   if (!token)
-//   {
-//     alert('No token found. Please log in.');
-//     window.location.href = '/';
-//     return;
-//   }
-//   const userId = extractUserIdFromToken(token);
-//   if (!userId)
-//   {
-//     alert('Invalid token. Please log in again.');
-//     window.location.href = '/';
-//     return;
-// }
-
-// const url = `http://10.12.17.4:8000/api/v1/requests/${userId}/`;
-
-// fetch(url, {
-// method: 'GET',
-// headers: {
-// 'Content-Type': 'application/json',
-// 'Authorization': 'Bearer ' + token
-// },
-// })
-// .then(response => {
-// if (!response.ok) {
-// throw new Error('Network response was not ok');
-// }
-// return response.json();
-// })
-// // .then(data => {
-// //     console.log(data);
-// //     let friends = document.getElementById('friends');
-// //     friends.innerHTML = '';
-// //     data.forEach(friend => {
-// //         let friendElement = document.createElement('div');
-// //         friendElement.className = 'friend';
-// //         friendElement.innerHTML = `
-// //             <img src="${friend.profile_pic}" alt="Profile Picture" class="friend-profile-pic">
-// //             <div class="friend-username">${friend.username}</div>
-// //             <div class="friend-buttons">
-// //                 <button class="friend-button" onclick="remove_friend()">Remove</button>
-// //             </div>
-// //         `;
-// //         friends.appendChild(friendElement);
-// //     });
-// // })
-// // .catch(error => {
-//   //     console.error('There was a problem with the fetch operation:', error);
-//   // });
   
-// }
-
-// function users_list()
-// {
-//   const token = localStorage.getItem('access');
-//   if (!token)
-//   {
-//     alert('No token found. Please log in.');
-//     window.location.href = '/';
-//     return;
-//   }
-//   const userId = extractUserIdFromToken(token);
-//   if (!userId)
-//   {
-//     alert('Invalid token. Please log in again.');
-//     window.location.href = '/';
-//     return;
-//   }
-  
-//   const url = `http://10.12.17.4:8000/api/v1/users_list/${userId}/`;
-  
-//   fetch(url, {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Authorization': 'Bearer ' + token
-//     },
-//   })
-//   .then(response => {
-//     if (!response.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     return response.json();
-//   })
-//   .then(data => {
-//     console.log(data);
-//     document.getElementById("suggestion1").textContent = data[0].username;
-//     document.getElementById("suggestion2").textContent = data[1].username;
-//     // window.location.href = `http://10.12.17.4:8000/users/`;
-  
-//   })
-//   // .then(data => {
-//     //     console.log(data);
-//     //     let friends = document.getElementById('friends');
-//     //     friends.innerHTML = '';
-//     //     data.forEach(friend => {
-//       //         let friendElement = document.createElement('div');
-//       //         friendElement.className = 'friend';
-//       //         friendElement.innerHTML = `
-//       //             <img src="${friend.profile_pic}" alt="Profile Picture" class="friend-profile-pic">
-//       //             <div class="friend-username">${friend.username}</div>
-//       //             <div class="friend-buttons">
-//       //                 <button class="friend-button" onclick="remove_friend()">Remove</button>
-//       //             </div>
-//       //         `;
-//       //         friends.appendChild(friendElement);
-//       //     });
-//       // })
-//       // .catch(error => {
-//         //     console.error('There was a problem with the fetch operation:', error);
-//         // });
-//       }
-      
 // // document.addEventListener('DOMContentLoaded', (event) => {
 // //   const activeTab = localStorage.getItem('activeTab'); // Default to 'Friends' if no tab is saved
 // //   document.querySelector(`.tab-button[onclick="openTab(event, '${activeTab}')"]`).click();
 // // });
 
-// // Set default tab to be opened
-// // document.addEventListener('DOMContentLoaded', function() {
-// //   document.querySelector('.tab-button').click();
-// // });
+// Set default tab to be opened
+// document.addEventListener('DOMContentLoaded', function() {
+//   document.querySelector('.tab-button').click();
+// });
 
 function goToMatchHistory() {
 const token = localStorage.getItem('access');
@@ -674,9 +505,8 @@ return response.json();
 })
 .then(data => {
 // Assuming your Django view will return a JSON response with user data
-
-console.log(data);
-window.location.href = `http://10.12.17.4:8000/settings/`;
+  console.log(data);
+  window.location.href = `http://10.12.17.4:8000/settings/`;
 })
 //   .then(response => {
 //     if (!response.ok) {
@@ -698,7 +528,7 @@ window.location.href = `http://10.12.17.4:8000/settings/`;
 
 //friends zone
 
-function add_friend()
+function add_friend(event)
 {
   const request_data = {
       "receiver_id": 2
@@ -733,11 +563,9 @@ function add_friend()
     }
     return response.json();
     })
-
-
 }
 
-function accept_request()
+function accept_request(event)
 {
   const request_data = {
       "sender_id": 1
@@ -777,7 +605,7 @@ function accept_request()
 
 }
 
-function decline_request()
+function decline_request(event)
 {
   const request_data = {
       "sender_id": 1
@@ -816,7 +644,7 @@ function decline_request()
   })
 }
 
-function remove_friend()
+function remove_friend(event)
 {
   const request_data = {
       "receiver_id": 2
