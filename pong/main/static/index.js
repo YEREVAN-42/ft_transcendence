@@ -78,6 +78,11 @@ document.addEventListener("DOMContentLoaded", function() {
         switchLanguage(selectedLanguage);
         localStorage.setItem('selectedLanguage', selectedLanguage);
     });
+    switchLanguage(selectedLanguage);
+    var selectedLanguage = localStorage.getItem('selectedLanguage');
+    if(selectedLanguage) {
+      languageSelect.value = selectedLanguage;
+    }
 });
 
 document.addEventListener('DOMContentLoaded', switchLanguage);

@@ -73,7 +73,14 @@ document.getElementById('removeProfileBtn').addEventListener('click', function()
     localStorage.setItem('profilePic', defaultProfilePic);
     document.getElementById('profileImage').src = defaultProfilePic; // Set the profile picture to the default image
     document.getElementById('profileImageLarge').src = defaultProfilePic;
-    alert('Are you sure you want to remove the profile picture ?');
+    const language = localStorage.getItem('selectedLanguage') || 'en';
+    var texts = {
+        "en": "Are you sure you want to remove the profile picture ?",
+        "hy": "Իսկապե՞ս ուզում եք հեռացնել պրոֆիլի նկարը:",
+        "ru": "Вы уверены, что хотите удалить изображение профиля?",
+        "cn": "您確定要刪除個人資料圖片嗎？"
+    };
+    alert(texts[language]);
 });
     
     var profileName = localStorage.getItem('profileName');
@@ -197,7 +204,14 @@ document.getElementById('saveChangesBtn').addEventListener('click', async functi
         }
         if (response.status === 200)
         {
-            alert('Changes saved successfully!');
+            const language = localStorage.getItem('selectedLanguage') || 'en';
+            var texts = {
+                "en": "Changes saved successfully!",
+                "hy": "Փոփոխությունները հաջողությամբ պահպանվեցին:",
+                "ru": "Изменения успешно сохранены!",
+                "cn": "更改儲存成功！"
+            };
+            alert(texts[language]);
             window.location.href = `http://0.0.0.0:8000/settings/`;
         }
         return response.json();
@@ -275,8 +289,14 @@ function extractUserIdFromToken(token) {
 // Delete account
 document.getElementById('deleteAccountBtn').addEventListener('click', function(e) {
     e.preventDefault();
-
-    var question = confirm('Are you sure you want to delete your account?');
+    const language = localStorage.getItem('selectedLanguage') || 'en';
+    var texts = {
+        "en": "Are you sure you want to delete your account?",
+        "hy": "Իսկապե՞ս ուզում եք ջնջել ձեր հաշիվը:",
+        "ru": "Вы уверены, что хотите удалить свою учетную запись?",
+        "cn": "您確定要刪除您的帳戶嗎？"
+    };
+    var question = confirm(texts[language]);
     if (!question) {
         return;
     }
@@ -316,8 +336,15 @@ document.getElementById('deleteAccountBtn').addEventListener('click', function(e
             throw new Error('Network response was not ok');
         }
         if (response.status === 200)
-        {            
-            alert('Account deleted successfully!');
+        {          
+            const language = localStorage.getItem('selectedLanguage') || 'en';
+                var texts = {
+                    "en": "Account deleted successfully!",
+                    "hy": "Հաշիվը հաջողությամբ ջնջվեց:",
+                    "ru": "Аккаунт успешно удален!",
+                    "cn": "帳號刪除成功！"
+                };
+            alert(texts[language]);
             window.history.pushState({}, "", '/');
             localStorage.clear();
             window.location.href = '/';
