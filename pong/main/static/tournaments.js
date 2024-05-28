@@ -573,13 +573,14 @@ function applyLanguage() {
                 "h2Header":"Joined Users:",
                 "accept-button":"Join",
                 "decline-button":"Ignore",
-                "invite-button":"Invite"
+                "invite-button":"Invite",
+                "start":"Start new tournament"
             },
             "hy": {
                 "homeheader":"ԳԼԽԱՎՈՐ",
                 "profile":"ՊՐՈՖԻԼ",
                 "settingsId": "ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ",
-                "logout":"ԴՈՒՐՍ ԳԱԼ",
+                "logoutId":"ԴՈՒՐՍ ԳԱԼ",
                 "tourn":"Մրցաշարեր",
                 "user":"Օգտատերեր",
                 "resuest":"Հարցումներ",
@@ -588,7 +589,8 @@ function applyLanguage() {
                 "h2Header":"Միացած օգտատերեր:",
                 "accept-button":"Միանալ",
                 "decline-button":"Անտեսել",
-                "invite-button":"Հրավիրել"
+                "invite-button":"Հրավիրել",
+                "start":"Սկսել նոր մրցաշար"
             },
             "ru": {
                 "homeheader":"ГЛАВНАЯ",
@@ -603,7 +605,8 @@ function applyLanguage() {
                 "h2Header":"Присоединившиеся пользователи:",
                 "accept-button":"Присоединиться",
                 "invite-button":"Приглашать",
-                "decline-button":"Игнорировать"
+                "decline-button":"Игнорировать",
+                "start":"Начать новый турнир"
             },
             "cn": {
                 "homeheader":"家",
@@ -618,9 +621,10 @@ function applyLanguage() {
                 "h2Header":"已加入用戶:",
                 "accept-button":"加入",
                 "invite-button":"邀請",
-                "decline-button":"忽略"
+                "decline-button":"忽略",
+                "start":"開始新的錦標賽"
             },
-    };
+        };
 
     const elementsToTranslate = {
         'homeheader': 'homeheader',
@@ -632,7 +636,8 @@ function applyLanguage() {
         'resuest': 'resuest',
         'tournament': 'tournament',
         'joinTourn': 'joinTourn',
-        'h2Header': 'h2Header'
+        'h2Header': 'h2Header',
+        'start':'start'
     };
 
     Object.keys(elementsToTranslate).forEach(id => {

@@ -458,7 +458,6 @@ document.getElementById('logoutId').addEventListener('click', function(e)
 
 function applyLanguage() {
     var selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
-    // var selectedLanguage = 'hy';
 
     const translations = {
             "en": {

@@ -16,19 +16,24 @@
         <a href="/profile" id = profileId>
             <img alt="PROFILE" src="{% static '/images/icons8-customer-20.png' %}" /> <span id="profileLink">PROFILE</span>
         </a>
-        <div class="dropdown-content" id="dropdownContent">
-            <select name="language" id="languageSelect">
-                <option value="en">English</option>
-                <option value="hy">Armenian</option>
-                <option value="ru">Russian</option>
-                <option value="cn">Chinese</option>
-            </select>
+        <img class="profile-icon" alt="Profile Picture" id="profileImage" src="{% static 'images/guest.png' %}" />
+        <div class="menu" id="menu">
+            <a href="/settings" class="settings" id="settingsId">SETTINGS</a>
+            <a href="/" class="logout" id="logoutId">LOG OUT</a>
         </div>
-            <img class="profile-icon" alt="Profile Picture" id="profileImage" src="" />
-            <div class="menu" id="menu">
-                <a href="/settings" class="settings" id="settingsId">SETTINGS</a>
-                <a href="/" class="logout" id="logoutId">LOG OUT</a>
-            </div>
+    </div>
+    <div class="lang">
+    <div class="image-wrapper" id="imageWrapper">
+        <img src="{% static 'images/change_language.webp' %}" alt="Button Image"  id="buttonImage">
+    </div>
+    <div class="dropdown-content" id="dropdownContent">
+        <select name="language" id="languageSelect">
+            <option value="en"> English</option>
+            <option value="hy">Armenian</option>
+            <option value="ru">Russian</option>
+            <option value="cn">Chinese</option>
+        </select>
+    </div>
     </div>
     <div class="container">
         <div class="image-container">

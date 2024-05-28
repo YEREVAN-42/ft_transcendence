@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 "logoutId":"LOG OUT"
             },
             "hy": {
-                "profileLink":"ԱՆՁՆԱԿԱՆ ԷՋ",
+                "profileLink":"ՊՐՈՖԻԼ",
                 "home": "ԳԼԽԱՎՈՐ",
                 "playButton": "Խաղալ",
                 "howToPlayHeader": "ԻՆՉՊԵՍ ԽԱՂԱԼ?",
@@ -123,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
     
-    
     profileImage.addEventListener("click", function() {
       if (menu.style.display === "block") {
         menu.style.display = "none";
@@ -131,8 +130,6 @@ document.addEventListener("DOMContentLoaded", function() {
         menu.style.display = "block";
       }
 });
-// switchLanguage(languageSelect.value);
-
 // Close the menu when clicking outside of it
 window.addEventListener("click", function(event) {
   if (!event.target.matches("#profileImage") && !event.target.matches(".menu")) {

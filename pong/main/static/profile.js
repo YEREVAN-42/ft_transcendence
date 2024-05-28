@@ -1,5 +1,3 @@
-
-
 // JavaScript for the profile menu
 document.addEventListener("DOMContentLoaded", function()
 {
@@ -41,11 +39,13 @@ function applyLanguage() {
               "decline":"Decline",
               "add":"Add",
               "matchHistory":"Match history",
-              "turm":"Tournaments"
+              "turm":"Tournaments",
+              "winCount":"Wins Count:",
+              "loseCount": "Loses Count:"
           },
           "hy": {
               "homeheader":"ԳԼԽԱՎՈՐ",
-              "profile":"ԱՆՁՆԱԿԱՆ ԷՋ",
+              "profile":"ՊՐՈՖԻԼ",
               "settingsId": "ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ",
               "logoutId":"ԴՈՒՐՍ ԳԱԼ",
               "prof":"Անձնական էջ",
@@ -60,7 +60,9 @@ function applyLanguage() {
               "decline":"Մերժել",
               "add":"Ավելացնել",
               "matchHistory":"Խաղի պատմություն",
-              "turm":"Մրցաշարեր"
+              "turm":"Մրցաշարեր",
+              "winCount":"Հաղթանակների քանակ.",
+              "loseCount": "Պարտությունների քանակ."
           },
           "ru": {
               "homeheader":"ГЛАВНАЯ",
@@ -79,7 +81,9 @@ function applyLanguage() {
               "decline":"Отклонить",
               "add":"Добавлять",
               "matchHistory":"История матчей",
-              "turm":"Турниры"
+              "turm":"Турниры",
+              "winCount":"Количество побед:",
+              "loseCount": "Количество потерь:"
           },
           "cn": {
               "homeheader":"家",
@@ -98,7 +102,9 @@ function applyLanguage() {
               "decline":"衰退",
               "add":"添加",
               "matchHistory":"比賽歷史",
-              "turm":"錦標賽"
+              "turm":"錦標賽",
+              "winCount":"損失數量。",
+              "loseCount": "損失數量："
           },
   };
   const elementsToTranslate = {
@@ -113,7 +119,10 @@ function applyLanguage() {
       'request': 'request',
       'matchHistory': 'matchHistory',
       'users':'users',
-      'turm': 'turm'
+      'turm': 'turm',
+      'winCount' : 'winCount',
+      'loseCount': 'loseCount',
+      'add':'add'
   };
   
   Object.keys(elementsToTranslate).forEach(function(id) {
@@ -124,7 +133,7 @@ function applyLanguage() {
       }
   });
   document.getElementById('searchInput').placeholder = translations[selectedLanguage].searchInput;
-
+  console.log(document.querySelector("body").innerHTML);
   var detailsButtons = document.getElementsByClassName('details-button');
   for (var i = 0; i < detailsButtons.length; i++) {
       detailsButtons[i].innerText = translations[selectedLanguage].removeButton;
@@ -260,7 +269,7 @@ async function fetchData(tabName) {
                   <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
                   <div class="friend-info">
                       <span class="friend-username">${item.username}</span>
-                      <button class="add-button" data-action="add" onclick="add_friend(event)">Add</button>
+                      <button class="add-button" data-action="add" onclick="add_friend(event)" id="add">Add</button>
                   </div>
               `;
               tabContent.appendChild(div);

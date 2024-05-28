@@ -76,7 +76,6 @@ function populateTable(data) {
 
 function applyLanguage() {
     var selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
-    var selectedLanguage = 'hy';
 
     const translations = {
             "en": {
