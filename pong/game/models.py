@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+import base64
+
 # Create your models here.
 class GameInvite(models.Model):
 	sender = models.ForeignKey('auth.User', related_name='game_invites_sent', on_delete=models.CASCADE)
@@ -39,11 +41,23 @@ class Player(models.Model):
     points = models.IntegerField(default=0)
     game = models.ForeignKey(PongGame, related_name='game_players', on_delete=models.CASCADE, null=True, blank=True)
     fa = models.BooleanField(default=False)
+    image = models.TextField(blank=True, null=True)
     game_process = models.BooleanField(default=False)
     game_mode = models.CharField(max_length=25, blank=True, default='')
 
     def __str__(self):
         return f'{self.user}'
+
+    def save_base64_image(self, image_path=None, image_format='jpg'):
+        if image_path:
+            base64_string = self.image_to_base64(image_path)
+            self.image = base64_string
+            self.save()
+
+    def image_to_base64(self, image_path):
+        with open(image_path, "rb") as image_file:
+            base64_string = base64.b64encode(image_file.read()).decode("utf-8")
+        return base64_string
 
 class History(models.Model):
 	player = models.ForeignKey('Player', related_name='histories', on_delete=models.CASCADE)

@@ -210,6 +210,9 @@ document.getElementById('logoutId').addEventListener('click', function(e)
     "token": localStorage.getItem('access'),
     "refresh": localStorage.getItem('refresh')
   }
+  console.log(userId);
+  console.log(token);
+  console.log(requested_data);
   const token = localStorage.getItem('access');
   if (!token)
   {
@@ -228,19 +231,22 @@ document.getElementById('logoutId').addEventListener('click', function(e)
   fetch(url, {
     method: 'POST',
     headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
     },
     body: JSON.stringify(requested_data)
     
   })
   .then(response => {
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
   })
   .then(data => {
+    console.log(userId);
+    console.log(token);
+    console.log(requested_data);
     console.log(data);
   })
 

@@ -44,10 +44,40 @@ def home(request):
     #     return render(request, 'main/home.html')
     return render(request, 'main/home.html')
 
+@csrf_exempt
 def profile(request):
     return render(request, 'main/profile.html')
 
+@csrf_exempt
 def profile_info(request, id):
+    print("id", id)
+    if request.method == 'GET':
+        return JsonResponse({'info': 'Profile info'}, status=200)
+        # try:
+        #     user = User.objects.get(id=id)
+        #     if user is None:
+        #         return JsonResponse({'error': 'Invalid credentials'}, status=400)
+        #     print("request", request.method)
+        #     player = Player.objects.get(id=id)
+        #     if player is None:
+        #         return JsonResponse({'error': 'Invalid credentials'}, status=400)
+        #     data = {
+        #         'username': user.username,
+        #         'wins': player.wins,
+        #         'loses': player.loses,
+        #     }
+        #     print("Data", data)
+        #     return JsonResponse(data)
+        # except Player.DoesNotExist:
+        #     return JsonResponse({'error': 'Player not found'}, status=404)   
+            
+
+@csrf_exempt
+def match_history(request, id):
+    return render(request, 'main/match_history.html')
+
+@csrf_exempt
+def history(request, id):
     if request.method == 'GET':
         try:
             user = User.objects.get(id=id)
@@ -56,19 +86,24 @@ def profile_info(request, id):
             player = Player.objects.get(id=id)
             if player is None:
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
+            
+            history = History.objects.get(player=id)
+            print("History", history)
+            if history is None:
+                return JsonResponse({'error': 'Invalid credentials'}, status=400)
             data = {
                 'username': user.username,
-                'wins': player.wins,
-                'loses': player.loses,
+                'image': player.image,
+                'game_mode': history.game_mode,
+                'result': history.result,
+                'date': history.date,
+                'result': history.result,
             }
             return JsonResponse(data)
         except Player.DoesNotExist:
-            return JsonResponse({'error': 'Player not found'}, status=404)   
-            
+            return JsonResponse({'error': 'Player not found'}, status=404)
 
-def match_history(request, id):
-    return render(request, 'main/match_history.html')
-
+@csrf_exempt
 def tournaments(request, id):
     return render(request, 'main/tournaments.html')
 
@@ -94,26 +129,40 @@ def check_settings(request, id):
 
 @csrf_exempt
 def change_settings(request, id):
-    if request.method == 'POST':
-            
+    if request.method == 'PUT':
             # Get the email from the JSON data
             data = json.loads(request.body)
-
+            user = User.objects.get(id = id)
+            player = Player.objects.get(id = id)
             # get data and send to User model
             name = data.get('name')
+            if name == '' or name is None:
+                name = user.first_name
             username = data.get('username')
+            if username == '' or username is None:
+                username = user.username
             email = data.get('email')
+            if email == '' or email is None:
+                email = user.email
             pass1 = data.get('password')
-
+            if pass1 == '' or pass1 is None:
+                pass1 = user.password
+            image = data.get('image')
+            if image == '' or image is None:
+                image = player.image
+            fa = data.get('fa')
+            if fa == '' or fa is None:
+                fa = player.fa
             try:
-                user = User.objects.get(id = id)
-
                 if user is not None:
                     user.first_name = name
                     user.username = username
                     user.email = email
                     user.password = pass1
-                    # user.save()
+                    player.image = image
+                    player.fa = fa
+                    user.save()
+                    player.save()
                     return JsonResponse({'message': 'Change successful'}, status=200)
                 else:
                     return JsonResponse({'error': 'Invalid credentials'}, status=400)
@@ -123,7 +172,7 @@ def change_settings(request, id):
 
 @csrf_exempt
 def delete_account(request, id):
-    if request.method == 'POST':
+    if request.method == 'DELETE':
             try:
                 user = User.objects.get(id = id)
                 if user is not None:
@@ -131,8 +180,7 @@ def delete_account(request, id):
                     refresh = data.get('refresh')
                     token = RefreshToken(refresh)
                     token.blacklist()
-                    print("Token", token)
-                    # user.delete()
+                    user.delete()
                     return JsonResponse({'message': 'Delete successful'}, status=200)
                 else:
                     return JsonResponse({'error': 'Invalid credentials'}, status=400)

@@ -16,6 +16,7 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
 import json
+import os
 from django.utils import timezone
 from game.models import Player
 
@@ -39,8 +40,6 @@ def intra(request):
 def signin(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        if not data.get('email') or not data.get('password'):
-            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
         email = data.get('email')
         pass1 = data.get('password')
         try:
@@ -48,11 +47,12 @@ def signin(request):
             access = AccessToken.for_user(user)
             refresh = RefreshToken.for_user(user)
             if user is not None:
-                if user.is_active:
-                    return JsonResponse({'error': 'User already logged in'}, status=400)
-                user.last_login = None
-                user.is_active = True
+                # if user.is_active:
+                #     return JsonResponse({'error': 'User already logged in'}, status=400)
+                # user.last_login = None
+                # user.is_active = True
                 user.save()
+                #stex el erevi petq a check anel tesnel ete 2fa true
                 return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh)}, status=200)
             else:
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
@@ -79,7 +79,8 @@ def confirm(request):
                 password=password,
                 is_active = False
             )
-            Player.objects.create(user=user)
+            player = Player.objects.create(user=user)# delete-um petq a jnjel
+            player.save_base64_image(image_path=os.path.join(os.path.dirname(__file__), '..', 'main', 'static', 'images', 'default_user.jpg'))
             return JsonResponse({'message': 'Data saved successfully'}, status=201)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
@@ -89,6 +90,7 @@ def confirm(request):
 
 @csrf_exempt
 def logout(request, pk):
+    print("logout")
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -98,10 +100,10 @@ def logout(request, pk):
             token = RefreshToken(refresh)
             token.blacklist()
             user = User.objects.get(pk=pk)
-            if user is None:
-                return JsonResponse({'error': 'User not found'}, status=404)
-            user.last_login = timezone.now()
-            user.is_active = False
+            # if user is None:
+            #     return JsonResponse({'error': 'User not found'}, status=404)
+            # user.last_login = timezone.now()
+            # user.is_active = False
             user.save()
             return JsonResponse({'message': 'Logout successful'}, status=200)
         except TokenError:
