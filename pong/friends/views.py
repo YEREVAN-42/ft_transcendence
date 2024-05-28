@@ -5,6 +5,7 @@ from django.http import JsonResponse
 # from core.serializers import FriendListSerializer
 from django.contrib.auth.models import User
 from friendship.models import Friend, FriendshipRequest
+from game.models import Player	
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -50,7 +51,8 @@ def requests(request, pk):
 def users_list(request, pk):
 	if request.method == 'GET':
 		users = User.objects.all()
-		users = [{'id': user.pk, 'username': user.username} for user in users if user.pk != pk]
+		player = Player.objects.get(user=pk)
+		users = [{'id': user.pk, 'username': user.username, 'image': player.image} for user in users if user.pk != pk]
 		print("✅", users)
 		return JsonResponse(users, safe=False)
 

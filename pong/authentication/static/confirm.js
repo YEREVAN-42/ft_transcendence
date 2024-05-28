@@ -21,6 +21,8 @@ function confirmCode()
     }
     //var confirmation_code = localStorage.getItem("confirmation_code");
 
+    
+
     if (code === "12345")//confirmation_code
     {
         var texts = {
@@ -67,6 +69,11 @@ function confirmCode()
                 localStorage.removeItem("password");
             }
             return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            localStorage.setItem('default_image', data.image);
+            
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);

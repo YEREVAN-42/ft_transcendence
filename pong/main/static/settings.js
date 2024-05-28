@@ -26,14 +26,20 @@ var profilePicLarge = localStorage.getItem('profilePicLarge');
 document.getElementById('profileImageLarge').src = profilePic || '/static/images/guest.png';
       
 // Update profile picture
-var profilePic = localStorage.getItem('profilePic');
-    if (profilePic) {
-        document.getElementById('profileImage').src = profilePic;
-    }
-    var profilePic = localStorage.getItem('profilePic');
-    if (profilePic) {
-        document.getElementById('profileImageLarge').src = profilePic;
-    }
+// var profilePic = localStorage.getItem('profilePic');
+//     if (profilePic) {
+//         document.getElementById('profileImage').src = profilePic;
+//     }
+//     var profilePic = localStorage.getItem('profilePic');
+//     if (profilePic) {
+//         document.getElementById('profileImageLarge').src = profilePic;
+//     }
+
+const base64Image = localStorage.getItem('default_image');
+const imgElement1 = document.getElementById('profileImage');
+const imgElement2 = document.getElementById('profileImageLarge');
+imgElement1.src = `data:image/jpg;base64,${base64Image}`;
+imgElement2.src = `data:image/jpg;base64,${base64Image}`;
 
 // Edit profile picture
 document.getElementById('editProfileBtn').addEventListener('click', function() {

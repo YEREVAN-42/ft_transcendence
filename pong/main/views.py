@@ -49,6 +49,21 @@ def profile(request):
     return render(request, 'main/profile.html')
 
 @csrf_exempt
+def language(request):
+    if request.method == 'PUT':
+        try:
+            player = Player.objects.get(id=id)
+            if player is None:
+                return JsonResponse({'error': 'Invalid credentials'}, status=400)
+            data = {
+                'language': player.language,
+            }
+            return JsonResponse(data)
+        except Player.DoesNotExist:
+            return JsonResponse({'error': 'Player not found'}, status=404)
+
+
+@csrf_exempt
 def profile_info(request, id):
     print("id", id)
     if request.method == 'GET':

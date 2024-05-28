@@ -3,7 +3,12 @@
 // JavaScript for the profile menu
 document.addEventListener("DOMContentLoaded", function()
 {
-  var profileImage = document.getElementById("profileImage");
+  const base64Image = localStorage.getItem('default_image');
+  const imgElement1 = document.getElementById('profileImage');
+  const imgElement2 = document.getElementById('profileImageLarge');
+  imgElement1.src = `data:image/jpg;base64,${base64Image}`;
+  imgElement2.src = `data:image/jpg;base64,${base64Image}`;
+  
   var menu = document.getElementById("menu");
 
   profileImage.addEventListener("click", function()
@@ -224,7 +229,7 @@ async function fetchData(tabName) {
               const div = document.createElement('div');
               div.className = 'friend';
               div.innerHTML = `
-                  <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
+                  <img id="" src="" alt="${item.username}" class="friend-picture">
                   <div class="friend-info">
                       <span class="friend-username">${item.username}</span>
                       <span class="friend-activity">${item.is_active}</span>

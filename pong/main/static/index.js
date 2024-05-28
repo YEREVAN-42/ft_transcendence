@@ -14,6 +14,7 @@ const routes = {
 	"/confirm": "{% url 'confirm' %}",
 	"/intra": "{% url 'intra' %}",
 	"/profile": "{% url 'profile' %}",
+	"/local_game": "{% url 'local_game' %}",
 	"/match_history": "{% url 'match_history' %}",
 	"/tournaments": "{% url 'tournaments' %}",
 	"/settings": "{% url 'settings' %}",

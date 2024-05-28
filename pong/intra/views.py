@@ -6,9 +6,11 @@ import requests
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from game.models import Player
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 import os
+import base64
 import json
 import requests
 
@@ -51,6 +53,12 @@ def login(request):
                     email=user_info['email'],
                     is_active = True
                 )
+            image_info = user_info['image']
+            image_url = image_info['link']
+            image_response = requests.get(image_url)
+            if image_response.status_code == 200:
+                image_content_base64 = base64.b64encode(image_response.content).decode('utf-8')
+                Player.objects.create(user=user, image=image_content_base64)
             access = AccessToken.for_user(user)
             refresh = RefreshToken.for_user(user)
             # if user.is_active:

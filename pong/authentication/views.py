@@ -12,6 +12,8 @@ from django.http import JsonResponse
 
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.files.storage import default_storage
+import base64
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -38,6 +40,7 @@ def intra(request):
 
 @csrf_exempt
 def signin(request):
+    print("signin1")
     if request.method == 'POST':
         data = json.loads(request.body)
         email = data.get('email')
@@ -47,13 +50,19 @@ def signin(request):
             access = AccessToken.for_user(user)
             refresh = RefreshToken.for_user(user)
             if user is not None:
-                # if user.is_active:
-                #     return JsonResponse({'error': 'User already logged in'}, status=400)
-                # user.last_login = None
-                # user.is_active = True
+                print("user", user)
+                if user.is_active:
+                    return JsonResponse({'error': 'User already logged in'}, status=400)
+                user.last_login = None
+                user.is_active = True
                 user.save()
-                #stex el erevi petq a check anel tesnel ete 2fa true
-                return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh)}, status=200)
+                player, created = Player.objects.get_or_create(user=user)
+                # Save the base64 image
+                if created or not player.image:
+                    player.image_to_base64()
+                player.save()
+                # stex el erevi petq a check anel tesnel ete 2fa true
+                return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh), 'image': player.image}, status=200)
             else:
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
         except User.DoesNotExist:
@@ -80,8 +89,13 @@ def confirm(request):
                 is_active = False
             )
             player = Player.objects.create(user=user)# delete-um petq a jnjel
-            player.save_base64_image(image_path=os.path.join(os.path.dirname(__file__), '..', 'main', 'static', 'images', 'default_user.jpg'))
-            return JsonResponse({'message': 'Data saved successfully'}, status=201)
+            image_path = os.path.join(os.path.dirname(__file__), '..', 'main', 'static', 'images', 'default_user.jpg')
+            with default_storage.open(image_path, 'rb') as image_file:
+                encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+                print("encoded_image", encoded_image)
+                player.image = encoded_image
+                player.save()
+            return JsonResponse({'message': 'Data saved successfully', 'image': player.image}, status=201)
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON data'}, status=400)
         except Exception as e:

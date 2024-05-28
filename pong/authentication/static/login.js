@@ -101,8 +101,8 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
         .then(data =>
             {
                 console.log(data);
-                if (data)//data.fa = true
-                    window.location.href = '/confirm/';
+                // if (data)//data.fa = true
+                //     window.location.href = '/confirm/';
                 if (data.status === "error")
                 {
                     alert(data.message);
@@ -111,6 +111,8 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
                 {
                     localStorage.setItem('access', data.access);
                     localStorage.setItem('refresh', data.refresh);
+
+                    localStorage.setItem('default_image', data.image);
 
                     const userId = extractUserIdFromToken(data.access);
                     if (!userId)
