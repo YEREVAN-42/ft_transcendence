@@ -162,9 +162,8 @@ function restartGame() {
 }
 
 function exitGame() {
-    // Redirect to Google
-    console.log('Exiting game...');
-    window.location.href = 'https://www.google.com';
+    const url = `http://10.12.17.4:8000/home/`;
+    window.location.href = url;
 }
 
 function startGame() {
