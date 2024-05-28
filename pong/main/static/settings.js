@@ -475,7 +475,7 @@ function applyLanguage() {
             },
             "hy": {
                 "homeheader":"ԳԼԽԱՎՈՐ",
-                "profile":"ԱՆՁՆԱԿԱՆ ԷՋ",
+                "profile":"ՊՐՈՖԻԼ",
                 "settingsId": "ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ",
                 "logoutId":"ԴՈՒՐՍ ԳԱԼ",
                 "h1Header":"Կարգավորումներ",

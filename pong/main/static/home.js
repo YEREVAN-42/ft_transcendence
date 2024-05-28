@@ -3,24 +3,39 @@ document.addEventListener("DOMContentLoaded", function() {
   var profileImage = document.getElementById("profileImage");
   var menu = document.getElementById("menu");
   var languageSelect = document.getElementById("languageSelect");
-  var selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+  
+  var selectedLanguage = localStorage.getItem('selectedLanguage');//TODO language or 'en'
+  // const url = `http://0.0.0.0:8000/api/v1/language/${userId}/`;
+  // fetch(url)
+  // .then(response => {
+  //   if (!response.ok) {
+  //     throw new Error('Network response was not ok');
+  //   }
+  //   return response.json();
+  // })
+  // .then(languages => {
+  //   selectedLanguage = languages;
+  // })
+  // .catch(error => {
+  //   console.error('There was a problem with the fetch operation:', error);
+  // });
 
   const base64Image = localStorage.getItem('default_image');
   const imgElement = document.getElementById('profileImage');
   imgElement.src = `data:image/jpg;base64,${base64Image}`;
-      
-  languageSelect.value = selectedLanguage;
+  
+  // languageSelect.value = selectedLanguage;
   languageSelect.addEventListener("change", function() {
-     var selectedLanguage = languageSelect.value;
-     switchLanguage(selectedLanguage);
+    var selectedLanguage = languageSelect.value;
+    switchLanguage(selectedLanguage);
      localStorage.setItem('selectedLanguage', selectedLanguage);
      sendSelectedLanguageToDb();
-  });
+    });
   
-      function switchLanguage(language) {
-        var translations = {
+    function switchLanguage(language) {
+      var translations = {
             "en": {
-                "profileLink":"PROFILE",
+              "profile":"PROFILE",
                 "home": "HOME",
                 "playButton": "Play",
                 "howToPlayHeader": "HOW TO PLAY ?",
@@ -29,16 +44,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 "logoutId":"LOG OUT"
             },
             "hy": {
-                "profileLink":"ՊՐՈՖԻԼ",
+                "profile":"ՊՐՈՖԻԼ",
                 "home": "ԳԼԽԱՎՈՐ",
                 "playButton": "Խաղալ",
                 "howToPlayHeader": "ԻՆՉՊԵՍ ԽԱՂԱԼ?",
-                "howToPlayText": "Մի փոքրիկ գնդակը շարժվում է էկրանով, ցատկելով վերևի և ներքևի եզրերից, և երկու խաղացողներից յուրաքանչյուրը կառավարում է մի պահոց՝ այն ուղղահայաց սահեցնելով էկրանի ծայրերի միջև՝ օգտագործելով կառավարները: Եթե գնդակը դիպչում է խաղադաշտին, այն ետ է վերադառնում դեպի մյուս խաղացողը: Եթե այն բաց է թողնում պահոցը, մյուս խաղացողը միավոր է վաստակում: Գնդակը ցատկում է տարբեր ձևերով՝ կախված նրանից, թե ինչպես է այն հարվածում բարձիկին:",
+                "howToPlayText": "Փոքրիկ գնդակը շարժվում է էկրանով, ցատկելով վերևի և ներքևի եզրերից, և երկու խաղացողներից յուրաքանչյուրը կառավարում է մի դարպաս՝ այն ուղղահայաց սահեցնելով էկրանի ծայրերի միջև՝ օգտագործելով վահաններ: Եթե գնդակը դիպչում է խաղադաշտին, այն ետ է վերադառնում դեպի մյուս խաղացողը: Եթե այն բաց է թողնում և դիպչում է դարպասին, մյուս խաղացողը միավոր է վաստակում: Գնդակը ցատկում է տարբեր ձևերով՝ կախված նրանից, թե ինչպես է այն հարվածում վահանին:",
                 "settingsId":"ԿԱՐԳԱՎՈՐՈւՄՆԵՐ",
                 "logoutId":"ԴՈւՐՍ ԳԱԼ"
             },
             "ru": {
-                "profileLink":"ПРОФИЛЬ",
+                "profile":"ПРОФИЛЬ",
                 "home": "ГЛАВНАЯ",
                 "playButton": "Играть",
                 "howToPlayHeader": "КАК ИГРАТЬ ?",
@@ -47,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 "logoutId":"ВЫЙТИ"
             },
             "cn": {
-              "profileLink":"档案",
+              "profile":"档案",
               "home": "家",
               "playButton":"玩",
               "howToPlayHeader": "怎麼玩？",
@@ -60,12 +75,17 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("homeLink").textContent = translations[language]["home"];
         document.getElementById("howToPlayHeader").textContent = translations[language]["howToPlayHeader"];
         document.getElementById("howToPlayText").textContent = translations[language]["howToPlayText"];  
-        document.getElementById("profileLink").textContent = translations[language]["profileLink"];
+        document.getElementById("profileLink").textContent = translations[language]["profile"];
         document.getElementById("playButton").textContent = translations[language]["playButton"];
         document.getElementById("settingsId").textContent = translations[language]["settingsId"];
         document.getElementById("logoutId").textContent = translations[language]["logoutId"];
       }
-  
+      switchLanguage(selectedLanguage);
+      
+      var selectedLanguage = localStorage.getItem('selectedLanguage');
+      if(selectedLanguage) {
+        languageSelect.value = selectedLanguage;
+      }
       
       const url_code = window.location.search?.slice(6)
       if (url_code)
@@ -274,7 +294,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     return;
   }
 
-  const url = `http://0.0.0.0:8000/api/v1/profile/${userId}/`;
+  const url = `http://0.0.0.0:8000/api/v1/profile_info/${userId}/`;
   fetch(url, {
       method: 'GET',
       headers: {
@@ -315,7 +335,6 @@ function sendSelectedLanguageToDb() {
     window.location.href = '/';
     return;
   }
-
   const url = `http://0.0.0.0:8000/api/v1/language/${userId}/`;
   fetch(url, {
       method: 'PUT',
@@ -329,64 +348,10 @@ function sendSelectedLanguageToDb() {
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
-  
     return response.json();
   })
-  // .then(data => {
-  //   // console.log(data);
-  //   // localStorage.setItem('selectedLanguage', data.language);
-  //   // switchLanguage(data.language);
-  
-  // })
   .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
   });
 }
 
-
-// document.getElementById('dropdownContent').addEventListener('click', function(e)
-// {
-//   requested_data = {
-//     "language": localStorage.getItem('selectedLanguage')
-//   }
-//   const token = localStorage.getItem('access');
-//   if (!token)
-//   {
-//     alert('No token found. Please log in.');
-//     window.location.href = '/';
-//     return;
-//   }
-//   const userId = extractUserIdFromToken(token);
-//   if (!userId)
-//   {
-//     alert('Invalid token. Please log in again.');
-//     window.location.href = '/';
-//     return;
-//   }
-
-//   const url = `http://0.0.0.0:8000/api/v1/language/${userId}/`;
-//   fetch(url, {
-//       method: 'PUT',
-//       headers: {
-//           'Content-Type': 'application.json',
-//           'Authorization': 'Bearer ' + token
-//       },
-//       body: JSON.stringify(requested_data)
-//   })
-//   .then(response => {
-//     if (!response.ok) {
-//         throw new Error('Network response was not ok');
-//     }
-  
-//     return response.json();
-//   })
-//   .then(data => {
-//     console.log(data);
-//     localStorage.setItem('selectedLanguage', data.language);
-//     switchLanguage(data.language);
-  
-//   })
-//   .catch(error => {
-//       console.error('There was a problem with the fetch operation:', error);
-//   });
-// })

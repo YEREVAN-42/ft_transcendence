@@ -55,23 +55,37 @@ function openTab(evt, tabName) {
 var joinedUsers = 0;
 
 function joinTournament() {
-    if (joinedUsers < 4) {
-        var userList = document.getElementById("tournamentUserList");
-        var user = document.createElement("div");
-        user.className = "tournament-user";
-        user.innerHTML = `
-            <img src="./public/guest.png" alt="User">
-            <span>User ${joinedUsers + 1}</span>
-        `;
-        userList.appendChild(user);
-        joinedUsers++;
-        
-        if (joinedUsers === 4) {
-            var newTournamentButton = document.getElementById("newTournamentButton");
-            newTournamentButton.style.display = "block";
+    var usernameInput = document.getElementById('usernameInput').value;
+    var passwordInput = document.getElementById('passwordInput').value;
+    if (usernameInput && passwordInput) {
+        if (joinedUsers < 4) {
+            var userList = document.getElementById("tournamentUserList");
+            var user = document.createElement("div");
+            user.className = "tournament-user";
+            user.innerHTML = `
+                <img src="./public/guest.png" alt="User">
+                <span>${usernameInput}</span>
+            `;
+            userList.appendChild(user);
+            joinedUsers++;
+    
+            if (joinedUsers === 4) {
+                var newTournamentButton = document.getElementById("newTournamentButton");
+                newTournamentButton.style.display = "block";
+            }
+    
+            // Clear the input fields after submission
+            document.getElementById('usernameInput').value = '';
+            document.getElementById('passwordInput').value = '';
+    
+            // Close the modal after submission
+            closeModal();
+        }
+    } 
+        else {
+            alert("Please fill in both fields.");
         }
     }
-}
 
 // Start new tournament
 
@@ -574,7 +588,8 @@ function applyLanguage() {
                 "accept-button":"Join",
                 "decline-button":"Ignore",
                 "invite-button":"Invite",
-                "start":"Start new tournament"
+                "start":"Start new tournament",
+                "submit":"Submit"
             },
             "hy": {
                 "homeheader":"ԳԼԽԱՎՈՐ",
@@ -590,7 +605,8 @@ function applyLanguage() {
                 "accept-button":"Միանալ",
                 "decline-button":"Անտեսել",
                 "invite-button":"Հրավիրել",
-                "start":"Սկսել նոր մրցաշար"
+                "start":"Սկսել նոր մրցաշար",
+                "submit":"Հաստատել"
             },
             "ru": {
                 "homeheader":"ГЛАВНАЯ",
@@ -606,7 +622,8 @@ function applyLanguage() {
                 "accept-button":"Присоединиться",
                 "invite-button":"Приглашать",
                 "decline-button":"Игнорировать",
-                "start":"Начать новый турнир"
+                "start":"Начать новый турнир",
+                "submit":"Подтверждать"
             },
             "cn": {
                 "homeheader":"家",
@@ -622,7 +639,8 @@ function applyLanguage() {
                 "accept-button":"加入",
                 "invite-button":"邀請",
                 "decline-button":"忽略",
-                "start":"開始新的錦標賽"
+                "start":"開始新的錦標賽",
+                "submit":"提交"
             },
         };
 
@@ -637,7 +655,8 @@ function applyLanguage() {
         'tournament': 'tournament',
         'joinTourn': 'joinTourn',
         'h2Header': 'h2Header',
-        'start':'start'
+        'start':'start',
+        'submit':'submit'
     };
 
     Object.keys(elementsToTranslate).forEach(id => {
