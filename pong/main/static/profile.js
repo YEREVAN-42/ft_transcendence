@@ -42,8 +42,8 @@ function applyLanguage() {
               "turm":"Tournaments",
               "winCount":"Wins Count:",
               "loseCount": "Loses Count:"
-          },
-          "hy": {
+            },
+            "hy": {
               "homeheader":"ԳԼԽԱՎՈՐ",
               "profile":"ՊՐՈՖԻԼ",
               "settingsId": "ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ",
@@ -55,7 +55,6 @@ function applyLanguage() {
               "friends":"Ընկերներ",
               "request": "Հարցումներ",
               "users":"Օգտատերեր",
-              "removeButton":"Հեռացնել",
               "accept":"Ընդունել",
               "decline":"Մերժել",
               "add":"Ավելացնել",
@@ -76,7 +75,6 @@ function applyLanguage() {
               "friends":"Друзья",
               "request": "Запросы",
               "users":"Пользователи",
-              "removeButton":"Удалять",
               "accept":"Принимать",
               "decline":"Отклонить",
               "add":"Добавлять",
@@ -97,7 +95,6 @@ function applyLanguage() {
               "friends":"朋友們",
               "request": "要求",
               "users":"使用者",
-              "removeButton":"消除",
               "accept":"接受",
               "decline":"衰退",
               "add":"添加",
@@ -128,8 +125,8 @@ function applyLanguage() {
   Object.keys(elementsToTranslate).forEach(function(id) {
       var element = document.getElementById(id);
       if (element) {
-          var translationKey = elementsToTranslate[id];
-          element.textContent = translations[selectedLanguage][translationKey];
+        var translationKey = elementsToTranslate[id];
+        element.textContent = translations[selectedLanguage][translationKey];
       }
   });
   document.getElementById('searchInput').placeholder = translations[selectedLanguage].searchInput;
@@ -171,12 +168,12 @@ document.getElementById('guest').textContent = profileName;
 
 //All for profile page
 document.getElementById('searchInput').addEventListener('input', function() {
-let filter = this.value.toLowerCase();
-let friends = document.querySelectorAll('.tab-content.active .friend, .tab-content.active .friend-request, .tab-content.active .friend-suggestion');
-friends.forEach(friend => {
-  let username = friend.querySelector('.friend-username').textContent.toLowerCase();
-  if (username.includes(filter)) {
-    friend.style.display = 'flex';
+  let filter = this.value.toLowerCase();
+  let friends = document.querySelectorAll('.tab-content.active .friend, .tab-content.active .friend-request, .tab-content.active .friend-suggestion');
+  friends.forEach(friend => {
+    let username = friend.querySelector('.friend-username').textContent.toLowerCase();
+    if (username.includes(filter)) {
+      friend.style.display = 'flex';
   } else {
     friend.style.display = 'none';
   }
@@ -193,6 +190,38 @@ function openTab(event, tabName) {
   event.currentTarget.classList.add('active');
 
   fetchData(tabName);
+}
+
+function translate(key) {
+  const translations = {
+    "en": {
+      add: 'Add',
+      accept:'Accept',
+      remove :"Remove",
+      decline:'Decline'
+    },
+    "hy": {
+      add: 'Ավելացնել',
+      accept:'Ընդունել',
+      decline:'Մերժել',
+      remove:'Հեռացնել'
+    },
+    "ru": {
+      add: 'Добавлять',
+      accept:'Принимать',
+      decline:'Отклонить',
+      remove:'消除'
+    },
+    "cn": {
+      add:'添加',
+      accept:'接受',
+      decline:'衰退',
+      remove:'Удалять'
+    }
+  };
+
+  const selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+  return translations[selectedLanguage][key] || key;
 }
 
 async function fetchData(tabName) {
@@ -243,7 +272,7 @@ async function fetchData(tabName) {
                       <span class="friend-username">${item.username}</span>
                       <span class="friend-activity">${item.is_active}</span>
                   </div>
-                  <button class="details-button" data-action="details" onclick="remove_friend(event)">Remove</button>
+                  <button class="details-button" data-action="details" onclick="remove_friend(event)">Remove${translate('remove')}</button>
               `;
               tabContent.appendChild(div);
           });
@@ -255,8 +284,8 @@ async function fetchData(tabName) {
                   <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
                   <div class="friend-info">
                       <span class="friend-username">${item.username}</span>
-                      <button class="accept-button" data-action="accept" onclick="accept_request(event)">Accept</button>
-                      <button class="decline-button" data-action="decline" onclick="decline_request(event)">Decline</button>
+                      <button class="accept-button" data-action="accept" onclick="accept_request(event)">${translate('accept')}</button>
+                      <button class="decline-button" data-action="decline" onclick="decline_request(event)">${translate('decline')}</button>
                   </div>
               `;
               tabContent.appendChild(div);
@@ -269,21 +298,19 @@ async function fetchData(tabName) {
                   <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
                   <div class="friend-info">
                       <span class="friend-username">${item.username}</span>
-                      <button class="add-button" data-action="add" onclick="add_friend(event)" id="add">Add</button>
+                      <button class="add-button" data-action="add" onclick="add_friend(event)">${translate('add')}</button>
                   </div>
               `;
               tabContent.appendChild(div);
-          });
-      }
-
-      tabContent.classList.add('active'); // Only show content after data is loaded
-  } catch (error) {
-      tabContent.innerHTML = '<p>Error loading data</p>';
-      console.error('Error fetching data:', error);
-  }
+            });
+          }
+          
+          tabContent.classList.add('active'); // Only show content after data is loaded
+        } catch (error) {
+          tabContent.innerHTML = '<p>Error loading data</p>';
+          console.error('Error fetching data:', error);
+        }
 }
-
-
 
 var dataFetched = false; // Boolean variable to check if data is fetched
 

@@ -246,7 +246,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     return;
   }
 
-  const url = `http://0.0.0.0:8000/api/v1/profile/${userId}/`;
+  const url = `http://0.0.0.0:8000/api/v1/profile_info/${userId}/`;
   fetch(url, {
       method: 'GET',
       headers: {
@@ -260,7 +260,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     }
     console.log(response.status);
     if (response.status === 200) {
-          window.location.href = url;
+          window.location.href = `http://0.0.0.0:8000/profile/`;
       }
     return response.json();
 })
