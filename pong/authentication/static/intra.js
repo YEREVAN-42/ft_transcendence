@@ -1,6 +1,6 @@
 let INTRA_API_URL="https://api.intra.42.fr/";
 let INTRA_API_UID="u-s4t2ud-a4cef84ce67cf9eda49db243b87fd07928bd32e8fc800c0e10efa99e70068f14";
-let INTRA_REDIRECT_URI="http://10.12.17.4:8000/home/";
+let INTRA_REDIRECT_URI="http://0.0.0.0:8000/home/";
 
 document.getElementById("for42Submit").addEventListener("submit", function(event) {
   const language = localStorage.getItem('selectedLanguage') || 'en';

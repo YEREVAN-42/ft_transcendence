@@ -48,7 +48,7 @@ function confirmCode()
             password: password,
         };
         
-        fetch('http://10.12.17.4:8000/confirm/', {
+        fetch('http://0.0.0.0:8000/confirm/', {
             method: 'POST',
             headers:
             {

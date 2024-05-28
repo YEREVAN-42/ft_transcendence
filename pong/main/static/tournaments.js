@@ -131,7 +131,7 @@ document.getElementById('logoutId').addEventListener('click', function(e)
     window.location.href = '/';
     return;
   }
-  const url = `http://10.12.17.4:8000/api/v1/logout/${userId}/`;
+  const url = `http://0.0.0.0:8000/api/v1/logout/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -175,7 +175,7 @@ document.getElementById('settingsId').addEventListener('click', function(e)
         return;
     }
 
-const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
+const url = `http://0.0.0.0:8000/api/v1/settings/${userId}/`;
 fetch(url, {
   method: 'GET',
   headers: {
@@ -193,7 +193,7 @@ return response.json();
 // Assuming your Django view will return a JSON response with user data
 
 console.log(data);
-window.location.href = `http://10.12.17.4:8000/settings/`;
+window.location.href = `http://0.0.0.0:8000/settings/`;
 })
 //   .then(response => {
 //     if (!response.ok) {
@@ -232,7 +232,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     return;
   }
 
-  const url = `http://10.12.17.4:8000/api/v1/profile/${userId}/`;
+  const url = `http://0.0.0.0:8000/api/v1/profile/${userId}/`;
   fetch(url, {
       method: 'GET',
       headers: {
@@ -273,7 +273,7 @@ document.getElementById('homeId').addEventListener('click', function(e)
         return;
 }
 
-    const url = `http://10.12.17.4:8000/home/`;
+    const url = `http://0.0.0.0:8000/home/`;
 
     fetch(url, {
     method: 'GET',
@@ -312,7 +312,7 @@ function gamers() {
         return;
     }
 
-    const url = `http://10.12.17.4:8000/api/v1/game_users/${userId}/`;
+    const url = `http://0.0.0.0:8000/api/v1/game_users/${userId}/`;
     fetch(url, {
         method: 'GET',
         headers: {
@@ -361,7 +361,7 @@ function game_requests() {
         return;
     }
 
-    const url = `http://10.12.17.4:8000/api/v1/game_requests/${userId}/`;
+    const url = `http://0.0.0.0:8000/api/v1/game_requests/${userId}/`;
     fetch(url, {
         method: 'GET',
         headers: {
@@ -414,7 +414,7 @@ function invite_user() {
         return;
     }
 
-    const url = `http://10.12.17.4:8000/api/v1/invite/${userId}/`;
+    const url = `http://0.0.0.0:8000/api/v1/invite/${userId}/`;
     fetch(url, {
         method: 'POST',
         headers: {
@@ -468,7 +468,7 @@ function join_user() {
         return;
     }
 
-    const url = `http://10.12.17.4:8000/api/v1/join/${userId}/`;
+    const url = `http://0.0.0.0:8000/api/v1/join/${userId}/`;
     fetch(url, {
         method: 'POST',
         headers: {
@@ -522,7 +522,7 @@ function ignore_user() {
         return;
     }
 
-    const url = `http://10.12.17.4:8000/api/v1/ignore/${userId}/`;
+    const url = `http://0.0.0.0:8000/api/v1/ignore/${userId}/`;
     fetch(url, {
         method: 'POST',
         headers: {

@@ -181,7 +181,7 @@ document.getElementById('saveChangesBtn').addEventListener('click', async functi
       return;
     }
 
-    const url = `http://10.12.17.4:8000/api/v1/change_settings/${userId}/`;
+    const url = `http://0.0.0.0:8000/api/v1/change_settings/${userId}/`;
     debugger
     fetch(url, {
         method: 'POST',
@@ -198,7 +198,7 @@ document.getElementById('saveChangesBtn').addEventListener('click', async functi
         if (response.status === 200)
         {
             alert('Changes saved successfully!');
-            window.location.href = `http://10.12.17.4:8000/settings/`;
+            window.location.href = `http://0.0.0.0:8000/settings/`;
         }
         return response.json();
     })
@@ -301,7 +301,7 @@ document.getElementById('deleteAccountBtn').addEventListener('click', function(e
       return;
     }
 
-    const url = `http://10.12.17.4:8000/api/v1/delete_account/${userId}/`;
+    const url = `http://0.0.0.0:8000/api/v1/delete_account/${userId}/`;
 
     fetch(url, {
         method: 'POST',
@@ -346,7 +346,7 @@ document.getElementById('homeId').addEventListener('click', function(e)
       return;
     }
 
-    const url = `http://10.12.17.4:8000/home/`;
+    const url = `http://0.0.0.0:8000/home/`;
 
     fetch(url, {
         method: 'GET',
@@ -387,7 +387,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
       return;
     }
 
-    const url = `http://10.12.17.4:8000/api/v1/profile_info/${userId}/`;
+    const url = `http://0.0.0.0:8000/api/v1/profile_info/${userId}/`;
 
     fetch(url, {
         method: 'GET',
@@ -402,7 +402,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
         }
         if (response.status === 200)
         {            
-            window.location.href = 'http://10.12.17.4:8000/profile/';
+            window.location.href = 'http://0.0.0.0:8000/profile/';
         }
         return response.json();
     })
@@ -431,7 +431,7 @@ document.getElementById('logoutId').addEventListener('click', function(e)
     window.location.href = '/';
     return;
   }
-  const url = `http://10.12.17.4:8000/api/v1/logout/${userId}/`;
+  const url = `http://0.0.0.0:8000/api/v1/logout/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {

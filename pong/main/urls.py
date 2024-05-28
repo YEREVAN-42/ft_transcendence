@@ -26,7 +26,7 @@ urlpatterns = [
     path('api/v1/tournaments/<int:id>/', views.tournaments, name="tournaments"),
     path('api/v1/change_settings/<int:id>/', views.change_settings, name="change_settings"),
     path('api/v1/delete_account/<int:id>/', views.delete_account, name="delete_account"),
-    path('/api/v1/language/<int:id>/', views.language, name="language"),
+    path('api/v1/language/<int:id>/', views.language, name="language"),
 
 	path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
