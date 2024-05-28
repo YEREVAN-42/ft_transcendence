@@ -106,15 +106,39 @@ document.getElementById('editBtn4').addEventListener('click', function() {
     document.getElementById('userPassword1').focus();
 });
 
-async function hashPassword(password)
-{
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hash))
-        .map(b => b.toString(16).padStart(2, '0'))
-        .join('');
+async function hashPassword(password) {
+    if (window.crypto && window.crypto.subtle) {
+        // Modern browsers with Web Crypto API support
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        try {
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hash))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        } catch (error) {
+            console.error('Error hashing password with Web Crypto API:', error);
+            throw error;
+        }
+    } else {
+        // Fallback for older browsers without Web Crypto API support
+        try {
+            const hash = CryptoJS.SHA256(password);
+            return hash.toString(CryptoJS.enc.Hex);
+        } catch (error) {
+            console.error('Error hashing password with crypto-js:', error);
+            throw error;
+        }
+    }
 }
+var twoFaEnabled = document.querySelector('.toggle-switch input').checked;
+
+// document.getElementById('2fabutton').addEventListener('click', function(e) 
+// {
+//     console.log('2FA button clicked');
+//     console.log(twoFaEnabled)
+// });
+
 
 // Save changes
 document.getElementById('saveChangesBtn').addEventListener('click', async function(e) {
@@ -125,12 +149,15 @@ document.getElementById('saveChangesBtn').addEventListener('click', async functi
     var userPassword = document.getElementById('userPassword1').value;
     const hashedPassword = await hashPassword(userPassword);
     document.getElementById('userPassword1').value = userPassword;
+    console.log(twoFaEnabled)
+
     
     var requestData = {
         name: profileName,
         username: userName,
         email: userEmail,
         password: hashedPassword,
+        fa: 'true'
     };
 
     const token = localStorage.getItem('access');
@@ -148,8 +175,8 @@ document.getElementById('saveChangesBtn').addEventListener('click', async functi
       return;
     }
 
-    const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
-
+    const url = `http://10.12.17.4:8000/api/v1/change_settings/${userId}/`;
+    debugger
     fetch(url, {
         method: 'POST',
         headers: {
@@ -165,7 +192,7 @@ document.getElementById('saveChangesBtn').addEventListener('click', async functi
         if (response.status === 200)
         {
             alert('Changes saved successfully!');
-            window.location.href = url;
+            window.location.href = `http://10.12.17.4:8000/settings/`;
         }
         return response.json();
     })
@@ -268,7 +295,7 @@ document.getElementById('deleteAccountBtn').addEventListener('click', function(e
       return;
     }
 
-    const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
+    const url = `http://10.12.17.4:8000/api/v1/delete_account/${userId}/`;
 
     fetch(url, {
         method: 'POST',
@@ -354,7 +381,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
       return;
     }
 
-    const url = `http://10.12.17.4:8000/api/v1/profile/${userId}/`;
+    const url = `http://10.12.17.4:8000/api/v1/profile_info/${userId}/`;
 
     fetch(url, {
         method: 'GET',
@@ -518,3 +545,9 @@ function applyLanguage() {
     });
   }
 applyLanguage();
+
+function checkToggleSwitch() {
+    const toggleSwitch = document.getElementById('toggleSwitch');
+    const isChecked = toggleSwitch.checked;
+    alert('Toggle switch is ' + (isChecked ? 'ON' : 'OFF'));
+}
