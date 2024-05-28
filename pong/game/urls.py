@@ -9,4 +9,6 @@ urlpatterns = [
 	path('api/v1/invite/<int:id>/', views.invite, name='invite'),
 	path('api/v1/join/<int:id>/', views.join, name='join'),
 	path('api/v1/ignore/<int:id>/', views.ignore, name='ignore'),
+
+	path('local_game/', views.local_game, name='local_game'),
 ]

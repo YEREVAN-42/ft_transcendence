@@ -108,3 +108,7 @@ def get_history(request, id):
 #         game_mode='classic',
 #         created_at=timezone.now()
 #         )
+
+def local_game(request):
+	print("✅ local_game")
+	return render(request, 'local_game.html')
