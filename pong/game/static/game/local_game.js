@@ -177,7 +177,7 @@ function startGame() {
 restartButton.addEventListener('click', restartGame);
 exitButton.addEventListener('click', exitGame);
 
-// Keyboard controls
+// Keyboard controls`
 document.addEventListener('keydown', function(event) {
     switch(event.keyCode) {
         case 38: // Up arrow
