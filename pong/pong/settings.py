@@ -46,7 +46,6 @@ INSTALLED_APPS = [
 	'corsheaders',
     'main',
     'intra',
-    'local_game',
 	'game',
 	'friends',
     'authentication',
