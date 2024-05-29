@@ -8,6 +8,7 @@
     <title>Pong Game</title>
     <link rel="icon" href="{% static 'images/new_icon.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'index.css' %}" />  
+    <link rel="stylesheet" href="{% static 'login.css' %}" />  
 </head>
 <body>
     <div class="navbar">
@@ -23,7 +24,7 @@
             </select>
         </div>
     </div>
-    <div class="container">
+    <div class="container" id="container"  id="container">
         <div class="image-container">
             <img src="{% static 'images/section@2x.png' %}" alt="Pong Game Image">
         </div>
@@ -41,7 +42,7 @@
             </div>
         </div>
     </div>
-    <!-- <script>
+    <script>
         const routes = {
             "/": "{% url 'index' %}",
             "/home": "{% url 'home' %}",
@@ -56,7 +57,9 @@
             "/tournaments": "{% url 'tournaments' %}",
             "/settings": "{% url 'settings' %}",
         };
-    </script> -->
+    </script>
     <script src="{% static './index.js' %}"></script>
+    <!-- <script src="{% static './app.js' %}"></script> -->
+    <script src="{% static './login.js' %}"></script>
 </body>
 </html>

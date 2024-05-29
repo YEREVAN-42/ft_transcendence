@@ -48,7 +48,6 @@ def join_tournament(request, id):
         users = User.objects.all()
         #by taking the given username and password check if the user is exist in the database   
         return JsonResponse({'message': 'Player not created'})
-        return JsonResponse({'message': 'GET request received'})
 
 @csrf_exempt
 def invite(request, id):
