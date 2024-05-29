@@ -162,7 +162,7 @@ function restartGame() {
 }
 
 function exitGame() {
-    const url = `http://10.12.17.4:8000/home/`;
+    const url = `http://localhost:8000/home/`;
     window.location.href = url;
 }
 

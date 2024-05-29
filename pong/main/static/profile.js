@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function()
       window.location.href = '/';
       return;
     }
-    const url = `http://10.12.17.4:8000/api/v1/profile_info/${userId}/`;
+    const url = `http://localhost:8000/api/v1/profile_info/${userId}/`;
     fetch(url, {
       method: 'GET',
       headers: {
@@ -242,7 +242,7 @@ async function fetchData(tabName) {
     window.location.href = '/';
     return;
   }
-  const url = `http://10.12.17.4:8000/api/v1/${endpoint}/${userId}/`;
+  const url = `http://localhost:8000/api/v1/${endpoint}/${userId}/`;
 
   try {
       const response = await fetch(url, {
@@ -326,7 +326,7 @@ document.getElementById('friends-tab').addEventListener('click', async function(
 
   // Fetch friends data from the server
   try {
-      let response = await fetch('http://10.12.17.4:8000/api/friends');
+      let response = await fetch('http://localhost:8000/api/friends');
       let data = await response.json();
 
       // Populate the friends list
@@ -383,7 +383,7 @@ function goToMatchHistory() {
   return;
 }
 
-const url = `http://10.12.17.4:8000/match_history`;
+const url = `http://localhost:8000/match_history`;
 
 fetch(url, {
   method: 'GET',
@@ -423,7 +423,7 @@ window.location.href = '/';
 return;
 }
 
-const url = `http://10.12.17.4:8000/tournaments/`;
+const url = `http://localhost:8000/tournaments/`;
 
 fetch(url, {
   method: 'GET',
@@ -477,7 +477,7 @@ if (!userId)
   return;
 }
 
-const url = `http://10.12.17.4:8000/home/`;
+const url = `http://localhost:8000/home/`;
 
 fetch(url, {
   method: 'GET',
@@ -519,7 +519,7 @@ if (!userId)
   return;
 }
 
-const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
+const url = `http://localhost:8000/api/v1/settings/${userId}/`;
 fetch(url, {
   method: 'GET',
   headers: {
@@ -536,7 +536,7 @@ return response.json();
 .then(data => {
 // Assuming your Django view will return a JSON response with user data
   console.log(data);
-  window.location.href = `http://10.12.17.4:8000/settings/`;
+  window.location.href = `http://localhost:8000/settings/`;
 })
 //   .then(response => {
 //     if (!response.ok) {
@@ -577,7 +577,7 @@ function add_friend(event, id)
   const request_data = {
       "receiver_id": id
   }
-  const url = `http://10.12.17.4:8000/api/v1/add_friend/${userId}/`;
+  const url = `http://localhost:8000/api/v1/add_friend/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -614,7 +614,7 @@ function accept_request(event, id)
   const request_data = {
       "sender_id": id
   }
-  const url = `http://10.12.17.4:8000/api/v1/accept/${userId}/`;
+  const url = `http://localhost:8000/api/v1/accept/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -654,7 +654,7 @@ function decline_request(event, id)
   const request_data = {
       "sender_id": id
   }
-  const url = `http://10.12.17.4:8000/api/v1/decline/${userId}/`;
+  const url = `http://localhost:8000/api/v1/decline/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -693,7 +693,7 @@ function remove_friend(event, id)
   const request_data = {
       "receiver_id": id
   }
-  const url = `http://10.12.17.4:8000/api/v1/remove/${userId}/`;
+  const url = `http://localhost:8000/api/v1/remove/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -733,7 +733,7 @@ document.getElementById('logoutId').addEventListener('click', function(e)
     window.location.href = '/';
     return;
   }
-  const url = `http://10.12.17.4:8000/api/v1/logout/${userId}/`;
+  const url = `http://localhost:8000/api/v1/logout/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {

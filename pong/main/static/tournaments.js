@@ -91,7 +91,7 @@
 //       return;
 //     }
 
-//     const url = `http://10.12.17.4:8000/api/v1/${endpoint}/${userId}/`
+//     const url = `http://localhost:8000/api/v1/${endpoint}/${userId}/`
 //     console.log(url);
 //     try {
 //         const response = await fetch(url, {
@@ -159,7 +159,7 @@
 
 //     // Fetch friends data from the server
 //     try {
-//         let response = await fetch('http://10.12.17.4:8000/api/friends');
+//         let response = await fetch('http://localhost:8000/api/friends');
 //         let data = await response.json();
 
 //         // Populate the friends list
@@ -276,7 +276,7 @@
 //     window.location.href = '/';
 //     return;
 //   }
-//   const url = `http://10.12.17.4:8000/api/v1/logout/${userId}/`;
+//   const url = `http://localhost:8000/api/v1/logout/${userId}/`;
 //   fetch(url, {
 //     method: 'POST',
 //     headers: {
@@ -320,7 +320,7 @@
 //         return;
 //     }
 
-// const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
+// const url = `http://localhost:8000/api/v1/settings/${userId}/`;
 // fetch(url, {
 //   method: 'GET',
 //   headers: {
@@ -338,7 +338,7 @@
 // // Assuming your Django view will return a JSON response with user data
 
 // console.log(data);
-// window.location.href = `http://10.12.17.4:8000/settings/`;
+// window.location.href = `http://localhost:8000/settings/`;
 // })
 // //   .then(response => {
 // //     if (!response.ok) {
@@ -378,7 +378,7 @@
 //     return;
 //   }
   
-//   const url = `http://10.12.17.4:8000/api/v1/profile_info/${userId}/`;
+//   const url = `http://localhost:8000/api/v1/profile_info/${userId}/`;
 //   fetch(url, {
 //       method: 'GET',
 //       headers: {
@@ -392,7 +392,7 @@
 //     }
 //     console.log(response.status);
 //     if (response.status === 200) {
-//           window.location.href = 'http://10.12.17.4:8000/profile/';
+//           window.location.href = 'http://localhost:8000/profile/';
 //       }
 //     return response.json();
 // })
@@ -419,7 +419,7 @@
 //         return;
 // }
 
-//     const url = `http://10.12.17.4:8000/home/`;
+//     const url = `http://localhost:8000/home/`;
 
 //     fetch(url, {
 //     method: 'GET',
@@ -555,11 +555,13 @@
 
 // applyLanguage()
 
+
+
 // JavaScript for the profile menu
 document.addEventListener("DOMContentLoaded", function() {
     var profileImage = document.getElementById("profileImage");
     var menu = document.getElementById("menu");
-
+    
     profileImage.addEventListener("click", function() {
         if (menu.style.display === "block") {
             menu.style.display = "none";
@@ -567,6 +569,9 @@ document.addEventListener("DOMContentLoaded", function() {
             menu.style.display = "block";
         }
     });
+    const base64Image = localStorage.getItem('default_image');
+    const imgElement = document.getElementById('profileImage');
+    imgElement.src = `data:image/jpg;base64,${base64Image}`;
 
     // Close the menu when clicking outside of it
     window.addEventListener("click", function(event) {
@@ -574,10 +579,8 @@ document.addEventListener("DOMContentLoaded", function() {
             menu.style.display = "none";
         }
     });
-    const base64Image = localStorage.getItem('default_image');
-    const imgElement = document.getElementById('profileImage');
-    imgElement.src = `data:image/jpg;base64,${base64Image}`;
 });
+
 
 var profilePic = localStorage.getItem('profilePic');
 document.getElementById('profileImage').src = profilePic || 'profile.jpg';
@@ -610,16 +613,122 @@ document.getElementById('joinFormModal').style.display = 'none';
 
 var joinedUsers = 0;
 
-function joinTournament() {
+async function hashPassword(password) {
+    if (window.crypto && window.crypto.subtle) {
+        // Modern browsers with Web Crypto API support
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        try {
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hash))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        } catch (error) {
+            console.error('Error hashing password with Web Crypto API:', error);
+            throw error;
+        }
+    } else {
+        // Fallback for older browsers without Web Crypto API support
+        try {
+            const hash = CryptoJS.SHA256(password);
+            return hash.toString(CryptoJS.enc.Hex);
+        } catch (error) {
+            console.error('Error hashing password with crypto-js:', error);
+            throw error;
+        }
+    }
+}
+
+async function validateUser(username, password) {
+    token = localStorage.getItem('access');
+    if (!token)
+    {
+        alert('No token found. Please log in.');
+        window.location.href = '/';
+        return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+        alert('Invalid token. Please log in again.');
+        window.location.href = '/';
+        return;
+    }
+
+    const url = `http://localhost:8000/api/v1/validate_user/${userId}/`;
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ username: username, password: password })
+        });
+        const result = await response.json();
+        return true;
+    } catch (error) {
+        console.error('Error validating user:', error);
+        return false;
+    }
+}
+
+
+
+async function joinTournament() {
+var isValidUser = true;
 var usernameInput = document.getElementById('usernameInput').value;
 var passwordInput = document.getElementById('passwordInput').value;
+    const hashedPassword = await hashPassword(passwordInput);
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+        alert('No token found. Please log in.');
+        window.location.href = '/';
+        return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+        alert('Invalid token. Please log in again.');
+        window.location.href = '/';
+        return;
+    }
+
+    const url = `http://localhost:8000/api/v1/join_tournament/${userId}/`;
+    await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({requested_data: {username: usernameInput, password: hashedPassword}})
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+        // localStorage.setItem('default_image', image);
+    })
+    .catch(error => {
+        debugger;
+        isValidUser = false;
+        // event.preventDefault();
+        console.error('There was a problem with the fetch operation:', error);
+    });
+
 if (usernameInput && passwordInput) {
-    if (joinedUsers < 4) {
+    // const isValidUser = await validateUser(usernameInput, passwordInput);
+    if (isValidUser == true) {
+        if (joinedUsers < 4) {
         var userList = document.getElementById("tournamentUserList");
         var user = document.createElement("div");
         user.className = "tournament-user";
         user.innerHTML = `
-            <img src="./public/guest.png" alt="User">
             <span>${usernameInput}</span>
         `;
         userList.appendChild(user);
@@ -629,43 +738,6 @@ if (usernameInput && passwordInput) {
             var newTournamentButton = document.getElementById("newTournamentButton");
             newTournamentButton.style.display = "block";
         }
-
-        const token = localStorage.getItem('access');
-        if (!token)
-        {
-            alert('No token found. Please log in.');
-            window.location.href = '/';
-            return;
-        }
-        const userId = extractUserIdFromToken(token);
-        if (!userId)
-        {
-            alert('Invalid token. Please log in again.');
-            window.location.href = '/';
-            return;
-        }
-
-        const url = `http://10.12.17.4:8000/api/v1/join_tournament/${userId}/`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({requested_data: {username: usernameInput, password: passwordInput}})
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
         // Clear the input fields after submission
         document.getElementById('usernameInput').value = '';
         document.getElementById('passwordInput').value = '';
@@ -673,15 +745,68 @@ if (usernameInput && passwordInput) {
         // Close the modal after submission
         closeModal();
     }
-} 
-    else {
+
+}   else {
+        isValidUser = true;
+        alert("Invalid username or password. Please try again");
+    }
+ 
+}else {
         alert("Please fill in both fields.");
+
     }
 }
 
 function startNewTournament(event) {
+const token = localStorage.getItem('access');
+if (!token)
+{
+    alert('No token found. Please log in.');
+    window.location.href = '/';
+    return;
+}
+const userId = extractUserIdFromToken(token);
+if (!userId)
+{
+    alert('Invalid token. Please log in again.');
+    window.location.href = '/';
+    return;
+}
+debugger
+const url = `http://localhost:8000/api/v1/start_tournament/${userId}/`;
+fetch(url, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+    }
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+
+})
+.then(data => {
+    alert("LOL")
+    console.log(data);
+    const parsedData = JSON.parse(data);
+    console.log(parsedData)
+    console.log(parsedData)
+    localStorage.setItem('users', parsedData.users);
+})
+.catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+});
 // Your logic for starting a new tournament
-alert("Starting a new tournament!");
+alert("Havala");
+console.log(url);
+// url = 'http://localhost:8000/local_tournament/';
+
+// console.log(url);
+window.location.href = 'http://localhost:8000/local_tournament/';
+// console.log(url);
 // Reset the tournament for new users
 var userList = document.getElementById("tournamentUserList");
 userList.innerHTML = '';
@@ -728,7 +853,7 @@ document.getElementById('logoutId').addEventListener('click', function(e)
     window.location.href = '/';
     return;
   }
-  const url = `http://10.12.17.4:8000/api/v1/logout/${userId}/`;
+  const url = `http://localhost:8000/api/v1/logout/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -769,7 +894,7 @@ document.getElementById('settingsId').addEventListener('click', function(e)
         alert('Invalid token. Please log in again.');
         return;
     }
-const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
+const url = `http://localhost:8000/api/v1/settings/${userId}/`;
 fetch(url, {
   method: 'GET',
   headers: {
@@ -786,7 +911,7 @@ return response.json();
 .then(data => {
 // Assuming your Django view will return a JSON response with user data
 console.log(data);
-window.location.href = `http://10.12.17.4:8000/settings/`;
+window.location.href = `http://localhost:8000/settings/`;
 })
 //   .then(response => {
 //     if (!response.ok) {
@@ -824,7 +949,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     return;
   }
   
-  const url = `http://10.12.17.4:8000/api/v1/profile_info/${userId}/`;
+  const url = `http://localhost:8000/api/v1/profile_info/${userId}/`;
   fetch(url, {
       method: 'GET',
       headers: {
@@ -838,7 +963,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     }
     console.log(response.status);
     if (response.status === 200) {
-          window.location.href = 'http://10.12.17.4:8000/profile/';
+          window.location.href = 'http://localhost:8000/profile/';
       }
     return response.json();
 })
@@ -863,7 +988,7 @@ document.getElementById('homeId').addEventListener('click', function(e)
         window.location.href = '/';
         return;
 }
-    const url = `http://10.12.17.4:8000/home/`;
+    const url = `http://localhost:8000/home/`;
     fetch(url, {
     method: 'GET',
     headers: {

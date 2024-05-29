@@ -82,7 +82,7 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
             email: input1,
             password: hashedPassword
         };
-        fetch('http://10.12.17.4:8000/signin/',
+        fetch('http://localhost:8000/signin/',
         {
             method: 'POST',
             headers: {
@@ -148,7 +148,7 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
                         window.location.href = '/fa_confirm/';
                         return;
                     }
-                    const url = `http://10.12.17.4:8000/home/`;
+                    const url = `http://localhost:8000/home/`;
                     window.location.href = url;
                 }
             })
