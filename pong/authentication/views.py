@@ -40,7 +40,6 @@ def intra(request):
 
 @csrf_exempt
 def signin(request):
-    print("signin1")
     if request.method == 'POST':
         data = json.loads(request.body)
         email = data.get('email')
@@ -50,18 +49,17 @@ def signin(request):
             access = AccessToken.for_user(user)
             refresh = RefreshToken.for_user(user)
             if user is not None:
-                print("user", user)
                 if user.is_active:
                     return JsonResponse({'error': 'User already logged in'}, status=400)
                 user.last_login = None
                 user.is_active = True
                 user.save()
                 player, created = Player.objects.get_or_create(user=user)
-                # Save the base64 image
                 if created or not player.image:
                     player.image_to_base64()
                 player.save()
-                # stex el erevi petq a check anel tesnel ete 2fa true
+                if (player.fa == True):
+                    return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh), 'image': player.image, 'fa': player.fa}, status=200)
                 return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh), 'image': player.image}, status=200)
             else:
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
@@ -88,11 +86,10 @@ def confirm(request):
                 password=password,
                 is_active = False
             )
-            player = Player.objects.create(user=user)# delete-um petq a jnjel
+            player = Player.objects.create(user=user)
             image_path = os.path.join(os.path.dirname(__file__), '..', 'main', 'static', 'images', 'default_user.jpg')
             with default_storage.open(image_path, 'rb') as image_file:
                 encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
-                print("encoded_image", encoded_image)
                 player.image = encoded_image
                 player.save()
             return JsonResponse({'message': 'Data saved successfully', 'image': player.image}, status=201)
@@ -103,23 +100,26 @@ def confirm(request):
     return render(request, "./auth/confirm.html")
 
 @csrf_exempt
-def logout(request, pk):
-    print("logout")
+def fa_confirm(request):
+    return render(request, "./auth/fa_confirm.html")
+
+@csrf_exempt
+def logout(request, id):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            if not data.get('refresh') or not data.get('access'):
+            if not data.get('refresh') or not data.get('token'):
                 return JsonResponse({'error': 'Invalid JSON data'}, status=400)
             refresh = data.get('refresh')
             token = RefreshToken(refresh)
             token.blacklist()
-            user = User.objects.get(pk=pk)
-            # if user is None:
-            #     return JsonResponse({'error': 'User not found'}, status=404)
-            # user.last_login = timezone.now()
-            # user.is_active = False
+            user = User.objects.get(id=id)
+            if user is None:
+                return JsonResponse({'error': 'User not found'}, status=404)
+            user.last_login = timezone.now()
+            user.is_active = False
             user.save()
             return JsonResponse({'message': 'Logout successful'}, status=200)
         except TokenError:
             return JsonResponse({'error': 'Invalid token'}, status=400)
-    return render(request, "../main/templates/index.html")
+

@@ -15,6 +15,7 @@ urlpatterns = [
     path('signup/', views.signup, name="signup"),
     path('signin/', views.signin, name="signin"),
     path('confirm/', views.confirm, name="confirm"),
+    path('fa_confirm/', views.fa_confirm, name="fa_confirm"),
     path('intra/', views.intra, name="intra"),
-    path('api/v1/logout/<int:pk>/', views.logout, name="logout")
+    path('api/v1/logout/<int:id>/', views.logout, name="logout")
 ]

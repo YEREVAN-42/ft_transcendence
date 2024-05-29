@@ -16,6 +16,7 @@ from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 import json
 from game.models import GameInvite, PongGame, Player, History
+from game.serializers import HistorySerializer
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -25,9 +26,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+import os
+import base64
+from django.core.files.storage import default_storage
+
+
 # Create your views here.
 def index(request):
-    print("❌ index")
     return render(request, 'index.html')
 
 def home(request):
@@ -44,9 +49,6 @@ def home(request):
     #     return render(request, 'main/home.html')
     return render(request, 'main/home.html')
 
-@csrf_exempt
-def profile(request):
-    return render(request, 'main/profile.html')
 
 @csrf_exempt
 def language(request):
@@ -62,37 +64,12 @@ def language(request):
         except Player.DoesNotExist:
             return JsonResponse({'error': 'Player not found'}, status=404)
 
+@csrf_exempt
+def profile(request):
+    return render(request, 'main/profile.html')
 
 @csrf_exempt
 def profile_info(request, id):
-    print("id", id)
-    if request.method == 'GET':
-        return JsonResponse({'info': 'Profile info'}, status=200)
-        # try:
-        #     user = User.objects.get(id=id)
-        #     if user is None:
-        #         return JsonResponse({'error': 'Invalid credentials'}, status=400)
-        #     print("request", request.method)
-        #     player = Player.objects.get(id=id)
-        #     if player is None:
-        #         return JsonResponse({'error': 'Invalid credentials'}, status=400)
-        #     data = {
-        #         'username': user.username,
-        #         'wins': player.wins,
-        #         'loses': player.loses,
-        #     }
-        #     print("Data", data)
-        #     return JsonResponse(data)
-        # except Player.DoesNotExist:
-        #     return JsonResponse({'error': 'Player not found'}, status=404)   
-            
-
-@csrf_exempt
-def match_history(request, id):
-    return render(request, 'main/match_history.html')
-
-@csrf_exempt
-def history(request, id):
     if request.method == 'GET':
         try:
             user = User.objects.get(id=id)
@@ -101,25 +78,53 @@ def history(request, id):
             player = Player.objects.get(id=id)
             if player is None:
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
-            
-            history = History.objects.get(player=id)
-            print("History", history)
-            if history is None:
-                return JsonResponse({'error': 'Invalid credentials'}, status=400)
             data = {
                 'username': user.username,
-                'image': player.image,
-                'game_mode': history.game_mode,
-                'result': history.result,
-                'date': history.date,
-                'result': history.result,
+                'wins': player.win,
+                'loses': player.lose,
             }
             return JsonResponse(data)
         except Player.DoesNotExist:
-            return JsonResponse({'error': 'Player not found'}, status=404)
+            return JsonResponse({'error': 'Player not found'}, status=404)   
+    return JsonResponse({'info': 'Profile info'}, status=200)
+            
 
 @csrf_exempt
-def tournaments(request, id):
+def match_history(request):
+    return render(request, 'main/match_history.html')
+
+@csrf_exempt
+def history(request, id):
+    if request.method == 'GET':
+        try:
+            user = User.objects.get(id=id)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
+        try:
+            player = Player.objects.get(id=id)
+        except Player.DoesNotExist:
+            return JsonResponse({'error': 'Player not found'}, status=404)
+
+        history = History.objects.filter(player=player)
+
+        serializer = HistorySerializer(history, many=True)
+        serialized_data = serializer.data
+
+        formatted_data = []
+        for item in serialized_data:
+            formatted_data.append({
+                'username': item['opponent']['username'],
+                'image': item['opponent']['image'],
+                'points': item['points'],
+                'game_mode': item['game_mode'],
+                'result': item['result'],
+                'date': item['created_at']
+            })
+
+        return JsonResponse(formatted_data, safe=False)
+
+@csrf_exempt
+def tournaments(request):
     return render(request, 'main/tournaments.html')
 
 @csrf_exempt
@@ -132,9 +137,6 @@ def check_settings(request, id):
     if request.method == 'GET':
         try:
             user = User.objects.get(id=id)
-            print("User", user)
-            print("id", id)
-            print("User_id", user.id)
             if user:
                 return JsonResponse({'username': user.username})
         except User.DoesNotExist:
@@ -165,9 +167,6 @@ def change_settings(request, id):
             image = data.get('image')
             if image == '' or image is None:
                 image = player.image
-            fa = data.get('fa')
-            if fa == '' or fa is None:
-                fa = player.fa
             try:
                 if user is not None:
                     user.first_name = name
@@ -175,7 +174,6 @@ def change_settings(request, id):
                     user.email = email
                     user.password = pass1
                     player.image = image
-                    player.fa = fa
                     user.save()
                     player.save()
                     return JsonResponse({'message': 'Change successful'}, status=200)
@@ -201,4 +199,53 @@ def delete_account(request, id):
                     return JsonResponse({'error': 'Invalid credentials'}, status=400)
             except User.DoesNotExist:
                 return JsonResponse({'error': 'Invalid credentials'}, status=400)
+    return render(request, 'main/settings.html')
+
+@csrf_exempt
+def remove_profile_pic(request, id):
+    if request.method == 'GET':
+        try:
+            player = Player.objects.get(user_id = id)
+            image_path = os.path.join(os.path.dirname(__file__), '..', 'main', 'static', 'images', 'default_user.jpg')
+            with default_storage.open(image_path, 'rb') as image_file:
+                encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+                player.image = encoded_image
+                player.save()
+            return JsonResponse({'message': 'Data saved successfully', 'image': player.image}, status=200)
+        except Player.DoesNotExist:
+            return JsonResponse({'error': 'Invalid credentials'}, status=400)
+    return render(request, 'main/settings.html')
+
+@csrf_exempt
+def set_profile_pic(request, id):
+    if request.method == 'PUT':
+        try:
+            player = Player.objects.get(user_id = id)
+            data = json.loads(request.body)
+            image = data.get('image')
+            #cut the first 22 characters from the image string
+            image = image[22:]
+            if image == '' or image is None:
+                image = player.image
+            player.image = image
+            player.save()
+            return JsonResponse({'message': 'Data saved successfully', 'image': player.image}, status=200)
+        except Player.DoesNotExist:
+            return JsonResponse({'error': 'Invalid credentials'}, status=400)
+
+    return render(request, 'main/settings.html')
+
+@csrf_exempt
+def two_fa(request, id):
+    print(request.method)
+    if request.method == 'POST':
+        try:
+            player = Player.objects.get(user_id = id)
+            data = json.loads(request.body)
+            fa = data.get('check')
+            player.fa = fa
+            player.save()
+            return JsonResponse({'message': 'Data saved successfully', 'fa': player.fa}, status=200)
+        except Player.DoesNotExist:
+            return JsonResponse({'error': 'Invalid credentials'}, status=400)
     return render(request, 'main/settings.html')

@@ -1,5 +1,4 @@
-var defaultProfilePic = '/static/images/guest.png'; // Define the default profile picture path
-// For the profile menu
+
 document.addEventListener("DOMContentLoaded", function() {
     var profileImage = document.getElementById("profileImage");
     var menu = document.getElementById("menu");
@@ -12,68 +11,143 @@ profileImage.addEventListener("click", function() {
     }
 });
 
+const base64Image = localStorage.getItem('default_image');
+const imgElement1 = document.getElementById('profileImage');
+const imgElement2 = document.getElementById('profileImageLarge');
+imgElement1.src = `data:image/jpg;base64,${base64Image}`;
+imgElement2.src = `data:image/jpg;base64,${base64Image}`;
 // Close the menu when clicking outside of it
 window.addEventListener("click", function(event) {
     if (!event.target.matches("#profileImage") && !event.target.matches(".menu")) {
         menu.style.display = "none";
     }
       });
-});
-    
-var profilePic = localStorage.getItem('profilePic');
-document.getElementById('profileImage').src = profilePic || '/static/images/guest.png';
-var profilePicLarge = localStorage.getItem('profilePicLarge');
-document.getElementById('profileImageLarge').src = profilePic || '/static/images/guest.png';
-      
-// Update profile picture
-// var profilePic = localStorage.getItem('profilePic');
-//     if (profilePic) {
-//         document.getElementById('profileImage').src = profilePic;
-//     }
-//     var profilePic = localStorage.getItem('profilePic');
-//     if (profilePic) {
-//         document.getElementById('profileImageLarge').src = profilePic;
-//     }
+});     
 
-const base64Image = localStorage.getItem('default_image');
-const imgElement1 = document.getElementById('profileImage');
-const imgElement2 = document.getElementById('profileImageLarge');
-imgElement1.src = `data:image/jpg;base64,${base64Image}`;
-imgElement2.src = `data:image/jpg;base64,${base64Image}`;
+// console.log(imgElement1.src);
 
 // Edit profile picture
-document.getElementById('editProfileBtn').addEventListener('click', function() {
-document.getElementById('profilePicInput').click();
+
+document.getElementById('editProfileBtn').addEventListener('click', async function() {
+    document.getElementById('profilePicInput').click();
 });
 
 // Handle profile picture change
-document.getElementById('profilePicInput').addEventListener('change', function(e) {
+document.getElementById('profilePicInput').addEventListener('change', async function(e) {
     var file = e.target.files[0];
     var reader = new FileReader();
     reader.onload = function() {
-    localStorage.setItem('profilePic', reader.result);
-    document.getElementById('profileImage').src = reader.result;
-};
+        var base64Image = reader.result;
+        localStorage.setItem('profilePic', base64Image);
+        document.getElementById('profileImage').src = base64Image;
+        document.getElementById('profileImageLarge').src = base64Image;
+
+        // Upload the new profile picture to the backend
+        uploadProfilePicture(base64Image);
+    };
     reader.readAsDataURL(file);
 });
+
+async function uploadProfilePicture(base64Image) {
+    const token = localStorage.getItem('access');
+    if (!token) {
+        alert('No token found. Please log in.');
+        window.location.href = '/';
+        return;
+    }
+
+    const userId = extractUserIdFromToken(token);
+    if (!userId) {
+        alert('Invalid token. Please log in again.');
+        window.location.href = '/';
+        return;
+    }
+
+    const url = `http://10.12.17.4:8000/api/v1/set_profile_pic/${userId}/`;
     
-document.getElementById('profilePicInput').addEventListener('change', function(e) {
-    var file = e.target.files[0];
-    var reader = new FileReader();
-    reader.onload = function() {
-    localStorage.setItem('profilePic', reader.result);
-    document.getElementById('profileImageLarge').src = reader.result;
-};
-    reader.readAsDataURL(file);
-});
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ image: base64Image })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            alert('Profile picture uploaded successfully!');
+            base64EncodedImage  = base64Image.slice(22);
+            if (base64EncodedImage[0] == ",")
+              base64EncodedImage  = base64EncodedImage.slice(1);
+            localStorage.setItem('default_image', base64EncodedImage); // Store the new default image
+        } else {
+            const errorData = await response.json();
+            alert('Error uploading profile picture: ' + errorData.message);
+        }
+    } catch (error) {
+        console.error('Error uploading profile picture:', error);
+        alert('Error uploading profile picture. Please try again later.');
+    }
+}
+    
+// document.getElementById('profilePicInput').addEventListener('change', function(e) {
+//     var file = e.target.files[0];
+//     var reader = new FileReader();
+//     reader.onload = function() {
+//         var base64Image = reader.result;
+//         localStorage.setItem('profilePic', base64Image);
+//         document.getElementById('profileImage').src = base64Image;
+//         document.getElementById('profileImageLarge').src = base64Image;
+//     };
+//     reader.readAsDataURL(file);
+// });
 
 
 // Remove profile picture
-document.getElementById('removeProfileBtn').addEventListener('click', function() {
-    localStorage.setItem('profilePic', defaultProfilePic);
-    document.getElementById('profileImage').src = defaultProfilePic; // Set the profile picture to the default image
-    document.getElementById('profileImageLarge').src = defaultProfilePic;
-    alert('Are you sure you want to remove the profile picture ?');
+document.getElementById('removeProfileBtn').addEventListener('click', function()
+{
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+    const url = `http://10.12.17.4:8000/api/v1/remove_profile_pic/${userId}/`;
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        if (response.status === 200)
+        {
+            
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data.image);
+        localStorage.setItem('default_image', data.image);
+        alert('Profile picture removed successfully!');
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
 });
     
     var profileName = localStorage.getItem('profileName');
@@ -163,9 +237,9 @@ document.getElementById('saveChangesBtn').addEventListener('click', async functi
         username: userName,
         email: userEmail,
         password: hashedPassword,
-        fa: 'true'
     };
 
+    console.log(requestData);
     const token = localStorage.getItem('access');
     if (!token)
     {
@@ -182,9 +256,9 @@ document.getElementById('saveChangesBtn').addEventListener('click', async functi
     }
 
     const url = `http://10.12.17.4:8000/api/v1/change_settings/${userId}/`;
-    debugger
+
     fetch(url, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
@@ -304,7 +378,7 @@ document.getElementById('deleteAccountBtn').addEventListener('click', function(e
     const url = `http://10.12.17.4:8000/api/v1/delete_account/${userId}/`;
 
     fetch(url, {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
@@ -371,7 +445,6 @@ document.getElementById('homeId').addEventListener('click', function(e)
 
 document.getElementById('profileId').addEventListener('click', function(e)
 {
-    e.preventDefault();
     const token = localStorage.getItem('access');
     if (!token)
     {
@@ -401,7 +474,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
             throw new Error('Network response was not ok');
         }
         if (response.status === 200)
-        {            
+        {
             window.location.href = 'http://10.12.17.4:8000/profile/';
         }
         return response.json();
@@ -552,8 +625,63 @@ function applyLanguage() {
   }
 applyLanguage();
 
-function checkToggleSwitch() {
-    const toggleSwitch = document.getElementById('toggleSwitch');
-    const isChecked = toggleSwitch.checked;
-    alert('Toggle switch is ' + (isChecked ? 'ON' : 'OFF'));
-}
+document.addEventListener("DOMContentLoaded", function()
+{
+    var check;
+    const toggleSwitch = document.getElementById("2fa-toggle");
+
+    toggleSwitch.addEventListener("change", function() {
+        const isChecked = toggleSwitch.checked;
+        check = updateBackend(isChecked);
+        console.log(check);
+    });
+
+        function updateBackend(isEnabled)
+        {
+            const data = { twoFactorEnabled: isEnabled };
+            if (isEnabled){
+                check = "True";
+            }
+            else{
+                check = "False";
+            }
+
+            const requested_data = {
+                "check": check
+            }
+
+            const token = localStorage.getItem('access');
+            if (!token)
+            {
+            alert('No token found. Please log in.');
+            window.location.href = '/';
+            return;
+            }
+            const userId = extractUserIdFromToken(token);
+            if (!userId)
+            {
+            alert('Invalid token. Please log in again.');
+            window.location.href = '/';
+            return;
+            }
+        
+            const url = `http://10.12.17.4:8000/api/v1/two_fa/${userId}/`;
+        
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(requested_data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('Error updating 2FA status:', error);
+            });
+            return data;
+        }
+});

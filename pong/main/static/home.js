@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
             {
                   localStorage.setItem('access', data.access);
                   localStorage.setItem('refresh', data.refresh);
+                  localStorage.setItem('default_image', data.image);
               // const userId = extractUserIdFromToken(data.access);
               // if (!userId)
               // {
@@ -130,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
         menu.style.display = "block";
       }
 });
-switchLanguage(languageSelect.value);
+// switchLanguage(languageSelect.value);
 
 // Close the menu when clicking outside of it
 window.addEventListener("click", function(event) {
@@ -209,14 +210,15 @@ document.getElementById('settingsId').addEventListener('click', function(e)
 
 document.getElementById('logoutId').addEventListener('click', function(e)
 {
+  const token = localStorage.getItem('access');
+  const refresh = localStorage.getItem('refresh');
   requested_data = {
-    "token": localStorage.getItem('access'),
-    "refresh": localStorage.getItem('refresh')
+    "token": token,
+    "refresh": refresh
   }
-  console.log(userId);
+ 
   console.log(token);
   console.log(requested_data);
-  const token = localStorage.getItem('access');
   if (!token)
   {
     alert('No token found. Please log in.');
@@ -275,8 +277,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     window.location.href = '/';
     return;
   }
-
-  const url = `http://10.12.17.4:8000/api/v1/profile/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/profile_info/${userId}/`;
   fetch(url, {
       method: 'GET',
       headers: {

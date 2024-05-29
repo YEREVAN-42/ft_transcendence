@@ -46,6 +46,11 @@ def login(request):
         if user_info is None:
             return JsonResponse({'error': 'Failed to obtain user info'}, status=400)
         user = User.objects.filter(username=intra_login).first()
+        image_info = user_info['image']
+        image_url = image_info['link']
+        image_response = requests.get(image_url)
+        if image_response.status_code == 200:
+            image_content_base64 = base64.b64encode(image_response.content).decode('utf-8')
         if user is None:
             user = get_user_model().objects.create(
                     first_name = user_info['first_name'],
@@ -53,29 +58,26 @@ def login(request):
                     email=user_info['email'],
                     is_active = True
                 )
-            image_info = user_info['image']
-            image_url = image_info['link']
-            image_response = requests.get(image_url)
-            if image_response.status_code == 200:
-                image_content_base64 = base64.b64encode(image_response.content).decode('utf-8')
-                Player.objects.create(user=user, image=image_content_base64)
+            Player.objects.create(user=user, image=image_content_base64)
             access = AccessToken.for_user(user)
             refresh = RefreshToken.for_user(user)
-            # if user.is_active:
-            #     return JsonResponse({'error': 'User already logged in'}, status=400)
-            # print('login')  
-            # user.last_login = None
-            # user.is_active = True
+            # player = Player.objects.get(user=user)
+
+            if user.is_active:
+                return JsonResponse({'error': 'User already logged in'}, status=400)
+            user.last_login = None
+            user.is_active = True
             user.save()
         else:
             access = AccessToken.for_user(user)
             refresh = RefreshToken.for_user(user)
-            # if user.is_active:
-            #     return JsonResponse({'error': 'User already logged in'}, status=400)
-            # user.last_login = None
-            # user.is_active = True
+            if user.is_active:
+                return JsonResponse({'error': 'User already logged in'}, status=400)
+            user.last_login = None
+            user.is_active = True
             user.save()
-        return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh)}, status=200)
+        return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh), 'image': str(image_content_base64)}, status=200)      
+        # return JsonResponse({'message': 'Login successful',  'access': str(access), 'refresh': str(refresh)}, 'image':  status=200)
     return render(request, 'main/home.html')
 
 def get_user_info(login, access_token):

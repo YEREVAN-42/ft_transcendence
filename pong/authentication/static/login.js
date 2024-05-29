@@ -111,7 +111,6 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
                 {
                     localStorage.setItem('access', data.access);
                     localStorage.setItem('refresh', data.refresh);
-
                     localStorage.setItem('default_image', data.image);
 
                     const userId = extractUserIdFromToken(data.access);
@@ -127,7 +126,28 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
                       window.location.href = '/';
                       return;
                     }
-                  
+                    if (data.fa === true)
+                    {
+                        var randomNumber = Math.floor(Math.random() * 90000) + 10000;
+                        var confirmation_code = randomNumber.toString();
+                    // emailjs.init("19x4j0o_9StkaTZq-");
+                    // var templateParams = {
+                    //         to_name: 'My_friend',
+                    //         code: confirmation_code,
+                    //         email: input3
+                    //     };
+                    //     emailjs.send("service_en491cd", "template_jhsyjbb", templateParams)
+                    //     .then(function(response)
+                    //     {
+                    //             console.log("Email sent successfully:", response);
+                    //                 window.location.href = "/confirm/";
+                    //         }, function(error)
+                    //         {
+                    //                 console.error("Failed to send email:", error);
+                    //             });
+                        window.location.href = '/fa_confirm/';
+                        return;
+                    }
                     const url = `http://10.12.17.4:8000/home/`;
                     window.location.href = url;
                 }
