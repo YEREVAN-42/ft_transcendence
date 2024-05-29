@@ -5,6 +5,7 @@ from django.http import JsonResponse
 # from core.serializers import FriendListSerializer
 from django.contrib.auth.models import User
 from friendship.models import Friend, FriendshipRequest
+from game.models import Player	
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -21,37 +22,33 @@ import json
 	# if request.method == 'GET':
 
 def friends(request, pk):
-	print("friends")
 	if request.method == 'GET':
 		user = User.objects.get(pk=pk)
 		friends = Friend.objects.friends(user)
 		if not friends:
 			return JsonResponse({'message': 'No friends'}, status=200)
-		friends = [{'id': friend.pk, 'username': friend.username,} for friend in friends]
+		#send friends id username friends is_active and their images to the frontend
+		friends = [{'id': friend.pk, 'username': friend.username, 'is_active': friend.is_active, 'image': friend.player.image} for friend in friends]
+		print(friends)
+		# friends = [{'id': friend.pk, 'username': friend.username, 'image': friend.player.image} for friend in friends]
 		return JsonResponse(friends, safe=False)
-		# serializer = FriendListSerializer(friends, many=True)
-		# return JsonResponse(serializer.data, safe=False)
-		return render(request, 'main/profile.html')
 
 def requests(request, pk):
-	print("requests")
 	if request.method == 'GET':
 		requests = FriendshipRequest.objects.filter(to_user=pk)
+		player = Player.objects.get(user=pk)
 		if not requests:
 			return JsonResponse({'message': 'No requests'}, status=200)
-		requests = [{'id': request.pk, 'from_user': request.from_user.username} for request in requests]
-	
+		# send requests id username and their images to the frontend
+		requests = [{'id': request.from_user.pk, 'username': request.from_user.username, 'image': request.from_user.player.image} for request in requests]
 		return JsonResponse(requests, safe=False)
-		# users = User.objects.all()
-		# serializer = FriendListSerializer(users, many=True)
-		# return JsonResponse(serializer.data, safe=False)
-		return render(request, 'main/profile.html')
 
 def users_list(request, pk):
 	if request.method == 'GET':
 		users = User.objects.all()
-		users = [{'id': user.pk, 'username': user.username} for user in users if user.pk != pk]
-		print("✅", users)
+		player = Player.objects.get(user=pk)
+		# send users id username and their images to the frontend
+		users = [{'id': user.pk, 'username': user.username, 'image': user.player.image} for user in users if user.pk != pk]
 		return JsonResponse(users, safe=False)
 
 @csrf_exempt

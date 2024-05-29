@@ -19,12 +19,15 @@ from django.utils import timezone
 
 
 @csrf_exempt
-def game_users(request, id):
+def game_users(request):
     print("Game users")
+    if request.method == 'GET':
+        print("Game users")
+        return JsonResponse({'message': 'GET request received'})
     return render(request, 'main/tournaments.html')
 
 @csrf_exempt
-def game_requests(request, id):
+def game_requests(request):
      print("Game requests")
      if request.method == 'GET':
          print("Game requests")
@@ -33,14 +36,23 @@ def game_requests(request, id):
 
 @csrf_exempt
 def tournament(request, id):
-    print("tournament")
-    return render(request, '/main/tournaments.html')
+    if request.method == 'GET':
+        print("tournament")
+        return JsonResponse({'message': 'GET request received'})
+
+@csrf_exempt
+def join_tournament(request, id):
+    if request.method == 'POST':
+        print("join_tournament" )
+        data = json.loads(request.body)
+        users = User.objects.all()
+        #by taking the given username and password check if the user is exist in the database   
+        return JsonResponse({'message': 'Player not created'})
+        return JsonResponse({'message': 'GET request received'})
 
 @csrf_exempt
 def invite(request, id):
     if request.method == 'POST':
-        
-        print("ID = ", id)
         sender = User.objects.get(id=id).id
         if not sender:
             raise Exception('User not found')
@@ -99,16 +111,5 @@ def get_history(request, id):
         history = History.objects.filter(player=player)
         return JsonResponse({'message': 'History fetched', 'history': history})
 
-# def  match_history(self):
-#     History.objects.create(
-#         player=self.request.user,
-#         opponent=self.request.user,
-#         result='draw',
-#         points=0,
-#         game_mode='classic',
-#         created_at=timezone.now()
-#         )
-
 def local_game(request):
-	print("✅ local_game")
 	return render(request, 'local_game.html')

@@ -3,7 +3,12 @@
 // JavaScript for the profile menu
 document.addEventListener("DOMContentLoaded", function()
 {
-  var profileImage = document.getElementById("profileImage");
+  const base64Image = localStorage.getItem('default_image');
+  const imgElement1 = document.getElementById('profileImage');
+  const imgElement2 = document.getElementById('profileImageLarge');
+  imgElement1.src = `data:image/jpg;base64,${base64Image}`;
+  imgElement2.src = `data:image/jpg;base64,${base64Image}`;
+  
   var menu = document.getElementById("menu");
 
   profileImage.addEventListener("click", function()
@@ -12,8 +17,50 @@ document.addEventListener("DOMContentLoaded", function()
       menu.style.display = "none";
     } else {
       menu.style.display = "block";
-}
-});
+    }
+  });
+    debugger
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+      alert('No token found. Please log in.');
+      window.location.href = '/';
+      return;
+    }
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+      alert('Invalid token. Please log in again.');
+      window.location.href = '/';
+      return;
+    }
+    const url = `http://10.12.17.4:8000/api/v1/profile_info/${userId}/`;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json,',
+          'Authorization': 'Bearer ' + token,
+      },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // localStorage.setItem('profilePic', `data:image/jpg;base64,${data.image}`);
+      // localStorage.setItem('profilePicLarge', `data:image/jpg;base64,${data.image}`);
+      // localStorage.setItem('selectedLanguage', data.language);
+      // applyLanguage();
+      document.getElementById('guest').textContent = data.username;
+      document.getElementById('wins').textContent = data.wins;
+      document.getElementById('loses').textContent = data.loses;
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+
 
 function applyLanguage() {
   var selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
@@ -146,15 +193,6 @@ menu.style.display = "none";
 });
 });
 
-var profilePic = localStorage.getItem('profilePic');
-document.getElementById('profileImage').src = profilePic || 'static/images/guest.png';
-
-var profilePicLarge = localStorage.getItem('profilePicLarge');
-document.getElementById('profileImageLarge').src = profilePic || 'static/images/guest.png';
-
-var profileName = localStorage.getItem('profileName') || 'Guest';
-document.getElementById('guest').textContent = profileName;
-
 //All for profile page
 document.getElementById('searchInput').addEventListener('input', function() {
 let filter = this.value.toLowerCase();
@@ -213,36 +251,36 @@ async function fetchData(tabName) {
               'Content-Type': 'application/json',
       },
     });
-      console.log(response);
       const data = await response.json();
-      console.log(data);
-
       tabContent.innerHTML = ''; // Clear previous content
 
       if (tabName === 'Friends') {
           data.forEach(item => {
               const div = document.createElement('div');
+              const profile_src = `data:image/jpg;base64,${item.image}`;
+              online_status = item.is_active ? 'Online' : 'Offline';
               div.className = 'friend';
-              div.innerHTML = `
-                  <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
-                  <div class="friend-info">
-                      <span class="friend-username">${item.username}</span>
-                      <span class="friend-activity">${item.is_active}</span>
-                  </div>
-                  <button class="details-button" data-action="details" onclick="remove_friend(event)">Remove</button>
-              `;
-              tabContent.appendChild(div);
+            div.innerHTML = `
+            <img src="${profile_src}" alt="${item.username}" class="friend-picture">
+            <div class="friend-info">
+            <span class="friend-username">${item.username}</span>
+            <span class="friend-activity">${online_status}</span>
+            </div>
+            <button class="details-button" data-action="details" onclick="remove_friend(event, ${item.id})">Remove</button>
+            `;
+            tabContent.appendChild(div);
           });
       } else if (tabName === 'Requests') {
-          data.forEach(item => {
-              const div = document.createElement('div');
+        data.forEach(item => {
+          const div = document.createElement('div');
+          const profile_pic = `data:image/jpg;base64,${item.image}`;
               div.className = 'friend-request';
               div.innerHTML = `
-                  <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
+                  <img src="${profile_pic}" alt="${item.username}" class="friend-picture">
                   <div class="friend-info">
                       <span class="friend-username">${item.username}</span>
-                      <button class="accept-button" data-action="accept" onclick="accept_request(event)">Accept</button>
-                      <button class="decline-button" data-action="decline" onclick="decline_request(event)">Decline</button>
+                      <button class="accept-button" data-action="accept" onclick="accept_request(event,${item.id})">Accept</button>
+                      <button class="decline-button" data-action="decline" onclick="decline_request(event, ${item.id})">Decline</button>
                   </div>
               `;
               tabContent.appendChild(div);
@@ -250,12 +288,13 @@ async function fetchData(tabName) {
       } else if (tabName === 'Users') {
           data.forEach(item => {
               const div = document.createElement('div');
+              const profile_picture = `data:image/jpg;base64,${item.image}`;
               div.className = 'friend-suggestion';
               div.innerHTML = `
-                  <img src="${item.profile_picture}" alt="${item.username}" class="friend-picture">
+                  <img src="${profile_picture}" alt="${item.username}" class="friend-picture">
                   <div class="friend-info">
                       <span class="friend-username">${item.username}</span>
-                      <button class="add-button" data-action="add" onclick="add_friend(event)">Add</button>
+                      <button class="add-button" data-action="add" onclick="add_friend(event, ${item.id})">Add</button>
                   </div>
               `;
               tabContent.appendChild(div);
@@ -311,6 +350,7 @@ document.getElementById('friends-tab').addEventListener('click', async function(
 // Initially hide all tab contents
 tabContents.forEach(content => content.classList.remove('active'));
 
+
 // Set default tab to be opened
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.tab-button').click();
@@ -328,22 +368,22 @@ document.addEventListener('DOMContentLoaded', function() {
 // });
 
 function goToMatchHistory() {
-const token = localStorage.getItem('access');
-if (!token)
-{
-alert('No token found. Please log in.');
-window.location.href = '/';
-return;
-}
-const userId = extractUserIdFromToken(token);
-if (!userId)
-{
-alert('Invalid token. Please log in again.');
-window.location.href = '/';
-return;
+  const token = localStorage.getItem('access');
+  if (!token)
+  {
+  alert('No token found. Please log in.');
+  window.location.href = '/';
+  return;
+  }
+  const userId = extractUserIdFromToken(token);
+  if (!userId)
+  {
+  alert('Invalid token. Please log in again.');
+  window.location.href = '/';
+  return;
 }
 
-const url = `http://10.12.17.4:8000/api/v1/match_history/${userId}/`;
+const url = `http://10.12.17.4:8000/match_history`;
 
 fetch(url, {
   method: 'GET',
@@ -383,7 +423,7 @@ window.location.href = '/';
 return;
 }
 
-const url = `http://10.12.17.4:8000/api/v1/tournaments/${userId}/`;
+const url = `http://10.12.17.4:8000/tournaments/`;
 
 fetch(url, {
   method: 'GET',
@@ -416,8 +456,8 @@ const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
   return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
 }).join(''));
 
-const decodedToken = JSON.parse(jsonPayload);
-return decodedToken.user_id;
+  const decodedToken = JSON.parse(jsonPayload);
+  return decodedToken.user_id;
 }
 
 document.getElementById('homeId').addEventListener('click', function(e)
@@ -425,16 +465,16 @@ document.getElementById('homeId').addEventListener('click', function(e)
 const token = localStorage.getItem('access');
 if (!token)
 {
-alert('No token found. Please log in.');
-window.location.href = '/';
-return;
+  alert('No token found. Please log in.');
+  window.location.href = '/';
+  return;
 }
 const userId = extractUserIdFromToken(token);
 if (!userId)
 {
-alert('Invalid token. Please log in again.');
-window.location.href = '/';
-return;
+  alert('Invalid token. Please log in again.');
+  window.location.href = '/';
+  return;
 }
 
 const url = `http://10.12.17.4:8000/home/`;
@@ -463,20 +503,20 @@ fetch(url, {
 
 document.getElementById('settingsId').addEventListener('click', function(e)
 {
-e.preventDefault();
-const token = localStorage.getItem('access');
+  e.preventDefault();
+  const token = localStorage.getItem('access');
 if (!token)
 {
-alert('No token found. Please log in.');
-window.location.href = '/';
-return;
+  alert('No token found. Please log in.');
+  window.location.href = '/';
+  return;
 }
 const userId = extractUserIdFromToken(token);
 if (!userId)
 {
-alert('Invalid token. Please log in again.');
-window.location.href = '/';
-return;
+  alert('Invalid token. Please log in again.');
+  window.location.href = '/';
+  return;
 }
 
 const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
@@ -518,11 +558,8 @@ return response.json();
 
 //friends zone
 
-function add_friend(event)
+function add_friend(event, id)
 {
-  const request_data = {
-      "receiver_id": 2
-  }
   const token = localStorage.getItem('access');
   if (!token)
   {
@@ -536,6 +573,9 @@ function add_friend(event)
     alert('Invalid token. Please log in again.');
     window.location.href = '/';
     return;
+  }
+  const request_data = {
+      "receiver_id": id
   }
   const url = `http://10.12.17.4:8000/api/v1/add_friend/${userId}/`;
   fetch(url, {
@@ -555,11 +595,8 @@ function add_friend(event)
     })
 }
 
-function accept_request(event)
+function accept_request(event, id)
 {
-  const request_data = {
-      "sender_id": 1
-  }
   const token = localStorage.getItem('access');
   if (!token)
   {
@@ -573,6 +610,9 @@ function accept_request(event)
     alert('Invalid token. Please log in again.');
     window.location.href = '/';
     return;
+  }
+  const request_data = {
+      "sender_id": id
   }
   const url = `http://10.12.17.4:8000/api/v1/accept/${userId}/`;
   fetch(url, {
@@ -595,11 +635,8 @@ function accept_request(event)
 
 }
 
-function decline_request(event)
+function decline_request(event, id)
 {
-  const request_data = {
-      "sender_id": 1
-  }
   const token = localStorage.getItem('access');
   if (!token)
   {
@@ -613,6 +650,9 @@ function decline_request(event)
     alert('Invalid token. Please log in again.');
     window.location.href = '/';
     return;
+  }
+  const request_data = {
+      "sender_id": id
   }
   const url = `http://10.12.17.4:8000/api/v1/decline/${userId}/`;
   fetch(url, {
@@ -634,11 +674,8 @@ function decline_request(event)
   })
 }
 
-function remove_friend(event)
+function remove_friend(event, id)
 {
-  const request_data = {
-      "receiver_id": 2
-  }
   const token = localStorage.getItem('access');
   if (!token)
   {
@@ -652,6 +689,9 @@ function remove_friend(event)
     alert('Invalid token. Please log in again.');
     window.location.href = '/';
     return;
+  }
+  const request_data = {
+      "receiver_id": id
   }
   const url = `http://10.12.17.4:8000/api/v1/remove/${userId}/`;
   fetch(url, {
