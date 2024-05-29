@@ -113,7 +113,9 @@ def logout(request, id):
             refresh = data.get('refresh')
             token = RefreshToken(refresh)
             token.blacklist()
+            print("❌", id)
             user = User.objects.get(id=id)
+            print("❌", user)
             if user is None:
                 return JsonResponse({'error': 'User not found'}, status=404)
             user.last_login = timezone.now()

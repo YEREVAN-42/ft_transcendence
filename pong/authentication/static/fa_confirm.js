@@ -19,9 +19,9 @@ function confirmCode()
     {
         code += document.getElementById("digit" + i).value;
     }
-    //var confirmation_code = localStorage.getItem("confirmation_code");
+    var confirmation_code = localStorage.getItem("confirmation_code");
 
-    if (code === "12345")//confirmation_code
+    if (code === confirmation_code)//confirmation_code
     {
         var texts = {
             "en": "Confirmation successful!",

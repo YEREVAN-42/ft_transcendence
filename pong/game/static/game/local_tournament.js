@@ -32,7 +32,7 @@ function getUsers() {
     let users = localStorage.getItem('users');
     // users = JSON.parse(users);
     console.log(users);
-    // let url = `http://localhost:8000/start_tournament/`;
+    // let url = `http://10.12.17.4:8000/start_tournament/`;
     // fetch(url)
     // .then(response => response.json())
     // .then(data => {
@@ -256,7 +256,7 @@ function nextMatch() {
 }
 
 function exitGame() {
-    fetch('http://localhost:8000/home/' , {
+    fetch('http://10.12.17.4:8000/home/' , {
         method: 'POST',
         body: JSON.stringify({
             'winners': winners
@@ -265,7 +265,7 @@ function exitGame() {
     .then(response => response.json())
     .then(data => {
         
-        const url = `http://localhost:8000/home/`;
+        const url = `http://10.12.17.4:8000/home/`;
         window.location.href = url;
         console.log(data);
     });

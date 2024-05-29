@@ -82,7 +82,7 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
             email: input1,
             password: hashedPassword
         };
-        fetch('http://localhost:8000/signin/',
+        fetch('http://10.12.17.4:8000/signin/',
         {
             method: 'POST',
             headers: {
@@ -130,26 +130,25 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
                     {
                         var randomNumber = Math.floor(Math.random() * 90000) + 10000;
                         var confirmation_code = randomNumber.toString();
-                    // emailjs.init("19x4j0o_9StkaTZq-");
-                    // var templateParams = {
-                    //         to_name: 'My_friend',
-                    //         code: confirmation_code,
-                    //         email: input3
-                    //     };
-                    //     emailjs.send("service_en491cd", "template_jhsyjbb", templateParams)
-                    //     .then(function(response)
-                    //     {
-                    //             console.log("Email sent successfully:", response);
-                    //                 window.location.href = "/confirm/";
-                    //         }, function(error)
-                    //         {
-                    //                 console.error("Failed to send email:", error);
-                    //             });
-                        window.location.href = '/fa_confirm/';
-                        return;
+                        localStorage.setItem('confirmation_code', confirmation_code);
+                    emailjs.init("19x4j0o_9StkaTZq-");
+                    var templateParams = {
+                            to_name: 'My_friend',
+                            code: confirmation_code,
+                            email: input1
+                        };
+                        emailjs.send("service_en491cd", "template_jhsyjbb", templateParams)
+                        .then(function(response)
+                        {
+                                console.log("Email sent successfully:", response);
+                                    window.location.href = "/fa_confirm/";
+                            }, function(error)
+                            {
+                                    console.error("Failed to send email:", error);
+                                });
                     }
-                    const url = `http://localhost:8000/home/`;
-                    window.location.href = url;
+                    // const url = `http://10.12.17.4:8000/home/`;
+                    // window.location.href = url;
                 }
             })
         .catch(error =>

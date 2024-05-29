@@ -1,4 +1,4 @@
-//stex el email-y hanel commentic
+
 
 var input1, input2, input3, input4, input5;
 
@@ -51,7 +51,7 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
 {
     const language = localStorage.getItem('selectedLanguage') || 'en';
     event.preventDefault();
-
+    debugger;
     if (!validateForm()) {
         alert("Please, fill in all fields!");
     }
@@ -85,25 +85,24 @@ document.getElementById("forSubmit").addEventListener("submit", async function(e
         document.getElementById("password").value = input4;
         document.getElementById("repeat-password").value = input5;
 
-        // emailjs.init("19x4j0o_9StkaTZq-");
-        // var templateParams = {
-        //         to_name: input1,
-        //         code: confirmation_code,
-        //         email: input3
-        //     };
-        //     emailjs.send("service_en491cd", "template_jhsyjbb", templateParams)
-        //     .then(function(response)
-        //     {
-        //             console.log("Email sent successfully:", response);
-        //                 window.location.href = "/confirm/";
-        //         }, function(error)
-        //         {
-        //                 console.error("Failed to send email:", error);
-        //             });
+        emailjs.init("19x4j0o_9StkaTZq-");
+        var templateParams = {
+                to_name: input1,
+                code: confirmation_code,
+                email: input3
+            };
+            emailjs.send("service_en491cd", "template_jhsyjbb", templateParams)
+            .then(function(response)
+            {
+                    console.log("Email sent successfully:", response);
+                        window.location.href = "/confirm/";
+                }, function(error)
+                {
+                        console.error("Failed to send email:", error);
+                    });
 
         
     }
-    window.location.href = "/confirm/"; // this line will be deleted
 });
 
 function validateForm()

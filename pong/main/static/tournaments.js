@@ -91,7 +91,7 @@
 //       return;
 //     }
 
-//     const url = `http://localhost:8000/api/v1/${endpoint}/${userId}/`
+//     const url = `http://10.12.17.4:8000/api/v1/${endpoint}/${userId}/`
 //     console.log(url);
 //     try {
 //         const response = await fetch(url, {
@@ -159,7 +159,7 @@
 
 //     // Fetch friends data from the server
 //     try {
-//         let response = await fetch('http://localhost:8000/api/friends');
+//         let response = await fetch('http://10.12.17.4:8000/api/friends');
 //         let data = await response.json();
 
 //         // Populate the friends list
@@ -276,7 +276,7 @@
 //     window.location.href = '/';
 //     return;
 //   }
-//   const url = `http://localhost:8000/api/v1/logout/${userId}/`;
+//   const url = `http://10.12.17.4:8000/api/v1/logout/${userId}/`;
 //   fetch(url, {
 //     method: 'POST',
 //     headers: {
@@ -320,7 +320,7 @@
 //         return;
 //     }
 
-// const url = `http://localhost:8000/api/v1/settings/${userId}/`;
+// const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
 // fetch(url, {
 //   method: 'GET',
 //   headers: {
@@ -338,7 +338,7 @@
 // // Assuming your Django view will return a JSON response with user data
 
 // console.log(data);
-// window.location.href = `http://localhost:8000/settings/`;
+// window.location.href = `http://10.12.17.4:8000/settings/`;
 // })
 // //   .then(response => {
 // //     if (!response.ok) {
@@ -378,7 +378,7 @@
 //     return;
 //   }
   
-//   const url = `http://localhost:8000/api/v1/profile_info/${userId}/`;
+//   const url = `http://10.12.17.4:8000/api/v1/profile_info/${userId}/`;
 //   fetch(url, {
 //       method: 'GET',
 //       headers: {
@@ -392,7 +392,7 @@
 //     }
 //     console.log(response.status);
 //     if (response.status === 200) {
-//           window.location.href = 'http://localhost:8000/profile/';
+//           window.location.href = 'http://10.12.17.4:8000/profile/';
 //       }
 //     return response.json();
 // })
@@ -419,7 +419,7 @@
 //         return;
 // }
 
-//     const url = `http://localhost:8000/home/`;
+//     const url = `http://10.12.17.4:8000/home/`;
 
 //     fetch(url, {
 //     method: 'GET',
@@ -655,7 +655,7 @@ async function validateUser(username, password) {
         return;
     }
 
-    const url = `http://localhost:8000/api/v1/validate_user/${userId}/`;
+    const url = `http://10.12.17.4:8000/api/v1/validate_user/${userId}/`;
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -695,7 +695,7 @@ var passwordInput = document.getElementById('passwordInput').value;
         return;
     }
 
-    const url = `http://localhost:8000/api/v1/join_tournament/${userId}/`;
+    const url = `http://10.12.17.4:8000/api/v1/join_tournament/${userId}/`;
     await fetch(url, {
         method: 'POST',
         headers: {
@@ -774,7 +774,7 @@ async function startNewTournament(event) {
         return;
     }
     debugger
-    const url = `http://localhost:8000/api/v1/start_tournament/${userId}/`;
+    const url = `http://10.12.17.4:8000/api/v1/start_tournament/${userId}/`;
 
     await fetch(url, {
         method: 'POST',
@@ -791,8 +791,6 @@ async function startNewTournament(event) {
 
     })
     .then(data => {
-        debugger;
-        alert("LOL")
         console.log(data);
         // const parsedData = JSON.parse(data);
         // console.log(parsedData)
@@ -804,10 +802,10 @@ async function startNewTournament(event) {
     // Your logic for starting a new tournament
     alert("Havala");
     console.log(url);
-    // url = 'http://localhost:8000/local_tournament/';
+    // url = 'http://10.12.17.4:8000/local_tournament/';
     debugger
     // console.log(url);
-    window.location.href = 'http://localhost:8000/local_tournament/';
+    window.location.href = 'http://10.12.17.4:8000/local_tournament/';
     // console.log(url);
     // Reset the tournament for new users
     var userList = document.getElementById("tournamentUserList");
@@ -855,7 +853,7 @@ document.getElementById('logoutId').addEventListener('click', function(e)
     window.location.href = '/';
     return;
   }
-  const url = `http://localhost:8000/api/v1/logout/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/logout/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -896,7 +894,7 @@ document.getElementById('settingsId').addEventListener('click', function(e)
         alert('Invalid token. Please log in again.');
         return;
     }
-const url = `http://localhost:8000/api/v1/settings/${userId}/`;
+const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
 fetch(url, {
   method: 'GET',
   headers: {
@@ -913,7 +911,7 @@ return response.json();
 .then(data => {
 // Assuming your Django view will return a JSON response with user data
 console.log(data);
-window.location.href = `http://localhost:8000/settings/`;
+window.location.href = `http://10.12.17.4:8000/settings/`;
 })
 //   .then(response => {
 //     if (!response.ok) {
@@ -951,7 +949,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     return;
   }
   
-  const url = `http://localhost:8000/api/v1/profile_info/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/profile_info/${userId}/`;
   fetch(url, {
       method: 'GET',
       headers: {
@@ -965,7 +963,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     }
     console.log(response.status);
     if (response.status === 200) {
-          window.location.href = 'http://localhost:8000/profile/';
+          window.location.href = 'http://10.12.17.4:8000/profile/';
       }
     return response.json();
 })
@@ -990,7 +988,7 @@ document.getElementById('homeId').addEventListener('click', function(e)
         window.location.href = '/';
         return;
 }
-    const url = `http://localhost:8000/home/`;
+    const url = `http://10.12.17.4:8000/home/`;
     fetch(url, {
     method: 'GET',
     headers: {

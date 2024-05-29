@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function() {
           "username": username
       }
   
-      const url = `http://localhost:8000/api/v1/login/`
+      const url = `http://10.12.17.4:8000/api/v1/login/`
       fetch(url, {
             method: 'POST',
             headers:
@@ -170,7 +170,7 @@ document.getElementById('settingsId').addEventListener('click', function(e)
     return;
   }
 
-  const url = `http://localhost:8000/api/v1/settings/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/settings/${userId}/`;
   fetch(url, {
       method: 'GET',
       headers: {
@@ -188,7 +188,7 @@ document.getElementById('settingsId').addEventListener('click', function(e)
     // Assuming your Django view will return a JSON response with user data
     
     console.log(data);
-    window.location.href = `http://localhost:8000/settings/`;
+    window.location.href = `http://10.12.17.4:8000/settings/`;
   })
 //   .then(response => {
 //     if (!response.ok) {
@@ -232,7 +232,7 @@ document.getElementById('logoutId').addEventListener('click', function(e)
     window.location.href = '/';
     return;
   }
-  const url = `http://localhost:8000/api/v1/logout/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/logout/${userId}/`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -277,7 +277,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     window.location.href = '/';
     return;
   }
-  const url = `http://localhost:8000/api/v1/profile_info/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/profile_info/${userId}/`;
   fetch(url, {
       method: 'GET',
       headers: {
@@ -290,7 +290,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
         throw new Error('Network response was not ok');
     }
     if (response.status === 200) {
-          window.location.href = 'http://localhost:8000/profile/';
+          window.location.href = 'http://10.12.17.4:8000/profile/';
       }
     return response.json();
 })
@@ -320,7 +320,7 @@ document.getElementById('dropdownContent').addEventListener('click', function(e)
     return;
   }
 
-  const url = `http://localhost:8000/api/v1/language/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/language/${userId}/`;
   fetch(url, {
       method: 'PUT',
       headers: {

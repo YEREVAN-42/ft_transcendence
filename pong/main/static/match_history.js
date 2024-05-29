@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
         window.location.href = '/';
         return;
     }
-    const url = `http://localhost:8000/api/v1/history/${userId}/`;
+    const url = `http://10.12.17.4:8000/api/v1/history/${userId}/`;
     fetch(url, {
         method: 'GET',
         headers: {
