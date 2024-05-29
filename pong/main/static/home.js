@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", function() {
   var menu = document.getElementById("menu");
   var languageSelect = document.getElementById("languageSelect");
   var selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+
+  const base64Image = localStorage.getItem('default_image');
+  const imgElement = document.getElementById('profileImage');
+  imgElement.src = `data:image/jpg;base64,${base64Image}`;
       
   languageSelect.value = selectedLanguage;
   languageSelect.addEventListener("change", function() {
@@ -100,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
             {
                   localStorage.setItem('access', data.access);
                   localStorage.setItem('refresh', data.refresh);
-        
+                  localStorage.setItem('default_image', data.image);
               // const userId = extractUserIdFromToken(data.access);
               // if (!userId)
               // {
@@ -127,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
         menu.style.display = "block";
       }
 });
-switchLanguage(languageSelect.value);
+// switchLanguage(languageSelect.value);
 
 // Close the menu when clicking outside of it
 window.addEventListener("click", function(event) {
@@ -206,14 +210,15 @@ document.getElementById('settingsId').addEventListener('click', function(e)
 
 document.getElementById('logoutId').addEventListener('click', function(e)
 {
+  const token = localStorage.getItem('access');
+  const refresh = localStorage.getItem('refresh');
   requested_data = {
-    "token": localStorage.getItem('access'),
-    "refresh": localStorage.getItem('refresh')
+    "token": token,
+    "refresh": refresh
   }
-  console.log(userId);
+ 
   console.log(token);
   console.log(requested_data);
-  const token = localStorage.getItem('access');
   if (!token)
   {
     alert('No token found. Please log in.');
@@ -272,8 +277,7 @@ document.getElementById('profileId').addEventListener('click', function(e)
     window.location.href = '/';
     return;
   }
-
-  const url = `http://10.12.17.4:8000/api/v1/profile/${userId}/`;
+  const url = `http://10.12.17.4:8000/api/v1/profile_info/${userId}/`;
   fetch(url, {
       method: 'GET',
       headers: {
@@ -296,5 +300,49 @@ document.getElementById('profileId').addEventListener('click', function(e)
 
 });
 
-//   var profilePic = localStorage.getItem('profilePic');
-//   document.getElementById('profileImage').src = profilePic || 'profile.jpg';
+document.getElementById('dropdownContent').addEventListener('click', function(e)
+{
+  requested_data = {
+    "language": localStorage.getItem('selectedLanguage')
+  }
+  const token = localStorage.getItem('access');
+  if (!token)
+  {
+    alert('No token found. Please log in.');
+    window.location.href = '/';
+    return;
+  }
+  const userId = extractUserIdFromToken(token);
+  if (!userId)
+  {
+    alert('Invalid token. Please log in again.');
+    window.location.href = '/';
+    return;
+  }
+
+  const url = `http://10.12.17.4:8000/api/v1/language/${userId}/`;
+  fetch(url, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application.json',
+          'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify(requested_data)
+  })
+  .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+  
+    return response.json();
+  })
+  .then(data => {
+    console.log(data);
+    localStorage.setItem('selectedLanguage', data.language);
+    switchLanguage(data.language);
+  
+  })
+  .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+  });
+})

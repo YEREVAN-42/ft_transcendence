@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.files.storage import default_storage
 
 import base64
+import os
 
 # Create your models here.
 class GameInvite(models.Model):
@@ -41,6 +43,7 @@ class Player(models.Model):
     points = models.IntegerField(default=0)
     game = models.ForeignKey(PongGame, related_name='game_players', on_delete=models.CASCADE, null=True, blank=True)
     fa = models.BooleanField(default=False)
+    language = models.CharField(max_length=2, blank=True, default='en')
     image = models.TextField(blank=True, null=True)
     game_process = models.BooleanField(default=False)
     game_mode = models.CharField(max_length=25, blank=True, default='')
@@ -48,16 +51,29 @@ class Player(models.Model):
     def __str__(self):
         return f'{self.user}'
 
-    def save_base64_image(self, image_path=None, image_format='jpg'):
+    def save_base64_image(self, image_path=None):
         if image_path:
-            base64_string = self.image_to_base64(image_path)
-            self.image = base64_string
-            self.save()
+            self.image = self.image_to_base64(image_path)
+        elif self.image:
+            self.image = self.ensure_base64_encoding(self.image)
+        else:
+            default_image_path = os.path.join(os.path.dirname(__file__), '..', 'main', 'static', 'images', 'default_user.jpg')
+            self.image = self.image_to_base64(default_image_path)
+        self.save()
 
     def image_to_base64(self, image_path):
-        with open(image_path, "rb") as image_file:
-            base64_string = base64.b64encode(image_file.read()).decode("utf-8")
+        with default_storage.open(image_path, 'rb') as image_file:
+            base64_string = base64.b64encode(image_file.read()).decode('utf-8')
         return base64_string
+
+    def ensure_base64_encoding(self, base64_string):
+        try:
+            decoded_image = base64.b64decode(base64_string)
+            reencoded_image = base64.b64encode(decoded_image).decode('utf-8')
+            return reencoded_image
+        except Exception as e:
+            print(f"Error re-encoding image: {e}")
+            return None
 
 class History(models.Model):
 	player = models.ForeignKey('Player', related_name='histories', on_delete=models.CASCADE)

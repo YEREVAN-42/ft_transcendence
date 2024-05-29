@@ -12,20 +12,18 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenVerifyView
 #     return render(request, 'error.html', status=404)
 
 urlpatterns = [
-# 	path('', TemplateView.as_view(template_name='index.html'), name='index'),
-#    path('home/', TemplateView.as_view(template_name='home.html'), name='home'),
-#    path('profile/', TemplateView.as_view(template_name='profile.html'), name='profile'),
-#    path('match_history/', TemplateView.as_view(template_name='match_history.html'), name='match_history'),
-#    path('settings/', TemplateView.as_view(template_name='settings.html'), name='settings'),
-    
     path('', views.index, name="index"),
     path('home/', views.home, name="home"),
     path('profile/', views.profile, name="profile"),
     path('api/v1/profile_info/<int:id>/', views.profile_info, name="profile_info"),
-    path('api/v1/match_history/<int:id>/', views.match_history, name="match_history"),
-    path('api/v1/tournaments/<int:id>/', views.tournaments, name="tournaments"),
+    path('match_history/', views.match_history, name="match_history"),
+    path('tournaments/', views.tournaments, name="tournaments"),
     path('api/v1/change_settings/<int:id>/', views.change_settings, name="change_settings"),
+    path('api/v1/set_profile_pic/<int:id>/', views.set_profile_pic, name="set_profile_pic"),
+    path('api/v1/remove_profile_pic/<int:id>/', views.remove_profile_pic, name="remove_profile_pic"),
     path('api/v1/delete_account/<int:id>/', views.delete_account, name="delete_account"),
+    path('api/v1/two_fa/<int:id>/', views.two_fa, name="two_fa"),
+    path('api/v1/language/<int:id>/', views.language, name="language"),
 
 	path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
@@ -33,7 +31,7 @@ urlpatterns = [
     path('api/v1/settings/<int:id>/', views.check_settings, name="check_settings"),
     path('settings/', views.settings, name="settings"),
 
-    path('api/v1/history/<int:id>/', views.history, name="match_history"),
+    path('api/v1/history/<int:id>/', views.history, name="history"),
 ]
 
 # handler404 = error_404

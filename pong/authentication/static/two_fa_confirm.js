@@ -34,48 +34,6 @@ function confirmCode()
         document.getElementById("message").style.display = "block";
         document.querySelector(".loading").style.display = "block";
 
-        const name = localStorage.getItem("name")
-        const username = localStorage.getItem("username")
-        const email = localStorage.getItem("email")
-        const password = localStorage.getItem("password")
-
-        const requestData = {
-            name: name,
-            username: username,
-            email: email,
-            password: password,
-        };
-        
-        fetch('http://10.12.17.4:8000/confirm/', {
-            method: 'POST',
-            headers:
-            {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
-        })
-        .then(response => {
-            if (!response.ok)
-            {
-                throw new Error('Network response was not ok');
-            }
-            if (response.status === 201)
-            {
-                localStorage.removeItem("name");
-                localStorage.removeItem("username");
-                localStorage.removeItem("email");
-                localStorage.removeItem("password");
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            localStorage.setItem('default_image', data.image);
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
-
         setTimeout(function()
         {
             var texts = {
@@ -85,7 +43,7 @@ function confirmCode()
                 "cn": "確認成功！"
             };
             alert(texts[language]);
-            window.location.href = "/";
+            window.location.href = "/home/";
         }, 2000);
     }
     else
