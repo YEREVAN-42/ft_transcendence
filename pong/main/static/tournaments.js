@@ -705,6 +705,7 @@ var passwordInput = document.getElementById('passwordInput').value;
         body: JSON.stringify({requested_data: {username: usernameInput, password: hashedPassword}})
     })
     .then(response => {
+        debugger;
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -757,61 +758,62 @@ if (usernameInput && passwordInput) {
     }
 }
 
-function startNewTournament(event) {
-const token = localStorage.getItem('access');
-if (!token)
-{
-    alert('No token found. Please log in.');
-    window.location.href = '/';
-    return;
-}
-const userId = extractUserIdFromToken(token);
-if (!userId)
-{
-    alert('Invalid token. Please log in again.');
-    window.location.href = '/';
-    return;
-}
-debugger
-const url = `http://localhost:8000/api/v1/start_tournament/${userId}/`;
-fetch(url, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
+async function startNewTournament(event) {
+    const token = localStorage.getItem('access');
+    if (!token)
+    {
+        alert('No token found. Please log in.');
+        window.location.href = '/';
+        return;
     }
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
+    const userId = extractUserIdFromToken(token);
+    if (!userId)
+    {
+        alert('Invalid token. Please log in again.');
+        window.location.href = '/';
+        return;
     }
-    return response.json();
+    debugger
+    const url = `http://localhost:8000/api/v1/start_tournament/${userId}/`;
 
-})
-.then(data => {
-    alert("LOL")
-    console.log(data);
-    const parsedData = JSON.parse(data);
-    console.log(parsedData)
-    console.log(parsedData)
-    localStorage.setItem('users', parsedData.users);
-})
-.catch(error => {
-    console.error('There was a problem with the fetch operation:', error);
-});
-// Your logic for starting a new tournament
-alert("Havala");
-console.log(url);
-// url = 'http://localhost:8000/local_tournament/';
+    await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
 
-// console.log(url);
-window.location.href = 'http://localhost:8000/local_tournament/';
-// console.log(url);
-// Reset the tournament for new users
-var userList = document.getElementById("tournamentUserList");
-userList.innerHTML = '';
-joinedUsers = 0;
-document.getElementById("newTournamentButton").style.display = "none";
+    })
+    .then(data => {
+        debugger;
+        alert("LOL")
+        console.log(data);
+        // const parsedData = JSON.parse(data);
+        // console.log(parsedData)
+        localStorage.setItem('users', data.users);
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+    // Your logic for starting a new tournament
+    alert("Havala");
+    console.log(url);
+    // url = 'http://localhost:8000/local_tournament/';
+    debugger
+    // console.log(url);
+    window.location.href = 'http://localhost:8000/local_tournament/';
+    // console.log(url);
+    // Reset the tournament for new users
+    var userList = document.getElementById("tournamentUserList");
+    userList.innerHTML = '';
+    joinedUsers = 0;
+    document.getElementById("newTournamentButton").style.display = "none";
 }
 
 

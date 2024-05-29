@@ -30,7 +30,7 @@ function shuffleAndJoin(arr) {
 debugger
 function getUsers() {
     let users = localStorage.getItem('users');
-    users = JSON.parse(users);
+    // users = JSON.parse(users);
     console.log(users);
     // let url = `http://localhost:8000/start_tournament/`;
     // fetch(url)
@@ -40,7 +40,8 @@ function getUsers() {
     //         users.push(user.username);
     //     });
     // });
-    return users.users;
+    debugger;
+    return users.split(',');
 }
 // Usage:
 let usernameList = shuffleAndJoin(getUsers());
